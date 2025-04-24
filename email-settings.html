@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Security Settings - Merchant View</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4f46e5;
+            --primary-light: #eef2ff;
+            --success-color: #10b981;
+            --success-light: #ecfdf5;
+            --warning-color: #f59e0b;
+            --warning-light: #fffbeb;
+            --error-color: #ef4444;
+            --error-light: #fef2f2;
+            --neutral-color: #6b7280;
+            --neutral-light: #f9fafb;
+            --border-color: #e5e7eb;
+            --text-dark: #1f2937;
+            --text-medium: #4b5563;
+            --text-light: #6b7280;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.5;
+            color: var(--text-dark);
+            margin: 0;
+            padding: 0;
+            background-color: #f3f4f6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .dashboard-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+        
+        .dashboard-title {
+            display: flex;
+            align-items: center;
+        }
+        
+        .dashboard-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 16px;
+            font-size: 24px;
+        }
+        
+        .title-content h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin: 0 0 4px 0;
+            color: var(--text-dark);
+        }
+        
+        .title-content p {
+            font-size: 14px;
+            color: var(--text-light);
+            margin: 0;
+        }
+        
+        .dashboard-actions {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .action-btn {
+            padding: 8px 16px;
+            background-color: white;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-medium);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: all 0.2s;
+        }
+        
+        .action-btn i {
+            margin-right: 8px;
+        }
+        
+        .action-btn:hover {
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .action-btn.primary {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        .action-btn.primary:hover {
+            background-color: #4338ca;
+        }
+        
+        .action-btn.danger {
+            background-color: var(--error-light);
+            color: var(--error-color);
+            border-color: var(--error-color);
+        }
+        
+        .action-btn.danger:hover {
+            background-color: var(--error-color);
+            color: white;
+        }
+        
+        .action-btn.success {
+            background-color: var(--success-light);
+            color: var(--success-color);
+            border-color: var(--success-color);
+        }
+        
+        .action-btn.success:hover {
+            background-color: var(--success-color);
+            color: white;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+        
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-medium);
+            margin: 0;
+        }
+        
+        .card-actions {
+            display: flex;
+            align-items: center;
+        }
+        
+        .card-action {
+            color: var(--text-light);
+            margin-left: 12px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .card-action:hover {
+            color: var(--primary-color);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--text-medium);
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px var(--primary-light);
+        }
+        
+        .form-select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.2s;
+            background-color: white;
+        }
+        
+        .form-select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px var(--primary-light);
+        }
+        
+        .form-checkbox {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .form-checkbox input {
+            margin-right: 8px;
+        }
+        
+        .form-help {
+            font-size: 13px;
+            color: var(--text-light);
+            margin-top: 4px;
+        }
+        
+        .settings-section {
+            margin-bottom: 32px;
+        }
+        
+        .settings-section-title {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--text-dark);
+        }
+        
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--border-color);
+            transition: .4s;
+            border-radius: 24px;
+        }
+        
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .toggle-slider {
+            background-color: var(--primary-color);
+        }
+        
+        input:checked + .toggle-slider:before {
+            transform: translateX(20px);
+        }
+        
+        .setting-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .setting-item:last-child {
+            border-bottom: none;
+        }
+        
+        .setting-info {
+            flex: 1;
+        }
+        
+        .setting-title {
+            font-weight: 500;
+            margin-bottom: 4px;
+            color: var(--text-dark);
+        }
+        
+        .setting-description {
+            font-size: 13px;
+            color: var(--text-light);
+        }
+        
+        .api-key-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .api-key-input {
+            flex: 1;
+            padding: 10px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: monospace;
+            background-color: var(--neutral-light);
+        }
+        
+        /* Main Navigation */
+        .main-nav {
+            display: flex;
+            background-color: white;
+            border-radius: 8px;
+            padding: 8px;
+            gap: 8px;
+            box-shadow: var(--shadow);
+            margin-bottom: 24px;
+        }
+        
+        .nav-item {
+            flex: 1;
+            justify-content: center;
+            padding: 12px 16px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            border-radius: 8px;
+        }
+        
+        .nav-item i {
+            margin-right: 8px;
+        }
+        
+        .nav-item.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .nav-item:not(.active) {
+            background-color: var(--neutral-light);
+            color: var(--text-medium);
+        }
+        
+        .nav-item:hover:not(.active) {
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+        }
+        
+        .nav-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 18px;
+            height: 18px;
+            background-color: var(--error-color);
+            color: white;
+            border-radius: 50%;
+            font-size: 10px;
+            margin-left: 6px;
+        }
+        
+        /* Mockup Controls */
+        .mockup-controls {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+        }
+        
+        .controls-title {
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--text-dark);
+        }
+        
+        .controls-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        
+        .control-btn {
+            padding: 8px 12px;
+            background-color: white;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .control-btn:hover {
+            background-color: var(--neutral-light);
+            border-color: var(--text-light);
+        }
+        
+        .controls-description {
+            font-size: 13px;
+            color: var(--text-light);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="dashboard-header">
+            <div class="dashboard-title">
+                <div class="dashboard-icon">
+                    <i class="fas fa-cog"></i>
+                </div>
+                <div class="title-content">
+                    <h1>Email Security Settings</h1>
+                    <p>Configure your email validation preferences and API connections</p>
+                </div>
+            </div>
+            
+            <div class="dashboard-actions">
+                <button class="action-btn" onclick="window.location.href='email-dashboard-tabbed.html'">
+                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+                </button>
+                <button class="action-btn primary" id="saveSettingsBtn">
+                    <i class="fas fa-save"></i> Save Settings
+                </button>
+            </div>
+        </div>
+        
+        <!-- Main Navigation -->
+        <div class="main-nav">
+            <a href="email-dashboard-tabbed.html" class="nav-item">
+                <i class="fas fa-chart-bar"></i> Dashboard
+            </a>
+            <a href="email-rules.html" class="nav-item">
+                <i class="fas fa-shield-alt"></i> Email Rules <span class="nav-badge">3</span>
+            </a>
+            <a href="email-settings.html" class="nav-item active">
+                <i class="fas fa-cog"></i> Settings
+            </a>
+        </div>
+        
+        <!-- General Settings -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">General Settings</h3>
+            </div>
+            
+            <div class="settings-section">
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-title">Enable Email Validation</div>
+                        <div class="setting-description">Validate all email addresses during signup and checkout</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked id="enableValidation">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-title">Auto-Block High-Risk Emails</div>
+                        <div class="setting-description">Automatically block signups from emails with high risk scores</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked id="autoBlockHighRisk">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-title">Flag Medium-Risk Emails</div>
+                        <div class="setting-description">Flag orders from medium-risk emails for manual review</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked id="flagMediumRisk">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-title">Email Notifications</div>
+                        <div class="setting-description">Receive email notifications for high-risk signups</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="emailNotifications">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-title">Risk Threshold</div>
+                        <div class="setting-description">Set the risk score threshold for blocking emails (0.0 - 1.0)</div>
+                    </div>
+                    <div style="width: 100px;">
+                        <input type="number" class="form-input" value="0.8" min="0" max="1" step="0.1" id="riskThreshold">
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Provider Settings -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Email Validation Providers</h3>
+            </div>
+            
+            <div class="settings-section">
+                <div class="settings-section-title">Active Providers</div>
+                
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-title">Abstract API</div>
+                        <div class="setting-description">Syntax & Disposable Email Detection</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked id="abstractApiEnabled">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-title">Kickbox</div>
+                        <div class="setting-description">Mailbox Verification & Deliverability Scoring</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked id="kickboxEnabled">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-title">Verifalia</div>
+                        <div class="setting-description">Catch-all Detection & International Emails</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked id="verifaliaEnabled">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-title">ZeroBounce</div>
+                        <div class="setting-description">Spam Trap Detection & Abuse Email Detection</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="zerobounceEnabled">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-title">Melissa Email</div>
+                        <div class="setting-description">International Support & Typo Detection</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="melissaEnabled">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+        
+        <!-- API Keys -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">API Keys</h3>
+            </div>
+            
+            <div class="settings-section">
+                <div class="form-group">
+                    <label class="form-label">Abstract API Key</label>
+                    <div class="api-key-container">
+                        <input type="password" class="api-key-input" value="ab12cd34ef56gh78ij90" id="abstractApiKey">
+                        <button class="action-btn" onclick="toggleApiKeyVisibility('abstractApiKey')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Kickbox API Key</label>
+                    <div class="api-key-container">
+                        <input type="password" class="api-key-input" value="live_kb_12345abcdef67890" id="kickboxApiKey">
+                        <button class="action-btn" onclick="toggleApiKeyVisibility('kickboxApiKey')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Verifalia API Key</label>
+                    <div class="api-key-container">
+                        <input type="password" class="api-key-input" value="vf-123456-abcdef-789012" id="verifaliaApiKey">
+                        <button class="action-btn" onclick="toggleApiKeyVisibility('verifaliaApiKey')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">ZeroBounce API Key</label>
+                    <div class="api-key-container">
+                        <input type="password" class="api-key-input" value="" placeholder="Enter your ZeroBounce API key" id="zerobounceApiKey">
+                        <button class="action-btn" onclick="toggleApiKeyVisibility('zerobounceApiKey')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Melissa Email API Key</label>
+                    <div class="api-key-container">
+                        <input type="password" class="api-key-input" value="" placeholder="Enter your Melissa Email API key" id="melissaApiKey">
+                        <button class="action-btn" onclick="toggleApiKeyVisibility('melissaApiKey')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Notification Settings -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Notification Settings</h3>
+            </div>
+            
+            <div class="settings-section">
+                <div class="form-group">
+                    <label class="form-label">Notification Email</label>
+                    <input type="email" class="form-input" value="merchant@example.com" id="notificationEmail">
+                    <div class="form-help">Email address to receive notifications about high-risk signups</div>
+                </div>
+                
+                <div class="settings-section-title">Notification Triggers</div>
+                
+                <div class="form-checkbox">
+                    <input type="checkbox" id="notifyHighRisk" checked>
+                    <label for="notifyHighRisk">High-risk email detected</label>
+                </div>
+                
+                <div class="form-checkbox">
+                    <input type="checkbox" id="notifyMultipleAttempts" checked>
+                    <label for="notifyMultipleAttempts">Multiple signup attempts from same IP</label>
+                </div>
+                
+                <div class="form-checkbox">
+                    <input type="checkbox" id="notifyDisposable">
+                    <label for="notifyDisposable">Disposable email detected</label>
+                </div>
+                
+                <div class="form-checkbox">
+                    <input type="checkbox" id="notifyNewDomain">
+                    <label for="notifyNewDomain">New domain (less than 30 days old)</label>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Custom Messages -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Custom Messages</h3>
+            </div>
+            
+            <div class="settings-section">
+                <div class="form-group">
+                    <label class="form-label">Blocked Email Message</label>
+                    <textarea class="form-input" rows="3" id="blockedEmailMessage">Sorry, we cannot accept signups from this email address due to security concerns. Please try using a different email address.</textarea>
+                    <div class="form-help">Message displayed when a high-risk email is blocked</div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Suspicious Email Message</label>
+                    <textarea class="form-input" rows="3" id="suspiciousEmailMessage">Your account has been flagged for manual review. We'll contact you shortly to verify your information.</textarea>
+                    <div class="form-help">Message displayed when a medium-risk email is flagged</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Data Retention -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Data Retention</h3>
+            </div>
+            
+            <div class="settings-section">
+                <div class="form-group">
+                    <label class="form-label">Email Validation Log Retention</label>
+                    <select class="form-select" id="logRetention">
+                        <option value="30">30 days</option>
+                        <option value="60">60 days</option>
+                        <option value="90" selected>90 days</option>
+                        <option value="180">180 days</option>
+                        <option value="365">1 year</option>
+                    </select>
+                    <div class="form-help">How long to keep email validation logs</div>
+                </div>
+                
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-title">Auto-Delete Old Logs</div>
+                        <div class="setting-description">Automatically delete logs older than the retention period</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked id="autoDeleteLogs">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+            
+            <div style="margin-top: 20px;">
+                <button class="action-btn danger">
+                    <i class="fas fa-trash"></i> Delete All Logs
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="mockup-controls">
+        <div class="controls-title">Mockup Controls</div>
+        <div class="controls-buttons">
+            <button class="control-btn" onclick="window.location.href='email-dashboard-tabbed.html'">View Dashboard</button>
+            <button class="control-btn" onclick="window.location.href='email-rules.html'">View Email Rules</button>
+            <button class="control-btn" onclick="window.location.href='simple-email-lookup-mockup.html'">View Email Lookup Tool</button>
+        </div>
+        <div class="controls-description">
+            This is a mockup of the email security settings page. The interface allows merchants to configure their email validation preferences,
+            manage API connections, and customize notification settings.
+        </div>
+    </div>
+    
+    <script>
+        // Function to toggle API key visibility
+        function toggleApiKeyVisibility(inputId) {
+            const input = document.getElementById(inputId);
+            const icon = input.nextElementSibling.querySelector('i');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.className = 'fas fa-eye-slash';
+            } else {
+                input.type = 'password';
+                icon.className = 'fas fa-eye';
+            }
+        }
+        
+        // Add event listener for save button
+        document.getElementById('saveSettingsBtn').addEventListener('click', function() {
+            // Create a notification
+            const container = document.querySelector('.container');
+            const notification = document.createElement('div');
+            notification.style.backgroundColor = 'var(--success-light)';
+            notification.style.color = 'var(--success-color)';
+            notification.style.padding = '12px 16px';
+            notification.style.borderRadius = '8px';
+            notification.style.marginBottom = '24px';
+            notification.style.display = 'flex';
+            notification.style.alignItems = 'center';
+            
+            notification.innerHTML = `
+                <i class="fas fa-check-circle" style="margin-right: 12px; font-size: 20px;"></i>
+                <div>
+                    <div style="font-weight: 600; margin-bottom: 4px;">Settings Saved Successfully</div>
+                    <div style="font-size: 14px; color: var(--text-medium);">Your email security settings have been updated.</div>
+                </div>
+            `;
+            
+            // Insert after the navigation
+            const nav = document.querySelector('.main-nav');
+            container.insertBefore(notification, nav.nextSibling);
+            
+            // Auto-dismiss after 5 seconds
+            setTimeout(() => {
+                notification.remove();
+            }, 5000);
+        });
+        
+        // Add event listeners for provider toggles
+        document.getElementById('abstractApiEnabled').addEventListener('change', function() {
+            document.getElementById('abstractApiKey').disabled = !this.checked;
+        });
+        
+        document.getElementById('kickboxEnabled').addEventListener('change', function() {
+            document.getElementById('kickboxApiKey').disabled = !this.checked;
+        });
+        
+        document.getElementById('verifaliaEnabled').addEventListener('change', function() {
+            document.getElementById('verifaliaApiKey').disabled = !this.checked;
+        });
+        
+        document.getElementById('zerobounceEnabled').addEventListener('change', function() {
+            document.getElementById('zerobounceApiKey').disabled = !this.checked;
+        });
+        
+        document.getElementById('melissaEnabled').addEventListener('change', function() {
+            document.getElementById('melissaApiKey').disabled = !this.checked;
+        });
+        
+        // Add event listener for email notifications toggle
+        document.getElementById('emailNotifications').addEventListener('change', function() {
+            document.getElementById('notificationEmail').disabled = !this.checked;
+            document.getElementById('notifyHighRisk').disabled = !this.checked;
+            document.getElementById('notifyMultipleAttempts').disabled = !this.checked;
+            document.getElementById('notifyDisposable').disabled = !this.checked;
+            document.getElementById('notifyNewDomain').disabled = !this.checked;
+        });
+        
+        // Initialize disabled state for notification options
+        const emailNotificationsEnabled = document.getElementById('emailNotifications').checked;
+        document.getElementById('notificationEmail').disabled = !emailNotificationsEnabled;
+        document.getElementById('notifyHighRisk').disabled = !emailNotificationsEnabled;
+        document.getElementById('notifyMultipleAttempts').disabled = !emailNotificationsEnabled;
+        document.getElementById('notifyDisposable').disabled = !emailNotificationsEnabled;
+        document.getElementById('notifyNewDomain').disabled = !emailNotificationsEnabled;
+        
+        // Initialize disabled state for API key inputs
+        document.getElementById('abstractApiKey').disabled = !document.getElementById('abstractApiEnabled').checked;
+        document.getElementById('kickboxApiKey').disabled = !document.getElementById('kickboxEnabled').checked;
+        document.getElementById('verifaliaApiKey').disabled = !document.getElementById('verifaliaEnabled').checked;
+        document.getElementById('zerobounceApiKey').disabled = !document.getElementById('zerobounceEnabled').checked;
+        document.getElementById('melissaApiKey').disabled = !document.getElementById('melissaEnabled').checked;
+    </script>
+</body>
+</html>
