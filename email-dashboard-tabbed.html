@@ -1,0 +1,1815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Security Dashboard - Merchant View</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4f46e5;
+            --primary-light: #eef2ff;
+            --success-color: #10b981;
+            --success-light: #ecfdf5;
+            --warning-color: #f59e0b;
+            --warning-light: #fffbeb;
+            --error-color: #ef4444;
+            --error-light: #fef2f2;
+            --neutral-color: #6b7280;
+            --neutral-light: #f9fafb;
+            --border-color: #e5e7eb;
+            --text-dark: #1f2937;
+            --text-medium: #4b5563;
+            --text-light: #6b7280;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.5;
+            color: var(--text-dark);
+            margin: 0;
+            padding: 0;
+            background-color: #f3f4f6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .dashboard-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+        
+        .dashboard-title {
+            display: flex;
+            align-items: center;
+        }
+        
+        .dashboard-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 16px;
+            font-size: 24px;
+        }
+        
+        .title-content h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin: 0 0 4px 0;
+            color: var(--text-dark);
+        }
+        
+        .title-content p {
+            font-size: 14px;
+            color: var(--text-light);
+            margin: 0;
+        }
+        
+        .dashboard-actions {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .action-btn {
+            padding: 8px 16px;
+            background-color: white;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-medium);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: all 0.2s;
+        }
+        
+        .action-btn i {
+            margin-right: 8px;
+        }
+        
+        .action-btn:hover {
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .action-btn.primary {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        .action-btn.primary:hover {
+            background-color: #4338ca;
+        }
+        
+        .action-btn.danger {
+            background-color: var(--error-light);
+            color: var(--error-color);
+            border-color: var(--error-color);
+        }
+        
+        .action-btn.danger:hover {
+            background-color: var(--error-color);
+            color: white;
+        }
+        
+        .action-btn.success {
+            background-color: var(--success-light);
+            color: var(--success-color);
+            border-color: var(--success-color);
+        }
+        
+        .action-btn.success:hover {
+            background-color: var(--success-color);
+            color: white;
+        }
+        
+        .dashboard-filters {
+            display: flex;
+            align-items: center;
+            margin-bottom: 24px;
+            background-color: white;
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: var(--shadow);
+        }
+        
+        .filter-label {
+            font-weight: 500;
+            margin-right: 12px;
+            color: var(--text-medium);
+        }
+        
+        .filter-options {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-option {
+            padding: 6px 12px;
+            background-color: var(--neutral-light);
+            border-radius: 20px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .filter-option:hover {
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+        }
+        
+        .filter-option.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 20px;
+            height: 100%;
+        }
+        
+        .card-sm {
+            grid-column: span 3;
+        }
+        
+        .card-md {
+            grid-column: span 6;
+        }
+        
+        .card-lg {
+            grid-column: span 9;
+        }
+        
+        .card-full {
+            grid-column: span 12;
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+        
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-medium);
+            margin: 0;
+        }
+        
+        .card-actions {
+            display: flex;
+            align-items: center;
+        }
+        
+        .card-action {
+            color: var(--text-light);
+            margin-left: 12px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .card-action:hover {
+            color: var(--primary-color);
+        }
+        
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            margin: 0 0 4px 0;
+            color: var(--text-dark);
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-light);
+            margin: 0;
+        }
+        
+        .stat-trend {
+            display: flex;
+            align-items: center;
+            margin-top: 8px;
+            font-size: 13px;
+        }
+        
+        .trend-up {
+            color: var(--success-color);
+        }
+        
+        .trend-down {
+            color: var(--error-color);
+        }
+        
+        .trend-neutral {
+            color: var(--neutral-color);
+        }
+        
+        .trend-icon {
+            margin-right: 4px;
+        }
+        
+        .chart-container {
+            height: 200px;
+            position: relative;
+        }
+        
+        .chart-placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-light);
+            font-size: 14px;
+        }
+        
+        .chart-bars {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            height: 100%;
+            padding-top: 20px;
+        }
+        
+        .chart-bar {
+            width: 8%;
+            background-color: var(--primary-light);
+            border-radius: 4px 4px 0 0;
+            position: relative;
+        }
+        
+        .chart-bar-inner {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--primary-color);
+            border-radius: 4px 4px 0 0;
+        }
+        
+        .chart-bar-label {
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 10px;
+            color: var(--text-light);
+            white-space: nowrap;
+        }
+        
+        .chart-legend {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            font-size: 12px;
+            color: var(--text-medium);
+        }
+        
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+            margin-right: 6px;
+        }
+        
+        .donut-chart {
+            width: 160px;
+            height: 160px;
+            margin: 0 auto;
+            position: relative;
+            border-radius: 50%;
+            background: conic-gradient(
+                var(--success-color) 0% 70%,
+                var(--warning-color) 70% 85%,
+                var(--error-color) 85% 100%
+            );
+        }
+        
+        .donut-hole {
+            position: absolute;
+            width: 60%;
+            height: 60%;
+            background-color: white;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+        
+        .donut-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-dark);
+            line-height: 1;
+        }
+        
+        .donut-label {
+            font-size: 10px;
+            color: var(--text-light);
+        }
+        
+        .table-container {
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th {
+            text-align: left;
+            padding: 12px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-medium);
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        td {
+            padding: 12px 16px;
+            font-size: 13px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        tr:hover {
+            background-color: var(--neutral-light);
+        }
+        
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .status-valid {
+            background-color: var(--success-light);
+            color: var(--success-color);
+        }
+        
+        .status-suspicious {
+            background-color: var(--warning-light);
+            color: var(--warning-color);
+        }
+        
+        .status-invalid {
+            background-color: var(--error-light);
+            color: var(--error-color);
+        }
+        
+        .risk-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 6px;
+        }
+        
+        .risk-low {
+            background-color: var(--success-color);
+        }
+        
+        .risk-medium {
+            background-color: var(--warning-color);
+        }
+        
+        .risk-high {
+            background-color: var(--error-color);
+        }
+        
+        .email-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .email-link:hover {
+            text-decoration: underline;
+        }
+        
+        .pagination {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            margin-top: 16px;
+        }
+        
+        .page-item {
+            margin: 0 4px;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .page-item:hover {
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+        }
+        
+        .page-item.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .empty-state {
+            padding: 40px 20px;
+            text-align: center;
+            color: var(--text-light);
+        }
+        
+        .empty-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+            color: var(--border-color);
+        }
+        
+        .empty-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-medium);
+        }
+        
+        .empty-description {
+            font-size: 14px;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+        
+        .alert-banner {
+            background-color: var(--warning-light);
+            border: 1px solid #fcd34d;
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .alert-icon {
+            color: var(--warning-color);
+            font-size: 20px;
+            margin-right: 12px;
+        }
+        
+        .alert-content {
+            flex: 1;
+        }
+        
+        .alert-title {
+            font-weight: 600;
+            margin: 0 0 4px 0;
+            color: var(--warning-color);
+        }
+        
+        .alert-message {
+            font-size: 14px;
+            margin: 0;
+            color: var(--text-medium);
+        }
+        
+        .alert-action {
+            margin-left: 16px;
+        }
+        
+        /* Rule-specific styles */
+        .rule-card {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+            transition: all 0.2s;
+        }
+        
+        .rule-card:hover {
+            box-shadow: var(--shadow);
+        }
+        
+        .rule-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+        
+        .rule-title {
+            font-weight: 600;
+            font-size: 15px;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+        }
+        
+        .rule-title i {
+            margin-right: 8px;
+            color: var(--primary-color);
+        }
+        
+        .rule-description {
+            font-size: 13px;
+            color: var(--text-medium);
+            margin-bottom: 12px;
+        }
+        
+        .rule-stats {
+            font-size: 12px;
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+        }
+        
+        .rule-stats i {
+            margin-right: 4px;
+        }
+        
+        .rule-toggle {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+        }
+        
+        .rule-toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .rule-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--border-color);
+            transition: .4s;
+            border-radius: 24px;
+        }
+        
+        .rule-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .rule-slider {
+            background-color: var(--primary-color);
+        }
+        
+        input:checked + .rule-slider:before {
+            transform: translateX(20px);
+        }
+        
+        .rule-suggestion {
+            background-color: var(--warning-light);
+            border: 1px solid var(--warning-color);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .suggestion-icon {
+            color: var(--warning-color);
+            font-size: 20px;
+            margin-right: 16px;
+        }
+        
+        .suggestion-content {
+            flex: 1;
+        }
+        
+        .suggestion-title {
+            font-weight: 600;
+            margin: 0 0 4px 0;
+            color: var(--text-dark);
+        }
+        
+        .suggestion-description {
+            font-size: 14px;
+            margin: 0;
+            color: var(--text-medium);
+        }
+        
+        .suggestion-actions {
+            display: flex;
+            gap: 8px;
+            margin-left: 16px;
+        }
+        
+        .security-level {
+            margin-top: 24px;
+        }
+        
+        .security-level-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+        
+        .security-level-title {
+            font-weight: 600;
+            font-size: 15px;
+            color: var(--text-dark);
+        }
+        
+        .security-level-value {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--primary-color);
+        }
+        
+        .security-slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: linear-gradient(to right, var(--success-color), var(--warning-color), var(--error-color));
+            outline: none;
+        }
+        
+        .security-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            cursor: pointer;
+            border: 2px solid white;
+            box-shadow: var(--shadow);
+        }
+        
+        .security-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+            font-size: 12px;
+            color: var(--text-medium);
+        }
+        
+        .rule-impact {
+            display: flex;
+            align-items: center;
+            margin-top: 8px;
+            font-size: 13px;
+            color: var(--text-medium);
+        }
+        
+        .rule-impact-bar {
+            width: 100px;
+            height: 6px;
+            background-color: var(--neutral-light);
+            border-radius: 3px;
+            margin: 0 8px;
+            overflow: hidden;
+        }
+        
+        .rule-impact-fill {
+            height: 100%;
+            background-color: var(--primary-color);
+            border-radius: 3px;
+        }
+        
+        .block-similar-btn {
+            display: flex;
+            align-items: center;
+            padding: 6px 12px;
+            background-color: var(--error-light);
+            color: var(--error-color);
+            border: 1px solid var(--error-color);
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .block-similar-btn:hover {
+            background-color: var(--error-color);
+            color: white;
+        }
+        
+        .block-similar-btn i {
+            margin-right: 4px;
+        }
+        
+        @media (max-width: 1024px) {
+            .card-sm {
+                grid-column: span 6;
+            }
+            
+            .card-md, .card-lg {
+                grid-column: span 12;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .dashboard-actions {
+                margin-top: 16px;
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .card-sm {
+                grid-column: span 12;
+            }
+        }
+        
+        /* Mockup Controls */
+        .mockup-controls {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+        }
+        
+        .controls-title {
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--text-dark);
+        }
+        
+        .controls-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        
+        .control-btn {
+            padding: 8px 12px;
+            background-color: white;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .control-btn:hover {
+            background-color: var(--neutral-light);
+            border-color: var(--text-light);
+        }
+        
+        .controls-description {
+            font-size: 13px;
+            color: var(--text-light);
+        }
+        
+        /* Modal styles */
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        
+        .modal {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow-md);
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin: 0;
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 20px;
+            cursor: pointer;
+        }
+        
+        .modal-body {
+            padding: 20px;
+        }
+        
+        .modal-footer {
+            padding: 16px 20px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="dashboard-header">
+            <div class="dashboard-title">
+                <div class="dashboard-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <div class="title-content">
+                    <h1>Email Security Dashboard</h1>
+                    <p>Monitor and manage email validation activities for your store</p>
+                </div>
+            </div>
+            
+            <div class="dashboard-actions">
+                <button class="action-btn">
+                    <i class="fas fa-download"></i> Export
+                </button>
+                <button class="action-btn" onclick="window.location.href='email-settings.html'">
+                    <i class="fas fa-cog"></i> Settings
+                </button>
+                <button class="action-btn primary">
+                    <i class="fas fa-search"></i> Lookup Email
+                </button>
+            </div>
+        </div>
+        
+        <!-- Auto-Suggested Rule Alert -->
+        <div class="alert-banner">
+            <div class="alert-icon">
+                <i class="fas fa-lightbulb"></i>
+            </div>
+            <div class="alert-content">
+                <h4 class="alert-title">New Rule Suggestion</h4>
+                <p class="alert-message">We detected 5 suspicious signups from <strong>*.tempmail.org</strong>. Would you like to block this domain?</p>
+            </div>
+            <div class="alert-action" style="display: flex; gap: 8px;">
+                <button class="action-btn success">
+                    <i class="fas fa-check"></i> Apply Rule
+                </button>
+                <button class="action-btn">
+                    <i class="fas fa-times"></i> Dismiss
+                </button>
+            </div>
+        </div>
+        
+        <div class="dashboard-filters">
+            <span class="filter-label">Time Period:</span>
+            <div class="filter-options">
+                <div class="filter-option">Today</div>
+                <div class="filter-option">Yesterday</div>
+                <div class="filter-option active">Last 7 Days</div>
+                <div class="filter-option">Last 30 Days</div>
+                <div class="filter-option">Custom</div>
+            </div>
+        </div>
+        
+        <!-- Main Navigation -->
+        <div class="main-nav" style="display: flex; background-color: white; border-radius: 8px; padding: 8px; gap: 8px; box-shadow: var(--shadow); margin-bottom: 24px;">
+            <a href="email-dashboard-tabbed.html" class="nav-item active" style="flex: 1; justify-content: center; background-color: var(--primary-color); color: white; border-radius: 8px; padding: 12px 16px; font-weight: 500; text-decoration: none; transition: all 0.2s; display: flex; align-items: center;">
+                <i class="fas fa-chart-bar" style="margin-right: 8px;"></i> Dashboard
+            </a>
+            <a href="email-rules.html" class="nav-item" style="flex: 1; justify-content: center; background-color: var(--neutral-light); color: var(--text-medium); border-radius: 8px; padding: 12px 16px; font-weight: 500; text-decoration: none; transition: all 0.2s; display: flex; align-items: center;">
+                <i class="fas fa-shield-alt" style="margin-right: 8px;"></i> Email Rules <span class="nav-badge" style="display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; background-color: var(--error-color); color: white; border-radius: 50%; font-size: 10px; margin-left: 6px;">3</span>
+            </a>
+            <a href="email-settings.html" class="nav-item" style="flex: 1; justify-content: center; background-color: var(--neutral-light); color: var(--text-medium); border-radius: 8px; padding: 12px 16px; font-weight: 500; text-decoration: none; transition: all 0.2s; display: flex; align-items: center;">
+                <i class="fas fa-cog" style="margin-right: 8px;"></i> Settings
+            </a>
+        </div>
+        
+        <!-- Dashboard Content -->
+        <div class="dashboard-content">
+                <div class="dashboard-grid">
+            <!-- Summary Stats -->
+            <div class="card card-sm">
+                <div class="card-header">
+                    <h3 class="card-title">Total Validations</h3>
+                </div>
+                <div class="stat-value">1,247</div>
+                <div class="stat-label">Email validations</div>
+                <div class="stat-trend trend-up">
+                    <i class="fas fa-arrow-up trend-icon"></i> 12% from last week
+                </div>
+            </div>
+            
+            <div class="card card-sm">
+                <div class="card-header">
+                    <h3 class="card-title">Valid Emails</h3>
+                </div>
+                <div class="stat-value">1,053</div>
+                <div class="stat-label">Low-risk emails</div>
+                <div class="stat-trend trend-up">
+                    <i class="fas fa-arrow-up trend-icon"></i> 8% from last week
+                </div>
+            </div>
+            
+            <div class="card card-sm">
+                <div class="card-header">
+                    <h3 class="card-title">Suspicious Emails</h3>
+                </div>
+                <div class="stat-value">142</div>
+                <div class="stat-label">Medium-risk emails</div>
+                <div class="stat-trend trend-up">
+                    <i class="fas fa-arrow-up trend-icon"></i> 15% from last week
+                </div>
+            </div>
+            
+            <div class="card card-sm">
+                <div class="card-header">
+                    <h3 class="card-title">Blocked Emails</h3>
+                </div>
+                <div class="stat-value">52</div>
+                <div class="stat-label">High-risk emails</div>
+                <div class="stat-trend trend-down">
+                    <i class="fas fa-arrow-down trend-icon"></i> 3% from last week
+                </div>
+            </div>
+            
+            <!-- Email Blocking Rules Summary -->
+            <div class="card card-full">
+                <div class="card-header">
+                    <h3 class="card-title">Email Security Rules</h3>
+                    <div class="card-actions">
+                        <a href="email-rules.html" class="card-action">View All Rules</a>
+                    </div>
+                </div>
+                
+                <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+                    <div style="flex: 1; padding-right: 20px;">
+                        <div style="font-weight: 600; margin-bottom: 12px; font-size: 15px;">Active Rules</div>
+                        <div style="font-size: 14px; color: var(--text-medium);">
+                            <div style="display: flex; align-items: center; margin-bottom: 8px;">
+                                <i class="fas fa-check-circle" style="color: var(--success-color); margin-right: 8px;"></i>
+                                Block Disposable Email Domains
+                            </div>
+                            <div style="display: flex; align-items: center; margin-bottom: 8px;">
+                                <i class="fas fa-check-circle" style="color: var(--success-color); margin-right: 8px;"></i>
+                                Block Role-Based Addresses
+                            </div>
+                            <div style="display: flex; align-items: center;">
+                                <i class="fas fa-check-circle" style="color: var(--success-color); margin-right: 8px;"></i>
+                                Flag New Domains
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="flex: 1; padding-left: 20px; border-left: 1px solid var(--border-color);">
+                        <div style="font-weight: 600; margin-bottom: 12px; font-size: 15px;">Security Level</div>
+                        <div style="display: flex; align-items: center; margin-bottom: 8px;">
+                            <div style="width: 12px; height: 12px; background-color: var(--primary-color); border-radius: 50%; margin-right: 8px;"></div>
+                            <span style="font-size: 14px; font-weight: 500;">Medium</span>
+                        </div>
+                        <div style="font-size: 14px; color: var(--text-medium);">
+                            Balanced protection that blocks high-risk emails while minimizing false positives.
+                        </div>
+                        <div style="margin-top: 12px;">
+                            <a href="email-rules.html" class="action-btn" style="display: inline-flex;">
+                                <i class="fas fa-sliders-h"></i> Adjust Settings
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Email Validation Trend -->
+            <div class="card card-md">
+                <div class="card-header">
+                    <h3 class="card-title">Email Validation Trend</h3>
+                    <div class="card-actions">
+                        <span class="card-action">Daily</span>
+                        <span class="card-action">Weekly</span>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-bars">
+                        <div class="chart-bar" style="height: 100%;">
+                            <div class="chart-bar-inner" style="height: 70%;"></div>
+                            <span class="chart-bar-label">Mon</span>
+                        </div>
+                        <div class="chart-bar" style="height: 100%;">
+                            <div class="chart-bar-inner" style="height: 85%;"></div>
+                            <span class="chart-bar-label">Tue</span>
+                        </div>
+                        <div class="chart-bar" style="height: 100%;">
+                            <div class="chart-bar-inner" style="height: 65%;"></div>
+                            <span class="chart-bar-label">Wed</span>
+                        </div>
+                        <div class="chart-bar" style="height: 100%;">
+                            <div class="chart-bar-inner" style="height: 90%;"></div>
+                            <span class="chart-bar-label">Thu</span>
+                        </div>
+                        <div class="chart-bar" style="height: 100%;">
+                            <div class="chart-bar-inner" style="height: 75%;"></div>
+                            <span class="chart-bar-label">Fri</span>
+                        </div>
+                        <div class="chart-bar" style="height: 100%;">
+                            <div class="chart-bar-inner" style="height: 50%;"></div>
+                            <span class="chart-bar-label">Sat</span>
+                        </div>
+                        <div class="chart-bar" style="height: 100%;">
+                            <div class="chart-bar-inner" style="height: 60%;"></div>
+                            <span class="chart-bar-label">Sun</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Email Risk Distribution -->
+            <div class="card card-md">
+                <div class="card-header">
+                    <h3 class="card-title">Email Risk Distribution</h3>
+                </div>
+                <div style="display: flex; align-items: center; justify-content: space-around;">
+                    <div class="donut-chart">
+                        <div class="donut-hole">
+                            <div class="donut-value">84%</div>
+                            <div class="donut-label">Low Risk</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div style="margin-bottom: 16px;">
+                            <div style="display: flex; align-items: center; margin-bottom: 8px;">
+                                <div style="width: 12px; height: 12px; background-color: var(--success-color); border-radius: 2px; margin-right: 8px;"></div>
+                                <span style="font-size: 14px;">Low Risk (84%)</span>
+                            </div>
+                            <div style="display: flex; align-items: center; margin-bottom: 8px;">
+                                <div style="width: 12px; height: 12px; background-color: var(--warning-color); border-radius: 2px; margin-right: 8px;"></div>
+                                <span style="font-size: 14px;">Medium Risk (11%)</span>
+                            </div>
+                            <div style="display: flex; align-items: center;">
+                                <div style="width: 12px; height: 12px; background-color: var(--error-color); border-radius: 2px; margin-right: 8px;"></div>
+                                <span style="font-size: 14px;">High Risk (5%)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Recent High-Risk Emails -->
+            <div class="card card-full">
+                <div class="card-header">
+                    <h3 class="card-title">Recent High-Risk Emails</h3>
+                    <div class="card-actions">
+                        <span class="card-action">View All</span>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Email</th>
+                                <th>Date</th>
+                                <th>Risk Level</th>
+                                <th>Risk Factors</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><a href="simple-email-lookup-mockup.html?email=user123@tempmail.org&type=disposable" class="email-link">user123@tempmail.org</a></td>
+                                <td>Apr 22, 2025 - 2:15 AM</td>
+                                <td><span class="risk-indicator risk-high"></span> High (0.9)</td>
+                                <td>Disposable email, Suspicious pattern</td>
+                                <td><span class="status-badge status-invalid">Blocked</span></td>
+                                <td>
+                                    <button class="block-similar-btn">
+                                        <i class="fas fa-ban"></i> Block Similar
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="simple-email-lookup-mockup.html?email=admin@newdomain123.com&type=suspicious" class="email-link">admin@newdomain123.com</a></td>
+                                <td>Apr 21, 2025 - 11:42 PM</td>
+                                <td><span class="risk-indicator risk-high"></span> High (0.8)</td>
+                                <td>Role-based, New domain (12 days)</td>
+                                <td><span class="status-badge status-suspicious">Flagged</span></td>
+                                <td>
+                                    <button class="block-similar-btn">
+                                        <i class="fas fa-ban"></i> Block Similar
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="simple-email-lookup-mockup.html?email=john.smith8765@mailinator.com&type=disposable" class="email-link">john.smith8765@mailinator.com</a></td>
+                                <td>Apr 21, 2025 - 8:37 PM</td>
+                                <td><span class="risk-indicator risk-high"></span> High (0.85)</td>
+                                <td>Disposable email, Sequential numbers</td>
+                                <td><span class="status-badge status-invalid">Blocked</span></td>
+                                <td>
+                                    <button class="block-similar-btn">
+                                        <i class="fas fa-ban"></i> Block Similar
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="simple-email-lookup-mockup.html?email=customer9876@gmail.com&type=suspicious" class="email-link">customer9876@gmail.com</a></td>
+                                <td>Apr 21, 2025 - 6:14 PM</td>
+                                <td><span class="risk-indicator risk-medium"></span> Medium (0.6)</td>
+                                <td>Sequential numbers, Free email</td>
+                                <td><span class="status-badge status-suspicious">Flagged</span></td>
+                                <td>
+                                    <button class="block-similar-btn">
+                                        <i class="fas fa-ban"></i> Block Similar
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="simple-email-lookup-mockup.html?email=info@quickstartup.net&type=suspicious" class="email-link">info@quickstartup.net</a></td>
+                                <td>Apr 21, 2025 - 3:52 PM</td>
+                                <td><span class="risk-indicator risk-medium"></span> Medium (0.55)</td>
+                                <td>Role-based, New domain (45 days)</td>
+                                <td><span class="status-badge status-suspicious">Flagged</span></td>
+                                <td>
+                                    <button class="block-similar-btn">
+                                        <i class="fas fa-ban"></i> Block Similar
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="pagination">
+                    <div class="page-item"><i class="fas fa-chevron-left"></i></div>
+                    <div class="page-item active">1</div>
+                    <div class="page-item">2</div>
+                    <div class="page-item">3</div>
+                    <div class="page-item"><i class="fas fa-chevron-right"></i></div>
+                </div>
+            </div>
+            
+            <!-- Top Risk Factors -->
+            <div class="card card-md">
+                <div class="card-header">
+                    <h3 class="card-title">Top Risk Factors</h3>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Risk Factor</th>
+                                <th>Count</th>
+                                <th>% of Total</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Disposable Email Domains</td>
+                                <td>78</td>
+                                <td>40.2%</td>
+                                <td><button class="action-btn success">Rule Active</button></td>
+                            </tr>
+                            <tr>
+                                <td>Role-based Addresses</td>
+                                <td>45</td>
+                                <td>23.2%</td>
+                                <td><button class="action-btn success">Rule Active</button></td>
+                            </tr>
+                            <tr>
+                                <td>New Domains (< 60 days)</td>
+                                <td>32</td>
+                                <td>16.5%</td>
+                                <td><button class="action-btn success">Rule Active</button></td>
+                            </tr>
+                            <tr>
+                                <td>Sequential Number Patterns</td>
+                                <td>24</td>
+                                <td>12.4%</td>
+                                <td><button class="action-btn">Create Rule</button></td>
+                            </tr>
+                            <tr>
+                                <td>Missing Email Authentication</td>
+                                <td>15</td>
+                                <td>7.7%</td>
+                                <td><button class="action-btn">Create Rule</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Recent Signups -->
+            <div class="card card-md">
+                <div class="card-header">
+                    <h3 class="card-title">Recent Signups</h3>
+                    <div class="card-actions">
+                        <span class="card-action">View All</span>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Email</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><a href="simple-email-lookup-mockup.html?email=sarah.johnson@gmail.com&type=valid" class="email-link">sarah.johnson@gmail.com</a></td>
+                                <td>Apr 22, 2025 - 4:32 AM</td>
+                                <td><span class="status-badge status-valid">Valid</span></td>
+                            </tr>
+                            <tr>
+                                <td><a href="simple-email-lookup-mockup.html?email=user123@tempmail.org&type=disposable" class="email-link">user123@tempmail.org</a></td>
+                                <td>Apr 22, 2025 - 2:15 AM</td>
+                                <td><span class="status-badge status-invalid">Blocked</span></td>
+                            </tr>
+                            <tr>
+                                <td><a href="simple-email-lookup-mockup.html?email=michael.brown@outlook.com&type=valid" class="email-link">michael.brown@outlook.com</a></td>
+                                <td>Apr 22, 2025 - 1:47 AM</td>
+                                <td><span class="status-badge status-valid">Valid</span></td>
+                            </tr>
+                            <tr>
+                                <td><a href="simple-email-lookup-mockup.html?email=admin@newdomain123.com&type=suspicious" class="email-link">admin@newdomain123.com</a></td>
+                                <td>Apr 21, 2025 - 11:42 PM</td>
+                                <td><span class="status-badge status-suspicious">Flagged</span></td>
+                            </tr>
+                            <tr>
+                                <td><a href="simple-email-lookup-mockup.html?email=jennifer.lee@company.com&type=valid" class="email-link">jennifer.lee@company.com</a></td>
+                                <td>Apr 21, 2025 - 10:15 PM</td>
+                                <td><span class="status-badge status-valid">Valid</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+            
+        </div>
+        
+        <!-- Block Similar Email Modal (Hidden by default) -->
+        <div class="modal-backdrop" style="display: none;" id="blockSimilarModal">
+            <div class="modal">
+                <div class="modal-header">
+                    <h3 class="modal-title">Block Similar Emails</h3>
+                    <button class="modal-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Create a rule to block emails similar to <strong>user123@tempmail.org</strong></p>
+                    
+                    <div style="margin-top: 16px;">
+                        <div style="font-weight: 600; margin-bottom: 8px;">Choose what to block:</div>
+                        <div style="display: flex; flex-direction: column; gap: 12px;">
+                            <label for="blockDomain" style="display: flex; align-items: center;">
+                                <input type="radio" name="blockType" id="blockDomain" checked style="margin-right: 8px;" title="Block this domain" aria-label="Block this domain">
+                                <div>
+                                    <div style="font-weight: 500;">Block this domain</div>
+                                    <div style="font-size: 13px; color: var(--text-light);">Block all emails from tempmail.org</div>
+                                </div>
+                            </label>
+                            <label for="blockPattern" style="display: flex; align-items: center;">
+                                <input type="radio" name="blockType" id="blockPattern" style="margin-right: 8px;" title="Block pattern" aria-label="Block pattern">
+                                <div>
+                                    <div style="font-weight: 500;">Block pattern</div>
+                                    <div style="font-size: 13px; color: var(--text-light);">Block emails with "user" followed by numbers</div>
+                                </div>
+                            </label>
+                            <label for="blockAllDisposable" style="display: flex; align-items: center;">
+                                <input type="radio" name="blockType" id="blockAllDisposable" style="margin-right: 8px;" title="Block all disposable email domains" aria-label="Block all disposable email domains">
+                                <div>
+                                    <div style="font-weight: 500;">Block all disposable email domains</div>
+                                    <div style="font-size: 13px; color: var(--text-light);">Block emails from all known disposable email services</div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="action-btn">Cancel</button>
+                    <button class="action-btn primary">Create Rule</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="mockup-controls">
+        <div class="controls-title">Mockup Controls</div>
+        <div class="controls-buttons">
+            <button class="control-btn" onclick="window.location.href='simple-email-lookup-mockup.html'">View Email Lookup Tool</button>
+            <button class="control-btn" onclick="window.location.href='email-validation-data-comparison.html'">View Data Comparison</button>
+            <button class="control-btn" onclick="window.location.href='email-dashboard-mockup.html'">View Basic Dashboard</button>
+            <button class="control-btn" onclick="showModal()">Show Block Similar Modal</button>
+        </div>
+        <div class="controls-description">
+            This is a mockup of a merchant-friendly dashboard with simplified email blocking rules. The interface focuses on pre-configured templates, 
+            auto-suggestions, and one-click actions to minimize user input while providing powerful protection.
+        </div>
+    </div>
+    
+    <script>
+        // Sample data for the interactive demo
+        let demoData = {
+            stats: {
+                totalValidations: 1247,
+                validEmails: 1053,
+                suspiciousEmails: 142,
+                blockedEmails: 52
+            },
+            rules: {
+                disposableDomains: true,
+                roleBased: true,
+                newDomains: true,
+                sequentialNumbers: false,
+                missingAuthentication: false
+            },
+            securityLevel: 2, // 1=Permissive, 2=Medium, 3=Strict
+            recentEmails: [
+                {
+                    email: "user123@tempmail.org",
+                    date: "Apr 22, 2025 - 2:15 AM",
+                    riskLevel: "High",
+                    riskScore: 0.9,
+                    riskFactors: "Disposable email, Suspicious pattern",
+                    status: "Blocked"
+                },
+                {
+                    email: "admin@newdomain123.com",
+                    date: "Apr 21, 2025 - 11:42 PM",
+                    riskLevel: "High",
+                    riskScore: 0.8,
+                    riskFactors: "Role-based, New domain (12 days)",
+                    status: "Flagged"
+                },
+                {
+                    email: "john.smith8765@mailinator.com",
+                    date: "Apr 21, 2025 - 8:37 PM",
+                    riskLevel: "High",
+                    riskScore: 0.85,
+                    riskFactors: "Disposable email, Sequential numbers",
+                    status: "Blocked"
+                },
+                {
+                    email: "customer9876@gmail.com",
+                    date: "Apr 21, 2025 - 6:14 PM",
+                    riskLevel: "Medium",
+                    riskScore: 0.6,
+                    riskFactors: "Sequential numbers, Free email",
+                    status: "Flagged"
+                },
+                {
+                    email: "info@quickstartup.net",
+                    date: "Apr 21, 2025 - 3:52 PM",
+                    riskLevel: "Medium",
+                    riskScore: 0.55,
+                    riskFactors: "Role-based, New domain (45 days)",
+                    status: "Flagged"
+                }
+            ]
+        };
+        
+        // Function to update dashboard statistics
+        function updateStats() {
+            document.querySelector('.card-sm:nth-child(1) .stat-value').textContent = demoData.stats.totalValidations.toLocaleString();
+            document.querySelector('.card-sm:nth-child(2) .stat-value').textContent = demoData.stats.validEmails.toLocaleString();
+            document.querySelector('.card-sm:nth-child(3) .stat-value').textContent = demoData.stats.suspiciousEmails.toLocaleString();
+            document.querySelector('.card-sm:nth-child(4) .stat-value').textContent = demoData.stats.blockedEmails.toLocaleString();
+            
+            // Update donut chart percentages
+            const validPercentage = Math.round((demoData.stats.validEmails / demoData.stats.totalValidations) * 100);
+            const suspiciousPercentage = Math.round((demoData.stats.suspiciousEmails / demoData.stats.totalValidations) * 100);
+            const blockedPercentage = Math.round((demoData.stats.blockedEmails / demoData.stats.totalValidations) * 100);
+            
+            document.querySelector('.donut-value').textContent = validPercentage + '%';
+            
+            // Update donut chart legend
+            const legendItems = document.querySelectorAll('.card-md:nth-child(6) span');
+            legendItems[0].textContent = `Low Risk (${validPercentage}%)`;
+            legendItems[1].textContent = `Medium Risk (${suspiciousPercentage}%)`;
+            legendItems[2].textContent = `High Risk (${blockedPercentage}%)`;
+            
+            // Update donut chart gradient
+            const donutChart = document.querySelector('.donut-chart');
+            donutChart.style.background = `conic-gradient(
+                var(--success-color) 0% ${validPercentage}%,
+                var(--warning-color) ${validPercentage}% ${validPercentage + suspiciousPercentage}%,
+                var(--error-color) ${validPercentage + suspiciousPercentage}% 100%
+            )`;
+        }
+        
+        // Function to update rule toggles based on security level
+        function updateRulesBasedOnSecurityLevel() {
+            const securityLevel = demoData.securityLevel;
+            const ruleToggles = document.querySelectorAll('.rule-toggle input');
+            
+            // Update rules based on security level
+            if (securityLevel === 1) { // Permissive
+                demoData.rules.disposableDomains = true;
+                demoData.rules.roleBased = false;
+                demoData.rules.newDomains = false;
+                demoData.rules.sequentialNumbers = false;
+                demoData.rules.missingAuthentication = false;
+            } else if (securityLevel === 2) { // Medium
+                demoData.rules.disposableDomains = true;
+                demoData.rules.roleBased = true;
+                demoData.rules.newDomains = true;
+                demoData.rules.sequentialNumbers = false;
+                demoData.rules.missingAuthentication = false;
+            } else if (securityLevel === 3) { // Strict
+                demoData.rules.disposableDomains = true;
+                demoData.rules.roleBased = true;
+                demoData.rules.newDomains = true;
+                demoData.rules.sequentialNumbers = true;
+                demoData.rules.missingAuthentication = true;
+            }
+            
+            // Update toggle states
+            if (ruleToggles.length >= 3) {
+                ruleToggles[0].checked = demoData.rules.disposableDomains;
+                ruleToggles[1].checked = demoData.rules.roleBased;
+                ruleToggles[2].checked = demoData.rules.newDomains;
+            }
+            
+            // Update "Create Rule" buttons in the risk factors table
+            const createRuleButtons = document.querySelectorAll('.card-md:nth-child(7) .action-btn');
+            createRuleButtons[3].textContent = demoData.rules.sequentialNumbers ? "Rule Active" : "Create Rule";
+            createRuleButtons[3].className = demoData.rules.sequentialNumbers ? "action-btn success" : "action-btn";
+            
+            createRuleButtons[4].textContent = demoData.rules.missingAuthentication ? "Rule Active" : "Create Rule";
+            createRuleButtons[4].className = demoData.rules.missingAuthentication ? "action-btn success" : "action-btn";
+            
+            // Update statistics based on active rules
+            recalculateStats();
+        }
+        
+        // Function to recalculate statistics based on active rules
+        function recalculateStats() {
+            // Base numbers
+            const baseTotal = 1247;
+            const baseValid = 850;
+            const baseSuspicious = 100;
+            const baseBlocked = 30;
+            
+            // Additional numbers based on active rules
+            let additionalBlocked = 0;
+            let additionalSuspicious = 0;
+            
+            if (demoData.rules.disposableDomains) {
+                additionalBlocked += 22;
+            } else {
+                additionalSuspicious += 22;
+            }
+            
+            if (demoData.rules.roleBased) {
+                additionalBlocked += 18;
+            } else {
+                additionalSuspicious += 18;
+            }
+            
+            if (demoData.rules.newDomains) {
+                additionalSuspicious += 12;
+            }
+            
+            if (demoData.rules.sequentialNumbers) {
+                additionalBlocked += 10;
+                additionalSuspicious -= 10;
+            }
+            
+            if (demoData.rules.missingAuthentication) {
+                additionalBlocked += 5;
+                additionalSuspicious -= 5;
+            }
+            
+            // Update data
+            demoData.stats.validEmails = baseValid;
+            demoData.stats.suspiciousEmails = baseSuspicious + additionalSuspicious;
+            demoData.stats.blockedEmails = baseBlocked + additionalBlocked;
+            demoData.stats.totalValidations = baseTotal;
+            
+            // Update UI
+            updateStats();
+        }
+        
+        // Function to add a new rule from the modal
+        function addNewRule(type, pattern) {
+            // Create a notification
+            const container = document.querySelector('.container');
+            const notification = document.createElement('div');
+            notification.className = 'alert-banner';
+            notification.style.backgroundColor = 'var(--success-light)';
+            notification.style.borderColor = 'var(--success-color)';
+            
+            notification.innerHTML = `
+                <div class="alert-icon" style="color: var(--success-color)">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="alert-content">
+                    <h4 class="alert-title" style="color: var(--success-color)">Rule Created Successfully</h4>
+                    <p class="alert-message">New rule to block ${pattern} has been added to your security settings.</p>
+                </div>
+                <div class="alert-action">
+                    <button class="action-btn" onclick="this.parentNode.parentNode.remove()">
+                        <i class="fas fa-times"></i> Dismiss
+                    </button>
+                </div>
+            `;
+            
+            // Insert after the header
+            const header = document.querySelector('.dashboard-header');
+            container.insertBefore(notification, header.nextSibling);
+            
+            // Auto-dismiss after 5 seconds
+            setTimeout(() => {
+                notification.remove();
+            }, 5000);
+            
+            // Close the modal
+            document.getElementById('blockSimilarModal').style.display = 'none';
+            
+            // Update stats
+            demoData.stats.blockedEmails += 1;
+            updateStats();
+        }
+        
+        // Initialize the demo
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add click handler for the "Lookup Email" button
+            const lookupBtn = document.querySelector('.action-btn.primary');
+            lookupBtn.addEventListener('click', function() {
+                window.location.href = 'simple-email-lookup-mockup.html';
+            });
+            
+            // Make filter options clickable
+            const filterOptions = document.querySelectorAll('.filter-option');
+            filterOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    filterOptions.forEach(o => o.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+            
+            // Add click handlers for "Block Similar" buttons
+            const blockSimilarBtns = document.querySelectorAll('.block-similar-btn');
+            blockSimilarBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Get the email from the row
+                    const row = this.closest('tr');
+                    const email = row.querySelector('.email-link').textContent;
+                    
+                    // Update the modal with the email
+                    const modalEmail = document.querySelector('#blockSimilarModal strong');
+                    modalEmail.textContent = email;
+                    
+                    // Extract domain for the first option
+                    const domain = email.split('@')[1];
+                    const domainOption = document.querySelector('#blockSimilarModal label:first-child div div:last-child');
+                    domainOption.textContent = `Block all emails from ${domain}`;
+                    
+                    // Show the modal
+                    document.getElementById('blockSimilarModal').style.display = 'flex';
+                });
+            });
+            
+            // Add click handler for modal close button
+            const modalClose = document.querySelector('.modal-close');
+            if (modalClose) {
+                modalClose.addEventListener('click', function() {
+                    document.getElementById('blockSimilarModal').style.display = 'none';
+                });
+            }
+            
+            // Add click handler for "Create Rule" button in modal
+            const createRuleBtn = document.querySelector('.modal-footer .action-btn.primary');
+            createRuleBtn.addEventListener('click', function() {
+                const selectedOption = document.querySelector('input[name="blockType"]:checked');
+                const email = document.querySelector('#blockSimilarModal strong').textContent;
+                const domain = email.split('@')[1];
+                
+                if (selectedOption.id === 'blockDomain') {
+                    addNewRule('domain', domain);
+                } else if (selectedOption.id === 'blockPattern') {
+                    const username = email.split('@')[0];
+                    addNewRule('pattern', `"${username}" pattern`);
+                } else if (selectedOption.id === 'blockAllDisposable') {
+                    addNewRule('category', 'all disposable email domains');
+                }
+            });
+            
+            // Add click handler for security level sliders
+            const securitySliders = document.querySelectorAll('.security-slider');
+            securitySliders.forEach(slider => {
+                slider.addEventListener('input', function() {
+                    const value = parseInt(this.value);
+                    demoData.securityLevel = value;
+                    
+                    let securityText = 'Medium';
+                    if (value === 1) {
+                        securityText = 'Permissive';
+                    } else if (value === 3) {
+                        securityText = 'Strict';
+                    }
+                    
+                    // Update all security level displays
+                    document.querySelectorAll('.security-level-value').forEach(el => {
+                        el.textContent = securityText;
+                    });
+                    
+                    // Update all sliders to the same value
+                    securitySliders.forEach(s => {
+                        s.value = value;
+                    });
+                    
+                    // Update rules based on security level
+                    updateRulesBasedOnSecurityLevel();
+                });
+            });
+            
+            // Add click handlers for rule toggles
+            const ruleToggles = document.querySelectorAll('.rule-toggle input');
+            ruleToggles.forEach((toggle, index) => {
+                toggle.addEventListener('change', function() {
+                    const isChecked = this.checked;
+                    
+                    // Update the corresponding rule
+                    if (index === 0) {
+                        demoData.rules.disposableDomains = isChecked;
+                        document.querySelectorAll('.rule-toggle input')[0].checked = isChecked;
+                    } else if (index === 1) {
+                        demoData.rules.roleBased = isChecked;
+                        document.querySelectorAll('.rule-toggle input')[1].checked = isChecked;
+                    } else if (index === 2) {
+                        demoData.rules.newDomains = isChecked;
+                        document.querySelectorAll('.rule-toggle input')[2].checked = isChecked;
+                    }
+                    
+                    // Recalculate stats
+                    recalculateStats();
+                });
+            });
+            
+            // Add click handlers for "Create Rule" buttons in risk factors table
+            const createRuleButtons = document.querySelectorAll('.card-md:nth-child(7) .action-btn');
+            if (createRuleButtons && createRuleButtons.length > 4) {
+                createRuleButtons[3].addEventListener('click', function() {
+                    if (this.textContent === "Create Rule") {
+                        demoData.rules.sequentialNumbers = true;
+                        this.textContent = "Rule Active";
+                        this.className = "action-btn success";
+                        
+                        // Show notification
+                        addNewRule('pattern', 'sequential number patterns');
+                        
+                        // Update stats
+                        recalculateStats();
+                    }
+                });
+                
+                createRuleButtons[4].addEventListener('click', function() {
+                    if (this.textContent === "Create Rule") {
+                        demoData.rules.missingAuthentication = true;
+                        this.textContent = "Rule Active";
+                        this.className = "action-btn success";
+                        
+                        // Show notification
+                        addNewRule('category', 'emails missing authentication');
+                        
+                        // Update stats
+                        recalculateStats();
+                    }
+                });
+            }
+            
+            // Add click handler for "Apply Rule" button in alert banner
+            const applyRuleBtn = document.querySelector('.alert-action .action-btn.success');
+            if (applyRuleBtn) {
+                applyRuleBtn.addEventListener('click', function() {
+                    // Add notification
+                    addNewRule('domain', '*.tempmail.org');
+                    
+                    // Remove the alert
+                    document.querySelector('.alert-banner').remove();
+                });
+            }
+            
+            // This tab switching functionality is no longer needed since we're using separate pages
+            
+            // Initialize stats
+            updateStats();
+        });
+        
+        // Function to show the modal (for mockup controls)
+        function showModal() {
+            document.getElementById('blockSimilarModal').style.display = 'flex';
+        }
+    </script>
+</body>
+</html>

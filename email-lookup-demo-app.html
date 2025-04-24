@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Lookup Service - Demo App</title>
+    <style>
+        :root {
+            --primary-color: #5c6ac4;
+            --primary-dark: #4959bd;
+            --success-color: #108043;
+            --warning-color: #d4a72c;
+            --error-color: #bf0711;
+            --gray-100: #f9fafb;
+            --gray-200: #f4f6f8;
+            --gray-300: #dfe3e8;
+            --gray-400: #c4cdd5;
+            --gray-500: #919eab;
+            --gray-600: #637381;
+            --gray-700: #454f5b;
+            --gray-800: #212b36;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.5;
+            color: var(--gray-800);
+            background-color: var(--gray-100);
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .logo-icon {
+            margin-right: 10px;
+            font-size: 28px;
+        }
+        
+        .subtitle {
+            color: var(--gray-600);
+            font-size: 16px;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+        
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--gray-800);
+        }
+        
+        .form-group {
+            margin-bottom: 16px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--gray-700);
+        }
+        
+        .input-field, .select-field {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--gray-400);
+            border-radius: 4px;
+            font-size: 14px;
+            color: var(--gray-800);
+        }
+        
+        .input-field:focus, .select-field:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 1px var(--primary-color);
+        }
+        
+        .select-field {
+            background-color: white;
+            height: 40px;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .btn:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
+        
+        .result-container {
+            display: none;
+            margin-top: 30px;
+        }
+        
+        .result-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        
+        .result-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--gray-800);
+        }
+        
+        .provider-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            background-color: var(--gray-200);
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--gray-700);
+        }
+        
+        .risk-score {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .risk-label {
+            font-weight: 600;
+            margin-right: 10px;
+            color: var(--gray-700);
+        }
+        
+        .risk-value {
+            font-size: 20px;
+            font-weight: 700;
+        }
+        
+        .risk-low {
+            color: var(--success-color);
+        }
+        
+        .risk-medium {
+            color: var(--warning-color);
+        }
+        
+        .risk-high {
+            color: var(--error-color);
+        }
+        
+        .risk-explanation {
+            padding: 16px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            background-color: var(--gray-100);
+            border-left: 4px solid var(--gray-400);
+        }
+        
+        .details-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .details-table th, .details-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--gray-300);
+        }
+        
+        .details-table th {
+            font-weight: 500;
+            color: var(--gray-600);
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .badge-success {
+            background-color: rgba(16, 128, 67, 0.1);
+            color: var(--success-color);
+        }
+        
+        .badge-warning {
+            background-color: rgba(212, 167, 44, 0.1);
+            color: var(--warning-color);
+        }
+        
+        .badge-error {
+            background-color: rgba(191, 7, 17, 0.1);
+            color: var(--error-color);
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .spinner {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(92, 106, 196, 0.1);
+            border-radius: 50%;
+            border-top-color: var(--primary-color);
+            animation: spin 1s ease-in-out infinite;
+            margin-bottom: 10px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid var(--gray-300);
+            color: var(--gray-600);
+            font-size: 14px;
+        }
+        
+        /* Provider-specific styling */
+        .provider-abstract {
+            border-color: #6772e5;
+        }
+        
+        .provider-kickbox {
+            border-color: #f6a623;
+        }
+        
+        .provider-verifalia {
+            border-color: #4caf50;
+        }
+        
+        .provider-zerobounce {
+            border-color: #2196f3;
+        }
+        
+        .provider-melissa {
+            border-color: #9c27b0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <span class="logo-icon">✉️</span> Spam Users Intelligence
+            </div>
+            <p class="subtitle">Validate emails across multiple providers to detect fraud</p>
+        </div>
+        
+        <div class="card">
+            <h2 class="card-title">Email Validation</h2>
+            
+            <div class="form-group">
+                <label for="provider">Select Provider</label>
+                <select id="provider" class="select-field">
+                    <option value="">Choose a provider...</option>
+                    <option value="abstract">Abstract API</option>
+                    <option value="kickbox">Kickbox</option>
+                    <option value="verifalia">Verifalia</option>
+                    <option value="zerobounce">ZeroBounce</option>
+                    <option value="melissa">Melissa Email</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" class="input-field" placeholder="Enter email address to validate">
+            </div>
+            
+            <button id="lookupBtn" class="btn btn-block">Lookup Email</button>
+        </div>
+        
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <p>Validating email address...</p>
+        </div>
+        
+        <div id="resultContainer" class="result-container">
+            <div class="card">
+                <div class="result-header">
+                    <h2 class="result-title">Validation Results</h2>
+                    <span id="providerBadge" class="provider-badge">Abstract API</span>
+                </div>
+                
+                <div class="risk-score">
+                    <span class="risk-label">Risk Score:</span>
+                    <span id="riskValue" class="risk-value risk-low">X</span>
+                </div>
+                
+                <div id="riskExplanation" class="risk-explanation">
+                    This email appears to be legitimate with no risk factors detected.
+                </div>
+                
+                <table class="details-table">
+                    <tr>
+                        <th>Email</th>
+                        <td id="resultEmail">-</td>
+                    </tr>
+                    <tr>
+                        <th>Valid Syntax</th>
+                        <td id="resultSyntax">-</td>
+                    </tr>
+                    <tr>
+                        <th>Deliverable</th>
+                        <td id="resultDeliverable">-</td>
+                    </tr>
+                    <tr>
+                        <th>Disposable</th>
+                        <td id="resultDisposable">-</td>
+                    </tr>
+                    <tr>
+                        <th>Role-based</th>
+                        <td id="resultRoleBased">-</td>
+                    </tr>
+                    <tr>
+                        <th>Domain Age</th>
+                        <td id="resultDomainAge">-</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+        <div class="footer">
+            &copy; 2025 Spam Users Intelligence | A demo of the multi-provider email validation service
+        </div>
+    </div>
+    
+    <script>
+        // Sample email patterns for demo
+        const emailPatterns = {
+            valid: [
+                'customer@example.com',
+                'john.doe@gmail.com',
+                'jane.smith@outlook.com',
+                'user123@yahoo.com',
+                'contact@company.co.uk'
+            ],
+            disposable: [
+                'user@mailinator.com',
+                'test@10minutemail.com',
+                'temp@guerrillamail.com',
+                'anonymous@yopmail.com',
+                'throwaway@tempmail.org'
+            ],
+            roleBased: [
+                'admin@newdomain.com',
+                'support@company.io',
+                'info@startup.co',
+                'sales@business.net',
+                'contact@newsite.org'
+            ],
+            invalid: [
+                'invalid@example',
+                'missing-at.example.com',
+                'double@@example.com',
+                'spaces in@example.com',
+                'incomplete@.com'
+            ],
+            suspicious: [
+                'admin@newdomain123.com',
+                'paypal-secure@accounts-verify.com',
+                'amazon-support@delivery-tracking.net',
+                'netflix-billing@account-update.co',
+                'banking@secure-login-portal.com'
+            ]
+        };
+        
+        // Provider-specific configurations
+        const providers = {
+            abstract: {
+                name: 'Abstract API',
+                badgeClass: 'provider-abstract',
+                responseTime: [400, 800],
+                accuracy: 0.94,
+                specialties: ['syntax validation', 'disposable detection'],
+                weaknesses: ['new domains']
+            },
+            kickbox: {
+                name: 'Kickbox',
+                badgeClass: 'provider-kickbox',
+                responseTime: [500, 900],
+                accuracy: 0.97,
+                specialties: ['mailbox verification', 'deliverability scoring'],
+                weaknesses: ['role-based detection']
+            },
+            verifalia: {
+                name: 'Verifalia',
+                badgeClass: 'provider-verifalia',
+                responseTime: [600, 1200],
+                accuracy: 0.95,
+                specialties: ['catch-all detection', 'international emails'],
+                weaknesses: ['response time']
+            },
+            zerobounce: {
+                name: 'ZeroBounce',
+                badgeClass: 'provider-zerobounce',
+                responseTime: [450, 850],
+                accuracy: 0.96,
+                specialties: ['spam trap detection', 'abuse email detection'],
+                weaknesses: ['domain age estimation']
+            },
+            melissa: {
+                name: 'Melissa Email',
+                badgeClass: 'provider-melissa',
+                responseTime: [700, 1100],
+                accuracy: 0.96,
+                specialties: ['international support', 'typo detection'],
+                weaknesses: ['disposable detection']
+            }
+        };
+        
+        // Risk score explanations
+        const riskExplanations = {
+            low: [
+                "This email appears to be legitimate with no risk factors detected.",
+                "Low risk email from an established domain with good reputation.",
+                "Valid email with no suspicious patterns or characteristics.",
+                "This email passes all validation checks with no concerns."
+            ],
+            medium: [
+                "Medium risk due to role-based address (e.g., admin@, info@).",
+                "Some caution advised - this email is from a relatively new domain.",
+                "Potential risk detected - this email uses a free provider with limited verification.",
+                "Medium risk score due to unusual email pattern or configuration."
+            ],
+            high: [
+                "High risk - this is a disposable/temporary email address often used for fraud.",
+                "Suspicious email detected with characteristics common in fraudulent accounts.",
+                "High risk due to invalid email format or non-existent domain.",
+                "This email fails multiple validation checks and shows strong fraud indicators."
+            ]
+        };
+        
+        // DOM elements
+        const providerSelect = document.getElementById('provider');
+        const emailInput = document.getElementById('email');
+        const lookupBtn = document.getElementById('lookupBtn');
+        const loading = document.getElementById('loading');
+        const resultContainer = document.getElementById('resultContainer');
+        const providerBadge = document.getElementById('providerBadge');
+        const riskValue = document.getElementById('riskValue');
+        const riskExplanation = document.getElementById('riskExplanation');
+        const resultEmail = document.getElementById('resultEmail');
+        const resultSyntax = document.getElementById('resultSyntax');
+        const resultDeliverable = document.getElementById('resultDeliverable');
+        const resultDisposable = document.getElementById('resultDisposable');
+        const resultRoleBased = document.getElementById('resultRoleBased');
+        const resultDomainAge = document.getElementById('resultDomainAge');
+        
+        // Event listeners
+        lookupBtn.addEventListener('click', validateEmail);
+        
+        // Validate email function
+        function validateEmail() {
+            const email = emailInput.value.trim();
+            const provider = providerSelect.value;
+            
+            // Basic validation
+            if (!email) {
+                alert('Please enter an email address');
+                return;
+            }
+            
+            if (!provider) {
+                alert('Please select a provider');
+                return;
+            }
+            
+            // Show loading
+            loading.style.display = 'block';
+            resultContainer.style.display = 'none';
+            
+            // Simulate API call delay
+            const delay = getRandomInt(providers[provider].responseTime[0], providers[provider].responseTime[1]);
+            
+            setTimeout(() => {
+                // Process result
+                const result = processEmailValidation(email, provider);
+                displayResult(result, provider);
+                
+                // Hide loading, show result
+                loading.style.display = 'none';
+                resultContainer.style.display = 'block';
+            }, delay);
+        }
+        
+        // Process email validation
+        function processEmailValidation(email, providerKey) {
+            const provider = providers[providerKey];
+            
+            // Determine email type for demo purposes
+            let emailType = 'valid';
+            let riskLevel = 'low';
+            
+            // Check for patterns in the email
+            if (emailPatterns.invalid.some(pattern => email.includes(pattern) || !email.includes('@') || !email.includes('.'))) {
+                emailType = 'invalid';
+                riskLevel = 'high';
+            } else if (emailPatterns.disposable.some(pattern => email.includes(pattern))) {
+                emailType = 'disposable';
+                riskLevel = 'high';
+            } else if (emailPatterns.suspicious.some(pattern => email.includes(pattern))) {
+                emailType = 'suspicious';
+                riskLevel = 'high';
+            } else if (emailPatterns.roleBased.some(pattern => email.includes(pattern))) {
+                emailType = 'roleBased';
+                riskLevel = 'medium';
+            }
+            
+            // Add provider-specific variations
+            if (providerKey === 'abstract' && emailType === 'roleBased') {
+                // Abstract API is less accurate at detecting role-based emails
+                const accuracy = Math.random();
+                if (accuracy > provider.accuracy) {
+                    emailType = 'valid';
+                    riskLevel = 'low';
+                }
+            } else if (providerKey === 'kickbox' && emailType === 'disposable') {
+                // Kickbox is very good at detecting disposable emails
+                riskLevel = 'high';
+            } else if (providerKey === 'melissa' && emailType === 'disposable') {
+                // Melissa is weaker at disposable detection
+                const accuracy = Math.random();
+                if (accuracy > provider.accuracy) {
+                    emailType = 'valid';
+                    riskLevel = 'low';
+                }
+            }
+            
+            // Generate domain age
+            let domainAge;
+            if (emailType === 'suspicious' || email.includes('newdomain')) {
+                domainAge = getRandomInt(1, 60) + ' days';
+            } else if (emailType === 'roleBased') {
+                domainAge = getRandomInt(1, 24) + ' months';
+            } else {
+                domainAge = getRandomInt(2, 15) + ' years';
+            }
+            
+            // Create result object
+            return {
+                email: email,
+                is_valid_syntax: emailType !== 'invalid',
+                is_deliverable: emailType !== 'invalid',
+                is_disposable: emailType === 'disposable',
+                is_role_based: emailType === 'roleBased',
+                domain_age: domainAge,
+                risk_level: riskLevel,
+                explanation: getRandomExplanation(riskLevel)
+            };
+        }
+        
+        // Display result
+        function displayResult(result, providerKey) {
+            const provider = providers[providerKey];
+            
+            // Update provider badge
+            providerBadge.textContent = provider.name;
+            providerBadge.className = 'provider-badge ' + provider.badgeClass;
+            
+            // Update risk score
+            let riskDisplay = '';
+            let riskClass = '';
+            
+            if (result.risk_level === 'low') {
+                riskDisplay = 'X';
+                riskClass = 'risk-low';
+            } else if (result.risk_level === 'medium') {
+                riskDisplay = 'XX';
+                riskClass = 'risk-medium';
+            } else {
+                riskDisplay = 'XXX';
+                riskClass = 'risk-high';
+            }
+            
+            riskValue.textContent = riskDisplay;
+            riskValue.className = 'risk-value ' + riskClass;
+            
+            // Update explanation
+            riskExplanation.textContent = result.explanation;
+            
+            // Update result details
+            resultEmail.textContent = result.email;
+            resultSyntax.innerHTML = formatBoolean(result.is_valid_syntax, true);
+            resultDeliverable.innerHTML = formatBoolean(result.is_deliverable, true);
+            resultDisposable.innerHTML = formatBoolean(result.is_disposable, false);
+            resultRoleBased.innerHTML = formatBoolean(result.is_role_based, false);
+            resultDomainAge.textContent = result.domain_age;
+        }
+        
+        // Format boolean values with colored badges
+        function formatBoolean(value, isPositive) {
+            if (value === null) return 'Unknown';
+            
+            let badgeClass = '';
+            if ((value && isPositive) || (!value && !isPositive)) {
+                badgeClass = 'badge-success';
+            } else {
+                badgeClass = 'badge-error';
+            }
+            
+            return (value ? 'Yes' : 'No') + ' <span class="badge ' + badgeClass + '">' + (value ? '✓' : '✗') + '</span>';
+        }
+        
+        // Get random explanation based on risk level
+        function getRandomExplanation(riskLevel) {
+            const explanations = riskExplanations[riskLevel];
+            return explanations[Math.floor(Math.random() * explanations.length)];
+        }
+        
+        // Helper function to get random integer
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+        
+        // Suggest email based on provider selection
+        providerSelect.addEventListener('change', function() {
+            const provider = this.value;
+            if (!provider) return;
+            
+            // Suggest different types of emails based on provider strengths/weaknesses
+            let suggestedEmails = [];
+            
+            if (provider === 'abstract') {
+                suggestedEmails = [
+                    'customer@example.com',
+                    'user@mailinator.com',
+                    'invalid@example'
+                ];
+            } else if (provider === 'kickbox') {
+                suggestedEmails = [
+                    'john.doe@gmail.com',
+                    'user@10minutemail.com',
+                    'admin@newdomain.com'
+                ];
+            } else if (provider === 'verifalia') {
+                suggestedEmails = [
+                    'contact@company.co.uk',
+                    'admin@newdomain123.com',
+                    'missing-at.example.com'
+                ];
+            } else if (provider === 'zerobounce') {
+                suggestedEmails = [
+                    'user123@yahoo.com',
+                    'paypal-secure@accounts-verify.com',
+                    'double@@example.com'
+                ];
+            } else if (provider === 'melissa') {
+                suggestedEmails = [
+                    'jane.smith@outlook.com',
+                    'temp@guerrillamail.com',
+                    'info@startup.co'
+                ];
+            }
+            
+            // Set a random email from the suggestions
+            if (suggestedEmails.length > 0 && !emailInput.value) {
+                const randomIndex = Math.floor(Math.random() * suggestedEmails.length);
+                emailInput.value = suggestedEmails[randomIndex];
+            }
+        });
+    </script>
+</body>
+</html>

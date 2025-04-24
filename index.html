@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spam Users Intelligence - Multi-Provider Email Validation Service</title>
+    <style>
+        :root {
+            --primary-color: #5c6ac4;
+            --primary-dark: #4959bd;
+            --primary-light: #eef2ff;
+            --success-color: #108043;
+            --warning-color: #d4a72c;
+            --error-color: #bf0711;
+            --gray-100: #f9fafb;
+            --gray-200: #f4f6f8;
+            --gray-300: #dfe3e8;
+            --gray-400: #c4cdd5;
+            --gray-500: #919eab;
+            --gray-600: #637381;
+            --gray-700: #454f5b;
+            --gray-800: #212b36;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.5;
+            color: var(--gray-800);
+            background-color: var(--gray-100);
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid var(--gray-300);
+        }
+        
+        .logo {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .logo-icon {
+            margin-right: 16px;
+            font-size: 36px;
+        }
+        
+        .subtitle {
+            color: var(--gray-600);
+            font-size: 18px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+        }
+        
+        .section-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--gray-800);
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-title i {
+            margin-right: 12px;
+            color: var(--primary-color);
+        }
+        
+        .section-description {
+            color: var(--gray-600);
+            margin-bottom: 24px;
+        }
+        
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .card-image {
+            height: 160px;
+            background-color: var(--primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            font-size: 48px;
+        }
+        
+        .card-content {
+            padding: 20px;
+        }
+        
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--gray-800);
+        }
+        
+        .card-description {
+            color: var(--gray-600);
+            font-size: 14px;
+            margin-bottom: 16px;
+        }
+        
+        .card-link {
+            display: inline-block;
+            padding: 8px 16px;
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+            border-radius: 6px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: background-color 0.2s;
+        }
+        
+        .card-link:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .feature-list {
+            margin-bottom: 24px;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+        
+        .feature-icon {
+            width: 24px;
+            height: 24px;
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 16px;
+            flex-shrink: 0;
+        }
+        
+        .feature-content {
+            flex: 1;
+        }
+        
+        .feature-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: var(--gray-800);
+        }
+        
+        .feature-description {
+            color: var(--gray-600);
+            font-size: 14px;
+        }
+        
+        .provider-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .provider-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .provider-logo {
+            height: 40px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .provider-name {
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: var(--gray-800);
+        }
+        
+        .provider-specialty {
+            font-size: 12px;
+            color: var(--gray-600);
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 20px;
+            border-top: 1px solid var(--gray-300);
+            color: var(--gray-600);
+            font-size: 14px;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-bottom: 16px;
+        }
+        
+        .footer-link {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .footer-link:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .provider-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <span class="logo-icon">✉️</span> Spam Users Intelligence
+            </div>
+            <p class="subtitle">A multi-provider email validation service to detect fraudulent accounts and improve security for Shopify merchants</p>
+        </div>
+        
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-shield-alt"></i> Demo Applications</h2>
+            <p class="section-description">Explore our interactive demos to see how Spam Users Intelligence can help protect your Shopify store from fraudulent accounts.</p>
+            
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-image">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">Email Lookup Tool</h3>
+                        <p class="card-description">Try our simple email validation tool that checks emails across multiple providers and displays a risk score.</p>
+                        <a href="email-lookup-demo-app.html" class="card-link">Try Demo</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-image">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">Merchant Dashboard</h3>
+                        <p class="card-description">View a mockup of the merchant dashboard with email validation statistics and security rules.</p>
+                        <a href="email-dashboard-tabbed.html" class="card-link">View Dashboard</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-image">
+                        <i class="fas fa-cog"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">Email Security Rules</h3>
+                        <p class="card-description">Explore how merchants can configure email security rules to automatically block high-risk emails.</p>
+                        <a href="email-rules.html" class="card-link">View Rules</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-check-circle"></i> Key Features</h2>
+            <p class="section-description">Spam Users Intelligence provides comprehensive email validation through multiple providers to ensure the highest accuracy.</p>
+            
+            <div class="feature-list">
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3 class="feature-title">Multi-Provider Support</h3>
+                        <p class="feature-description">Validate emails through multiple providers with a single API call, with automatic fallback for higher reliability.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3 class="feature-title">Risk Scoring</h3>
+                        <p class="feature-description">Get a simple X, XX, or XXX risk score with detailed explanation of why an email might be fraudulent.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3 class="feature-title">Shopify Integration</h3>
+                        <p class="feature-description">Seamlessly integrates with Shopify stores through the Shopify API and Billing system.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3 class="feature-title">Pay-Per-Lookup Pricing</h3>
+                        <p class="feature-description">Only pay for what you use with our flexible pay-per-lookup pricing model through Shopify Billing.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-plug"></i> Supported Providers</h2>
+            <p class="section-description">Spam Users Intelligence integrates with the following email validation providers:</p>
+            
+            <div class="provider-grid">
+                <div class="provider-card">
+                    <div class="provider-logo">
+                        <i class="fas fa-code" style="color: #6772e5; font-size: 24px;"></i>
+                    </div>
+                    <h3 class="provider-name">Abstract API</h3>
+                    <p class="provider-specialty">Syntax & Disposable Detection</p>
+                </div>
+                
+                <div class="provider-card">
+                    <div class="provider-logo">
+                        <i class="fas fa-box" style="color: #f6a623; font-size: 24px;"></i>
+                    </div>
+                    <h3 class="provider-name">Kickbox</h3>
+                    <p class="provider-specialty">Mailbox Verification</p>
+                </div>
+                
+                <div class="provider-card">
+                    <div class="provider-logo">
+                        <i class="fas fa-check-double" style="color: #4caf50; font-size: 24px;"></i>
+                    </div>
+                    <h3 class="provider-name">Verifalia</h3>
+                    <p class="provider-specialty">Catch-all Detection</p>
+                </div>
+                
+                <div class="provider-card">
+                    <div class="provider-logo">
+                        <i class="fas fa-ban" style="color: #2196f3; font-size: 24px;"></i>
+                    </div>
+                    <h3 class="provider-name">ZeroBounce</h3>
+                    <p class="provider-specialty">Spam Trap Detection</p>
+                </div>
+                
+                <div class="provider-card">
+                    <div class="provider-logo">
+                        <i class="fas fa-globe" style="color: #9c27b0; font-size: 24px;"></i>
+                    </div>
+                    <h3 class="provider-name">Melissa Email</h3>
+                    <p class="provider-specialty">International Support</p>
+                </div>
+            </div>
+            
+            <a href="provider-api-endpoints.html" class="card-link" style="margin-top: 16px; display: inline-block;">View API Documentation</a>
+        </div>
+        
+        <div class="footer">
+            <div class="footer-links">
+                <a href="https://github.com/securification/email-lookup-demo" class="footer-link">GitHub Repository</a>
+                <a href="provider-api-endpoints.html" class="footer-link">API Documentation</a>
+                <a href="email-provider-comparison.html" class="footer-link">Provider Comparison</a>
+            </div>
+            <p>&copy; 2025 Spam Users Intelligence | A demo of the multi-provider email validation service</p>
+        </div>
+    </div>
+</body>
+</html>

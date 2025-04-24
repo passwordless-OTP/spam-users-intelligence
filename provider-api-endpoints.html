@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Validation Provider API Endpoints - Spam Users Intelligence</title>
+    <style>
+        :root {
+            --primary-color: #5c6ac4;
+            --primary-dark: #4959bd;
+            --primary-light: #eef2ff;
+            --success-color: #108043;
+            --warning-color: #d4a72c;
+            --error-color: #bf0711;
+            --gray-100: #f9fafb;
+            --gray-200: #f4f6f8;
+            --gray-300: #dfe3e8;
+            --gray-400: #c4cdd5;
+            --gray-500: #919eab;
+            --gray-600: #637381;
+            --gray-700: #454f5b;
+            --gray-800: #212b36;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.5;
+            color: var(--gray-800);
+            background-color: var(--gray-100);
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 40px;
+        }
+        
+        .header {
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--gray-300);
+        }
+        
+        .header-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--gray-800);
+        }
+        
+        .header-subtitle {
+            color: var(--gray-600);
+            font-size: 16px;
+        }
+        
+        .nav-bar {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+        
+        .nav-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .nav-link:hover {
+            text-decoration: underline;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            margin-top: 1.5em;
+            margin-bottom: 0.5em;
+            color: var(--gray-800);
+        }
+        
+        h1 {
+            font-size: 24px;
+            border-bottom: 1px solid var(--gray-300);
+            padding-bottom: 0.3em;
+        }
+        
+        h2 {
+            font-size: 20px;
+            border-bottom: 1px solid var(--gray-300);
+            padding-bottom: 0.3em;
+        }
+        
+        h3 {
+            font-size: 18px;
+        }
+        
+        p {
+            margin-bottom: 1em;
+        }
+        
+        ul, ol {
+            margin-bottom: 1em;
+            padding-left: 2em;
+        }
+        
+        li {
+            margin-bottom: 0.5em;
+        }
+        
+        code {
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+            background-color: var(--gray-100);
+            padding: 0.2em 0.4em;
+            border-radius: 3px;
+            font-size: 85%;
+        }
+        
+        pre {
+            background-color: var(--gray-100);
+            border-radius: 6px;
+            padding: 16px;
+            overflow: auto;
+            margin-bottom: 1em;
+        }
+        
+        pre code {
+            background-color: transparent;
+            padding: 0;
+            border-radius: 0;
+            font-size: 14px;
+        }
+        
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 1em;
+        }
+        
+        th, td {
+            border: 1px solid var(--gray-300);
+            padding: 8px 12px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: var(--gray-100);
+            font-weight: 600;
+        }
+        
+        tr:nth-child(even) {
+            background-color: var(--gray-100);
+        }
+        
+        .footer {
+            margin-top: 60px;
+            padding-top: 20px;
+            border-top: 1px solid var(--gray-300);
+            color: var(--gray-600);
+            font-size: 14px;
+            text-align: center;
+        }
+        
+        .provider-section {
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--gray-300);
+        }
+        
+        .provider-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        
+        .provider-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 16px;
+            font-size: 20px;
+        }
+        
+        .abstract-api {
+            background-color: #eef2ff;
+            color: #6772e5;
+        }
+        
+        .kickbox {
+            background-color: #fff8e6;
+            color: #f6a623;
+        }
+        
+        .verifalia {
+            background-color: #e6f7ef;
+            color: #4caf50;
+        }
+        
+        .zerobounce {
+            background-color: #e3f2fd;
+            color: #2196f3;
+        }
+        
+        .melissa {
+            background-color: #f3e5f5;
+            color: #9c27b0;
+        }
+        
+        .our-api {
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="header-title">Email Validation Provider API Endpoints</h1>
+            <p class="header-subtitle">This document outlines the API endpoints for each email validation provider integrated into our email lookup service.</p>
+        </div>
+        
+        <div class="nav-bar">
+            <a href="index.html" class="nav-link"><i class="fas fa-home"></i> Home</a>
+            <a href="email-provider-comparison.html" class="nav-link"><i class="fas fa-chart-bar"></i> Provider Comparison</a>
+            <a href="email-lookup-demo-app.html" class="nav-link"><i class="fas fa-search"></i> Demo App</a>
+        </div>
+        
+        <div class="provider-section">
+            <div class="provider-header">
+                <div class="provider-icon abstract-api">
+                    <i class="fas fa-code"></i>
+                </div>
+                <h2>Abstract API</h2>
+            </div>
+            
+            <p><strong>Endpoint:</strong> <code>https://emailvalidation.abstractapi.com/v1/</code></p>
+            
+            <p><strong>Method:</strong> GET</p>
+            
+            <p><strong>Parameters:</strong></p>
+            <ul>
+                <li><code>api_key</code> (required): Your Abstract API key</li>
+                <li><code>email</code> (required): The email address to validate</li>
+            </ul>
+            
+            <p><strong>Example Request:</strong></p>
+            <pre><code>GET https://emailvalidation.abstractapi.com/v1/?api_key=YOUR_API_KEY&email=test@example.com</code></pre>
+            
+            <p><strong>Example Response:</strong></p>
+            <pre><code>{
+  "email": "test@example.com",
+  "autocorrect": "",
+  "deliverability": "DELIVERABLE",
+  "quality_score": 0.8,
+  "is_valid_format": {
+    "value": true,
+    "text": "TRUE"
+  },
+  "is_free_email": {
+    "value": false,
+    "text": "FALSE"
+  },
+  "is_disposable_email": {
+    "value": false,
+    "text": "FALSE"
+  },
+  "is_role_email": {
+    "value": false,
+    "text": "FALSE"
+  },
+  "is_catchall_email": {
+    "value": false,
+    "text": "FALSE"
+  },
+  "is_mx_found": {
+    "value": true,
+    "text": "TRUE"
+  },
+  "is_smtp_valid": {
+    "value": true,
+    "text": "TRUE"
+  }
+}</code></pre>
+        </div>
+        
+        <div class="provider-section">
+            <div class="provider-header">
+                <div class="provider-icon kickbox">
+                    <i class="fas fa-box"></i>
+                </div>
+                <h2>Kickbox</h2>
+            </div>
+            
+            <p><strong>Endpoint:</strong> <code>https://api.kickbox.com/v2/verify</code></p>
+            
+            <p><strong>Method:</strong> GET</p>
+            
+            <p><strong>Parameters:</strong></p>
+            <ul>
+                <li><code>email</code> (required): The email address to verify</li>
+                <li><code>apikey</code> (required): Your Kickbox API key</li>
+                <li><code>timeout</code> (optional): Maximum time, in seconds, for the verification to complete (1-10)</li>
+            </ul>
+            
+            <p><strong>Example Request:</strong></p>
+            <pre><code>GET https://api.kickbox.com/v2/verify?email=test@example.com&apikey=YOUR_API_KEY</code></pre>
+            
+            <p><strong>Example Response:</strong></p>
+            <pre><code>{
+  "result": "deliverable",
+  "reason": "accepted_email",
+  "role": false,
+  "free": false,
+  "disposable": false,
+  "accept_all": false,
+  "did_you_mean": null,
+  "sendex": 0.85,
+  "email": "test@example.com",
+  "user": "test",
+  "domain": "example.com",
+  "success": true,
+  "message": null
+}</code></pre>
+        </div>
+        
+        <div class="provider-section">
+            <div class="provider-header">
+                <div class="provider-icon verifalia">
+                    <i class="fas fa-check-double"></i>
+                </div>
+                <h2>Verifalia</h2>
+            </div>
+            
+            <p><strong>Endpoint:</strong> <code>https://api.verifalia.com/v2.4/email-validations</code></p>
+            
+            <p><strong>Method:</strong> POST</p>
+            
+            <p><strong>Authentication:</strong> Basic Auth (username/password) or Bearer Token</p>
+            
+            <p><strong>Request Body:</strong></p>
+            <pre><code>{
+  "entries": [
+    {
+      "inputData": "test@example.com"
+    }
+  ],
+  "quality": "high"
+}</code></pre>
+            
+            <p><strong>Example Response:</strong></p>
+            <pre><code>{
+  "overview": {
+    "id": "00000000-0000-0000-0000-000000000000",
+    "status": "Completed",
+    "submittedOn": "2025-04-21T23:15:30.1234567Z",
+    "completedOn": "2025-04-21T23:15:31.7654321Z",
+    "priority": "normal",
+    "quality": "high",
+    "deduplication": "off",
+    "retention": "default"
+  },
+  "entries": [
+    {
+      "inputData": "test@example.com",
+      "classification": "Deliverable",
+      "status": "Success",
+      "syntax": {
+        "isValid": true
+      },
+      "domain": {
+        "hasNameServers": true,
+        "hasMailExchangers": true
+      },
+      "mailbox": {
+        "canReceiveEmail": true
+      },
+      "catchAllCheck": "No"
+    }
+  ]
+}</code></pre>
+        </div>
+        
+        <div class="provider-section">
+            <div class="provider-header">
+                <div class="provider-icon zerobounce">
+                    <i class="fas fa-ban"></i>
+                </div>
+                <h2>ZeroBounce</h2>
+            </div>
+            
+            <p><strong>Endpoint:</strong> <code>https://api.zerobounce.net/v2/validate</code></p>
+            
+            <p><strong>Method:</strong> GET</p>
+            
+            <p><strong>Parameters:</strong></p>
+            <ul>
+                <li><code>api_key</code> (required): Your ZeroBounce API key</li>
+                <li><code>email</code> (required): The email address to validate</li>
+                <li><code>ip_address</code> (optional): The IP address to validate</li>
+            </ul>
+            
+            <p><strong>Example Request:</strong></p>
+            <pre><code>GET https://api.zerobounce.net/v2/validate?api_key=YOUR_API_KEY&email=test@example.com</code></pre>
+            
+            <p><strong>Example Response:</strong></p>
+            <pre><code>{
+  "address": "test@example.com",
+  "status": "valid",
+  "sub_status": "",
+  "free_email": false,
+  "did_you_mean": null,
+  "account": "test",
+  "domain": "example.com",
+  "domain_age_days": "9692",
+  "smtp_provider": "example",
+  "mx_record": "mx.example.com",
+  "mx_found": "true",
+  "firstname": "John",
+  "lastname": "Doe",
+  "gender": "male",
+  "country": "United States",
+  "region": "California",
+  "city": "San Francisco",
+  "zipcode": "94107",
+  "processed_at": "2025-04-21 23:15:30.000"
+}</code></pre>
+        </div>
+        
+        <div class="provider-section">
+            <div class="provider-header">
+                <div class="provider-icon melissa">
+                    <i class="fas fa-globe"></i>
+                </div>
+                <h2>Melissa Email</h2>
+            </div>
+            
+            <p><strong>Endpoint:</strong> <code>https://globalemail.melissadata.net/v4/WEB/GlobalEmail/doGlobalEmail</code></p>
+            
+            <p><strong>Method:</strong> GET</p>
+            
+            <p><strong>Parameters:</strong></p>
+            <ul>
+                <li><code>id</code> (required): Your Melissa API key</li>
+                <li><code>email</code> (required): The email address to verify</li>
+                <li><code>format</code> (optional): Response format (JSON, XML, etc.)</li>
+            </ul>
+            
+            <p><strong>Example Request:</strong></p>
+            <pre><code>GET https://globalemail.melissadata.net/v4/WEB/GlobalEmail/doGlobalEmail?id=YOUR_API_KEY&email=test@example.com&format=json</code></pre>
+            
+            <p><strong>Example Response:</strong></p>
+            <pre><code>{
+  "Records": [
+    {
+      "RecordID": "1",
+      "Results": "AV22,AV23",
+      "EmailAddress": "test@example.com",
+      "MailboxName": "test",
+      "DomainName": "example.com",
+      "TopLevelDomain": "com",
+      "TopLevelDomainName": "Commercial",
+      "DateChecked": "04/21/2025",
+      "Result": "Valid",
+      "Reason": "Mailbox exists and active",
+      "EmailFlagExists": "Y",
+      "EmailFlagFormatted": "Y",
+      "EmailFlagMXFound": "Y",
+      "EmailFlagDomainExists": "Y",
+      "EmailFlagMailboxExists": "Y",
+      "EmailFlagCatchAll": "N",
+      "EmailFlagRole": "N",
+      "EmailFlagDisposable": "N",
+      "EmailFlagFree": "N",
+      "DomainFlagDuplicateMX": "N",
+      "DomainFlagWhiteListed": "Y",
+      "DomainFlagBlackListed": "N",
+      "DomainFlagGreyListed": "N",
+      "DomainFlagForeign": "N",
+      "DomainFlagNearIdentical": "N",
+      "DomainFlagMailServer": "N",
+      "DomainFlagWebServer": "Y",
+      "DomainFlagDynamicIP": "N",
+      "DomainFlagRecentAbuse": "N",
+      "DomainFlagFreeService": "N",
+      "DomainFlagNoService": "N",
+      "DomainFlagBadService": "N",
+      "DomainFlagDomainExists": "Y",
+      "DomainFlagDomainQualityScore": "95"
+    }
+  ],
+  "TransmissionReference": "",
+  "TransmissionResults": "AV22,AV23",
+  "TotalRecords": 1
+}</code></pre>
+        </div>
+        
+        <div class="provider-section">
+            <div class="provider-header">
+                <div class="provider-icon our-api">
+                    <i class="fas fa-exchange-alt"></i>
+                </div>
+                <h2>Our API Wrapper Endpoint</h2>
+            </div>
+            
+            <p>Our service provides a unified API endpoint that abstracts away the differences between these providers:</p>
+            
+            <p><strong>Endpoint:</strong> <code>/api/v1/email/validate</code></p>
+            
+            <p><strong>Method:</strong> POST</p>
+            
+            <p><strong>Headers:</strong></p>
+            <ul>
+                <li><code>Content-Type</code>: application/json</li>
+                <li><code>Authorization</code>: Bearer YOUR_API_TOKEN</li>
+            </ul>
+            
+            <p><strong>Request Body:</strong></p>
+            <pre><code>{
+  "email": "test@example.com",
+  "preferred_provider": "abstract_api"  // Optional
+}</code></pre>
+            
+            <p><strong>Example Response:</strong></p>
+            <pre><code>{
+  "success": true,
+  "data": {
+    "email": "test@example.com",
+    "is_valid": true,
+    "is_disposable": false,
+    "is_role_based": false,
+    "domain_score": 0.85,
+    "fraud_score": 0.1,
+    "provider": "abstract_api",
+    "source": "api_lookup"
+  }
+}</code></pre>
+        </div>
+        
+        <div class="provider-section">
+            <div class="provider-header">
+                <div class="provider-icon our-api">
+                    <i class="fas fa-layer-group"></i>
+                </div>
+                <h2>Bulk Validation Endpoint</h2>
+            </div>
+            
+            <p>For validating multiple email addresses at once:</p>
+            
+            <p><strong>Endpoint:</strong> <code>/api/v1/email/validate-bulk</code></p>
+            
+            <p><strong>Method:</strong> POST</p>
+            
+            <p><strong>Headers:</strong></p>
+            <ul>
+                <li><code>Content-Type</code>: application/json</li>
+                <li><code>Authorization</code>: Bearer YOUR_API_TOKEN</li>
+            </ul>
+            
+            <p><strong>Request Body:</strong></p>
+            <pre><code>{
+  "emails": [
+    "test1@example.com",
+    "test2@example.com",
+    "test3@example.com"
+  ],
+  "preferred_provider": "kickbox"  // Optional
+}</code></pre>
+            
+            <p><strong>Example Response:</strong></p>
+            <pre><code>{
+  "success": true,
+  "data": {
+    "test1@example.com": {
+      "email": "test1@example.com",
+      "is_valid": true,
+      "is_disposable": false,
+      "is_role_based": false,
+      "domain_score": 0.85,
+      "fraud_score": 0.1,
+      "provider": "kickbox",
+      "source": "api_lookup"
+    },
+    "test2@example.com": {
+      "email": "test2@example.com",
+      "is_valid": true,
+      "is_disposable": true,
+      "is_role_based": false,
+      "domain_score": 0.3,
+      "fraud_score": 0.7,
+      "provider": "kickbox",
+      "source": "api_lookup"
+    },
+    "test3@example.com": {
+      "email": "test3@example.com",
+      "is_valid": false,
+      "is_disposable": false,
+      "is_role_based": false,
+      "domain_score": null,
+      "fraud_score": 0.8,
+      "provider": "kickbox",
+      "source": "api_lookup"
+    }
+  }
+}</code></pre>
+        </div>
+        
+        <div class="provider-section">
+            <div class="provider-header">
+                <div class="provider-icon our-api">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h2>Usage Statistics Endpoint</h2>
+            </div>
+            
+            <p>To retrieve usage statistics for billing purposes:</p>
+            
+            <p><strong>Endpoint:</strong> <code>/api/v1/email/usage</code></p>
+            
+            <p><strong>Method:</strong> GET</p>
+            
+            <p><strong>Headers:</strong></p>
+            <ul>
+                <li><code>Authorization</code>: Bearer YOUR_API_TOKEN</li>
+            </ul>
+            
+            <p><strong>Example Response:</strong></p>
+            <pre><code>{
+  "success": true,
+  "data": {
+    "lookup_count": 1250,
+    "billing_cycle_start": "2025-04-01T00:00:00Z",
+    "billing_cycle_end": "2025-04-30T23:59:59Z"
+  }
+}</code></pre>
+        </div>
+        
+        <div class="footer">
+            <p>&copy; 2025 Spam Users Intelligence | <a href="index.html">Back to Home</a></p>
+        </div>
+    </div>
+</body>
+</html>
