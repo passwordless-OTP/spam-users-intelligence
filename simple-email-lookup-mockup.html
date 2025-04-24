@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Lookup Tool - Simple Mockup</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4f46e5;
+            --primary-light: #eef2ff;
+            --success-color: #10b981;
+            --success-light: #ecfdf5;
+            --warning-color: #f59e0b;
+            --warning-light: #fffbeb;
+            --error-color: #ef4444;
+            --error-light: #fef2f2;
+            --neutral-color: #6b7280;
+            --neutral-light: #f9fafb;
+            --border-color: #e5e7eb;
+            --text-dark: #1f2937;
+            --text-medium: #4b5563;
+            --text-light: #6b7280;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.5;
+            color: var(--text-dark);
+            margin: 0;
+            padding: 0;
+            background-color: #f3f4f6;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+        
+        .header-title {
+            display: flex;
+            align-items: center;
+        }
+        
+        .header-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 16px;
+            font-size: 24px;
+        }
+        
+        .title-content h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin: 0 0 4px 0;
+            color: var(--text-dark);
+        }
+        
+        .title-content p {
+            font-size: 14px;
+            color: var(--text-light);
+            margin: 0;
+        }
+        
+        .header-actions {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .action-btn {
+            padding: 8px 16px;
+            background-color: white;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-medium);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+        
+        .action-btn i {
+            margin-right: 8px;
+        }
+        
+        .action-btn:hover {
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .action-btn.primary {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        .action-btn.primary:hover {
+            background-color: #4338ca;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+        
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-medium);
+            margin: 0;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--text-medium);
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px var(--primary-light);
+        }
+        
+        .result-section {
+            margin-top: 30px;
+        }
+        
+        .result-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+        
+        .result-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-medium);
+            margin: 0;
+        }
+        
+        .result-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .badge-valid {
+            background-color: var(--success-light);
+            color: var(--success-color);
+        }
+        
+        .badge-suspicious {
+            background-color: var(--warning-light);
+            color: var(--warning-color);
+        }
+        
+        .badge-invalid {
+            background-color: var(--error-light);
+            color: var(--error-color);
+        }
+        
+        .badge-disposable {
+            background-color: var(--error-light);
+            color: var(--error-color);
+        }
+        
+        .result-details {
+            margin-top: 20px;
+        }
+        
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+        
+        .detail-label {
+            font-weight: 500;
+            color: var(--text-medium);
+        }
+        
+        .detail-value {
+            color: var(--text-dark);
+        }
+        
+        .detail-value.success {
+            color: var(--success-color);
+        }
+        
+        .detail-value.warning {
+            color: var(--warning-color);
+        }
+        
+        .detail-value.error {
+            color: var(--error-color);
+        }
+        
+        .risk-score {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .risk-label {
+            font-weight: 600;
+            margin-right: 10px;
+            color: var(--text-medium);
+        }
+        
+        .risk-value {
+            font-size: 24px;
+            font-weight: 700;
+        }
+        
+        .risk-low {
+            color: var(--success-color);
+        }
+        
+        .risk-medium {
+            color: var(--warning-color);
+        }
+        
+        .risk-high {
+            color: var(--error-color);
+        }
+        
+        .risk-explanation {
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            background-color: var(--neutral-light);
+            border-left: 4px solid var(--neutral-color);
+        }
+        
+        .risk-explanation.low {
+            background-color: var(--success-light);
+            border-left-color: var(--success-color);
+        }
+        
+        .risk-explanation.medium {
+            background-color: var(--warning-light);
+            border-left-color: var(--warning-color);
+        }
+        
+        .risk-explanation.high {
+            background-color: var(--error-light);
+            border-left-color: var(--error-color);
+        }
+        
+        .provider-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 16px;
+        }
+        
+        .provider-item {
+            padding: 6px 12px;
+            background-color: var(--neutral-light);
+            border-radius: 20px;
+            font-size: 13px;
+            color: var(--text-medium);
+        }
+        
+        .provider-item.active {
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+        }
+        
+        .mockup-controls {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+        }
+        
+        .controls-title {
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--text-dark);
+        }
+        
+        .controls-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        
+        .control-btn {
+            padding: 8px 12px;
+            background-color: white;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .control-btn:hover {
+            background-color: var(--neutral-light);
+            border-color: var(--text-light);
+        }
+        
+        .controls-description {
+            font-size: 13px;
+            color: var(--text-light);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-title">
+                <div class="header-icon">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div class="title-content">
+                    <h1>Email Lookup Tool</h1>
+                    <p>Validate email addresses across multiple providers</p>
+                </div>
+            </div>
+            
+            <div class="header-actions">
+                <a href="email-dashboard-tabbed.html" class="action-btn">
+                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+                </a>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Email Validation</h3>
+            </div>
+            
+            <div class="form-group">
+                <label for="email" class="form-label">Email Address</label>
+                <input type="email" id="email" class="form-input" placeholder="Enter email address to validate" value="">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Validation Providers</label>
+                <div class="provider-list">
+                    <div class="provider-item active">Abstract API</div>
+                    <div class="provider-item active">Kickbox</div>
+                    <div class="provider-item active">Verifalia</div>
+                    <div class="provider-item">ZeroBounce</div>
+                    <div class="provider-item">Melissa Email</div>
+                </div>
+            </div>
+            
+            <button id="validateBtn" class="action-btn primary">
+                <i class="fas fa-search"></i> Validate Email
+            </button>
+        </div>
+        
+        <div id="resultCard" class="card" style="display: none;">
+            <div class="card-header">
+                <h3 class="card-title">Validation Results</h3>
+            </div>
+            
+            <div class="risk-score">
+                <span class="risk-label">Risk Score:</span>
+                <span id="riskScore" class="risk-value risk-low">X</span>
+            </div>
+            
+            <div id="riskExplanation" class="risk-explanation low">
+                This email appears to be legitimate with no risk factors detected.
+            </div>
+            
+            <div class="result-details">
+                <div class="detail-item">
+                    <span class="detail-label">Email</span>
+                    <span id="resultEmail" class="detail-value">john.doe@example.com</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Valid Format</span>
+                    <span id="resultFormat" class="detail-value success">Yes</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Deliverable</span>
+                    <span id="resultDeliverable" class="detail-value success">Yes</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Disposable</span>
+                    <span id="resultDisposable" class="detail-value success">No</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Role-based</span>
+                    <span id="resultRoleBased" class="detail-value success">No</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Domain Age</span>
+                    <span id="resultDomainAge" class="detail-value">8 years</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Free Provider</span>
+                    <span id="resultFreeProvider" class="detail-value success">No</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">MX Records</span>
+                    <span id="resultMxRecords" class="detail-value success">Valid</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="mockup-controls">
+        <div class="controls-title">Mockup Controls</div>
+        <div class="controls-buttons">
+            <button class="control-btn" onclick="window.location.href='email-dashboard-tabbed.html'">View Dashboard</button>
+            <button class="control-btn" onclick="window.location.href='email-rules.html'">View Email Rules</button>
+            <button class="control-btn" onclick="window.location.href='email-settings.html'">View Settings</button>
+            <button class="control-btn" onclick="showValidResult()">Show Valid Result</button>
+            <button class="control-btn" onclick="showSuspiciousResult()">Show Suspicious Result</button>
+            <button class="control-btn" onclick="showDisposableResult()">Show Disposable Result</button>
+        </div>
+        <div class="controls-description">
+            This is a mockup of the email lookup tool. In a real implementation, this would validate emails against multiple providers
+            and display a combined risk assessment.
+        </div>
+    </div>
+    
+    <script>
+        // DOM elements
+        const emailInput = document.getElementById('email');
+        const validateBtn = document.getElementById('validateBtn');
+        const resultCard = document.getElementById('resultCard');
+        const riskScore = document.getElementById('riskScore');
+        const riskExplanation = document.getElementById('riskExplanation');
+        const resultEmail = document.getElementById('resultEmail');
+        const resultFormat = document.getElementById('resultFormat');
+        const resultDeliverable = document.getElementById('resultDeliverable');
+        const resultDisposable = document.getElementById('resultDisposable');
+        const resultRoleBased = document.getElementById('resultRoleBased');
+        const resultDomainAge = document.getElementById('resultDomainAge');
+        const resultFreeProvider = document.getElementById('resultFreeProvider');
+        const resultMxRecords = document.getElementById('resultMxRecords');
+        
+        // Check URL parameters for demo purposes
+        const urlParams = new URLSearchParams(window.location.search);
+        const emailParam = urlParams.get('email');
+        const typeParam = urlParams.get('type');
+        
+        if (emailParam) {
+            emailInput.value = emailParam;
+            
+            if (typeParam === 'valid') {
+                showValidResult();
+            } else if (typeParam === 'suspicious') {
+                showSuspiciousResult();
+            } else if (typeParam === 'disposable') {
+                showDisposableResult();
+            }
+        }
+        
+        // Event listeners
+        validateBtn.addEventListener('click', function() {
+            const email = emailInput.value.trim();
+            
+            if (!email) {
+                alert('Please enter an email address');
+                return;
+            }
+            
+            // Determine result type based on email content
+            if (email.includes('tempmail') || email.includes('mailinator') || email.includes('guerrillamail') || email.includes('yopmail')) {
+                showDisposableResult();
+            } else if (email.includes('admin') || email.includes('info') || email.includes('support') || email.includes('newdomain')) {
+                showSuspiciousResult();
+            } else {
+                showValidResult();
+            }
+        });
+        
+        // Show valid result
+        function showValidResult() {
+            resultEmail.textContent = emailInput.value || 'john.doe@example.com';
+            
+            riskScore.textContent = 'X';
+            riskScore.className = 'risk-value risk-low';
+            
+            riskExplanation.textContent = 'This email appears to be legitimate with no risk factors detected.';
+            riskExplanation.className = 'risk-explanation low';
+            
+            resultFormat.textContent = 'Yes';
+            resultFormat.className = 'detail-value success';
+            
+            resultDeliverable.textContent = 'Yes';
+            resultDeliverable.className = 'detail-value success';
+            
+            resultDisposable.textContent = 'No';
+            resultDisposable.className = 'detail-value success';
+            
+            resultRoleBased.textContent = 'No';
+            resultRoleBased.className = 'detail-value success';
+            
+            resultDomainAge.textContent = '8 years';
+            
+            resultFreeProvider.textContent = 'No';
+            resultFreeProvider.className = 'detail-value success';
+            
+            resultMxRecords.textContent = 'Valid';
+            resultMxRecords.className = 'detail-value success';
+            
+            resultCard.style.display = 'block';
+        }
+        
+        // Show suspicious result
+        function showSuspiciousResult() {
+            resultEmail.textContent = emailInput.value || 'admin@newdomain123.com';
+            
+            riskScore.textContent = 'XX';
+            riskScore.className = 'risk-value risk-medium';
+            
+            riskExplanation.textContent = 'Medium risk due to role-based address (e.g., admin@, info@) and relatively new domain.';
+            riskExplanation.className = 'risk-explanation medium';
+            
+            resultFormat.textContent = 'Yes';
+            resultFormat.className = 'detail-value success';
+            
+            resultDeliverable.textContent = 'Yes';
+            resultDeliverable.className = 'detail-value success';
+            
+            resultDisposable.textContent = 'No';
+            resultDisposable.className = 'detail-value success';
+            
+            resultRoleBased.textContent = 'Yes';
+            resultRoleBased.className = 'detail-value error';
+            
+            resultDomainAge.textContent = '45 days';
+            
+            resultFreeProvider.textContent = 'No';
+            resultFreeProvider.className = 'detail-value success';
+            
+            resultMxRecords.textContent = 'Valid';
+            resultMxRecords.className = 'detail-value success';
+            
+            resultCard.style.display = 'block';
+        }
+        
+        // Show disposable result
+        function showDisposableResult() {
+            resultEmail.textContent = emailInput.value || 'user123@tempmail.org';
+            
+            riskScore.textContent = 'XXX';
+            riskScore.className = 'risk-value risk-high';
+            
+            riskExplanation.textContent = 'High risk - this is a disposable/temporary email address often used for fraud.';
+            riskExplanation.className = 'risk-explanation high';
+            
+            resultFormat.textContent = 'Yes';
+            resultFormat.className = 'detail-value success';
+            
+            resultDeliverable.textContent = 'Yes';
+            resultDeliverable.className = 'detail-value success';
+            
+            resultDisposable.textContent = 'Yes';
+            resultDisposable.className = 'detail-value error';
+            
+            resultRoleBased.textContent = 'No';
+            resultRoleBased.className = 'detail-value success';
+            
+            resultDomainAge.textContent = '3 years';
+            
+            resultFreeProvider.textContent = 'Yes';
+            resultFreeProvider.className = 'detail-value warning';
+            
+            resultMxRecords.textContent = 'Valid';
+            resultMxRecords.className = 'detail-value success';
+            
+            resultCard.style.display = 'block';
+        }
+        
+        // Provider item click handler
+        const providerItems = document.querySelectorAll('.provider-item');
+        providerItems.forEach(item => {
+            item.addEventListener('click', function() {
+                this.classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+</html>
