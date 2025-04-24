@@ -24,7 +24,8 @@ The Spam Users Intelligence demo includes the following files:
 - `email-provider-comparison.html` - Comparison of different email validation providers
 - `README.md` - Project documentation
 - `.gitignore` - Specifies files to exclude from the repository
-- `deploy.sh` - Helper script for deployment
+- `deploy.sh` - Helper script for initial deployment
+- `update-github-pages.sh` - Optimized script for updating both master and gh-pages branches
 
 ## Deployment Options
 
@@ -94,9 +95,35 @@ Replace `YOUR_USERNAME` with your GitHub username and `email-lookup-demo` with y
 
 To update your site after making changes:
 
-### Option 1: Using the Push Script (Recommended)
+### Option 1: Using the Optimized Update Script (Recommended)
 
-We've included a push script that makes it easy to commit and push your changes to GitHub:
+We've created an optimized workflow that minimizes inputs from the operator and ensures changes are reflected on both the master and gh-pages branches:
+
+1. Make your changes to the files
+2. Run the update script:
+   ```
+   ./update-github-pages.sh
+   ```
+   
+   Or with a custom commit message:
+   ```
+   ./update-github-pages.sh "Your custom commit message here"
+   ```
+
+The script will:
+- Add all changed files to the repository
+- Commit changes with the provided message (or a default message)
+- Push changes to the master branch
+- Switch to the gh-pages branch
+- Merge changes from master into gh-pages
+- Push the gh-pages branch
+- Switch back to your original branch
+
+For detailed instructions on using this script, see [UPDATE-INSTRUCTIONS.md](UPDATE-INSTRUCTIONS.md).
+
+### Option 2: Using the Legacy Push Script
+
+The original push script is still available for backward compatibility:
 
 1. Make your changes to the files
 2. Run the push script:
@@ -111,7 +138,9 @@ The script will:
 - Push the changes to GitHub
 - Provide feedback on the success or failure of the push
 
-### Option 2: Manual Update
+Note: This script only updates the master branch and may not update the GitHub Pages site if it's configured to deploy from the gh-pages branch.
+
+### Option 3: Manual Update
 
 If you prefer to update manually:
 

@@ -80,10 +80,13 @@ Alternatively, use the included script to start a local server:
 This repository includes helper scripts for GitHub Pages deployment:
 
 - `deploy.sh` - Initial setup and deployment to GitHub Pages
-- `push-to-github.sh` - Push updates to GitHub after making changes
+- `update-github-pages.sh` - Optimized script to update both master and gh-pages branches
+- `push-to-github.sh` - Push updates to GitHub after making changes (legacy)
 - `test-locally.sh` - Test the site locally before deployment
 
 For detailed deployment instructions, see [HOSTING.md](HOSTING.md).
+
+For the optimized workflow with minimal operator input, see [UPDATE-INSTRUCTIONS.md](UPDATE-INSTRUCTIONS.md).
 
 ## 📝 License
 
