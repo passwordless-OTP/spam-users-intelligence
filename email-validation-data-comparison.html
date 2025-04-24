@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Validation Data Comparison</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4f46e5;
+            --primary-light: #eef2ff;
+            --success-color: #10b981;
+            --success-light: #ecfdf5;
+            --warning-color: #f59e0b;
+            --warning-light: #fffbeb;
+            --error-color: #ef4444;
+            --error-light: #fef2f2;
+            --neutral-color: #6b7280;
+            --neutral-light: #f9fafb;
+            --border-color: #e5e7eb;
+            --text-dark: #1f2937;
+            --text-medium: #4b5563;
+            --text-light: #6b7280;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.5;
+            color: var(--text-dark);
+            margin: 0;
+            padding: 0;
+            background-color: #f3f4f6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+        
+        .header-title {
+            display: flex;
+            align-items: center;
+        }
+        
+        .header-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 16px;
+            font-size: 24px;
+        }
+        
+        .title-content h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin: 0 0 4px 0;
+            color: var(--text-dark);
+        }
+        
+        .title-content p {
+            font-size: 14px;
+            color: var(--text-light);
+            margin: 0;
+        }
+        
+        .header-actions {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .action-btn {
+            padding: 8px 16px;
+            background-color: white;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-medium);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+        
+        .action-btn i {
+            margin-right: 8px;
+        }
+        
+        .action-btn:hover {
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .action-btn.primary {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        .action-btn.primary:hover {
+            background-color: #4338ca;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+        
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-medium);
+            margin: 0;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th {
+            text-align: left;
+            padding: 12px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-medium);
+            border-bottom: 1px solid var(--border-color);
+            background-color: var(--neutral-light);
+        }
+        
+        td {
+            padding: 12px 16px;
+            font-size: 13px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        tr:hover {
+            background-color: var(--neutral-light);
+        }
+        
+        .provider-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .logo-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+        }
+        
+        .abstract-api {
+            background-color: #6772e5;
+        }
+        
+        .kickbox {
+            background-color: #f6a623;
+        }
+        
+        .verifalia {
+            background-color: #4caf50;
+        }
+        
+        .zerobounce {
+            background-color: #2196f3;
+        }
+        
+        .melissa {
+            background-color: #9c27b0;
+        }
+        
+        .feature-available {
+            color: var(--success-color);
+        }
+        
+        .feature-partial {
+            color: var(--warning-color);
+        }
+        
+        .feature-unavailable {
+            color: var(--error-color);
+        }
+        
+        .rating {
+            display: flex;
+            align-items: center;
+        }
+        
+        .rating-stars {
+            color: var(--warning-color);
+            margin-right: 8px;
+        }
+        
+        .rating-value {
+            font-weight: 600;
+        }
+        
+        .price-tier {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .price-low {
+            background-color: var(--success-light);
+            color: var(--success-color);
+        }
+        
+        .price-medium {
+            background-color: var(--warning-light);
+            color: var(--warning-color);
+        }
+        
+        .price-high {
+            background-color: var(--error-light);
+            color: var(--error-color);
+        }
+        
+        .accuracy-bar {
+            width: 100px;
+            height: 8px;
+            background-color: var(--neutral-light);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .accuracy-fill {
+            height: 100%;
+            background-color: var(--primary-color);
+            border-radius: 4px;
+        }
+        
+        .mockup-controls {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+        }
+        
+        .controls-title {
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--text-dark);
+        }
+        
+        .controls-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        
+        .control-btn {
+            padding: 8px 12px;
+            background-color: white;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .control-btn:hover {
+            background-color: var(--neutral-light);
+            border-color: var(--text-light);
+        }
+        
+        .controls-description {
+            font-size: 13px;
+            color: var(--text-light);
+        }
+        
+        .feature-comparison {
+            margin-top: 30px;
+        }
+        
+        .feature-group {
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+        
+        .feature-group-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--text-dark);
+            font-size: 15px;
+        }
+        
+        .feature-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .feature-name {
+            flex: 1;
+            font-size: 14px;
+            color: var(--text-medium);
+        }
+        
+        .feature-providers {
+            display: flex;
+            gap: 16px;
+        }
+        
+        .feature-provider {
+            width: 100px;
+            text-align: center;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-title">
+                <div class="header-icon">
+                    <i class="fas fa-chart-bar"></i>
+                </div>
+                <div class="title-content">
+                    <h1>Email Validation Data Comparison</h1>
+                    <p>Compare features and performance across multiple email validation providers</p>
+                </div>
+            </div>
+            
+            <div class="header-actions">
+                <a href="email-dashboard-tabbed.html" class="action-btn">
+                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+                </a>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Provider Comparison</h3>
+            </div>
+            
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Provider</th>
+                            <th>Accuracy</th>
+                            <th>Response Time</th>
+                            <th>Price Tier</th>
+                            <th>Specialties</th>
+                            <th>Weaknesses</th>
+                            <th>Rating</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="provider-logo">
+                                    <div class="logo-icon abstract-api">A</div>
+                                    <span>Abstract API</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <div class="accuracy-bar">
+                                        <div class="accuracy-fill" style="width: 94%;"></div>
+                                    </div>
+                                    <span>94%</span>
+                                </div>
+                            </td>
+                            <td>400-800ms</td>
+                            <td><span class="price-tier price-low">Low</span></td>
+                            <td>Syntax validation, Disposable detection</td>
+                            <td>New domains, Role-based detection</td>
+                            <td>
+                                <div class="rating">
+                                    <div class="rating-stars">★★★★☆</div>
+                                    <div class="rating-value">4.2</div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="provider-logo">
+                                    <div class="logo-icon kickbox">K</div>
+                                    <span>Kickbox</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <div class="accuracy-bar">
+                                        <div class="accuracy-fill" style="width: 97%;"></div>
+                                    </div>
+                                    <span>97%</span>
+                                </div>
+                            </td>
+                            <td>500-900ms</td>
+                            <td><span class="price-tier price-medium">Medium</span></td>
+                            <td>Mailbox verification, Deliverability scoring</td>
+                            <td>Role-based detection, Higher cost</td>
+                            <td>
+                                <div class="rating">
+                                    <div class="rating-stars">★★★★★</div>
+                                    <div class="rating-value">4.7</div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="provider-logo">
+                                    <div class="logo-icon verifalia">V</div>
+                                    <span>Verifalia</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <div class="accuracy-bar">
+                                        <div class="accuracy-fill" style="width: 95%;"></div>
+                                    </div>
+                                    <span>95%</span>
+                                </div>
+                            </td>
+                            <td>600-1200ms</td>
+                            <td><span class="price-tier price-medium">Medium</span></td>
+                            <td>Catch-all detection, International emails</td>
+                            <td>Response time, Complex API</td>
+                            <td>
+                                <div class="rating">
+                                    <div class="rating-stars">★★★★☆</div>
+                                    <div class="rating-value">4.3</div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="provider-logo">
+                                    <div class="logo-icon zerobounce">Z</div>
+                                    <span>ZeroBounce</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <div class="accuracy-bar">
+                                        <div class="accuracy-fill" style="width: 96%;"></div>
+                                    </div>
+                                    <span>96%</span>
+                                </div>
+                            </td>
+                            <td>450-850ms</td>
+                            <td><span class="price-tier price-high">High</span></td>
+                            <td>Spam trap detection, Abuse email detection</td>
+                            <td>Domain age estimation, Cost</td>
+                            <td>
+                                <div class="rating">
+                                    <div class="rating-stars">★★★★☆</div>
+                                    <div class="rating-value">4.5</div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="provider-logo">
+                                    <div class="logo-icon melissa">M</div>
+                                    <span>Melissa Email</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <div class="accuracy-bar">
+                                        <div class="accuracy-fill" style="width: 96%;"></div>
+                                    </div>
+                                    <span>96%</span>
+                                </div>
+                            </td>
+                            <td>700-1100ms</td>
+                            <td><span class="price-tier price-high">High</span></td>
+                            <td>International support, Typo detection</td>
+                            <td>Disposable detection, Response time</td>
+                            <td>
+                                <div class="rating">
+                                    <div class="rating-stars">★★★★☆</div>
+                                    <div class="rating-value">4.4</div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="card feature-comparison">
+            <div class="card-header">
+                <h3 class="card-title">Feature Comparison</h3>
+            </div>
+            
+            <div class="feature-group">
+                <h4 class="feature-group-title">Basic Validation</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Abstract API</th>
+                            <th>Kickbox</th>
+                            <th>Verifalia</th>
+                            <th>ZeroBounce</th>
+                            <th>Melissa Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Syntax Validation</td>
+                            <td class="feature-available"><i class="fas fa-check-circle"></i> Yes</td>
+                            <td class="feature-available"><i class="fas fa-check-circle"></i> Yes</td>
+                            <td class="feature-available"><i class="fas fa-check-circle"></i> Yes</td>
+                            <td class="feature-available"><i class="fas fa-check-circle"></i> Yes</td>
+                            <td class="feature-available"><i class="fas fa-check-circle"></i> Yes</td>
+                        </tr>
+                        <tr>
+                            <td>Domain Existence</td>
+                            <td class="feature-available"><i class="fas fa-check-circle"></i> Yes</td>
+                            <td class="feature-available"><i class="fas fa-check-circle"></i> Yes</td>
+                            <td class="feature-available"><i class="fas fa-check-circle"></i> Yes</td>
+                            <td class="feature-available"><i class="fas fa-check-circle"></i> Yes</td>
+                            <td class="feature-available"><i class="fas fa-check-circle"></i> Yes</td>
+                        </tr>
+                        <tr>
+                            <td>MX Record Check</td>
+                            <td class="feature-available"><i class="fas fa-check-circle"></i> Yes</td>
+                            <td class="feature-available"><i class="fas fa-check-circle"></i> Yes</td>
+                            <td class="feature-available"><i class="fas fa-check-circle"></i> Yes</td>
+                            <td class="feature-available"><i class="fas fa-check-circle"></i> Yes</td>
+                            <td class="feature-available"><i class="fas fa-check-circle"></i> Yes</td>
+                        </tr>
+                        <tr>
+                            <td>SMTP Check</td>
+                            <td class="feature-partial"><i class="fas fa-minus-circle"></i> Limited</td>
+                            <td class="feature-available"><i class="fas fa-check-circle"></i> Yes</td>
+                            <td class="feature-available"><i class="fas fa-check-circle"></i> Yes</td>
+                            <td class="feature-available"><i class="fas fa-check-circle"></i> Yes</td>
+                            <td class="feature-available"><i class="fas fa-check-circle"></i> Yes</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="feature-group">
+                <h4 class="feature-group-title">Advanced Features</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Abstract API</th>
+                            <th>Kickbox</th>
+                            <th>Verifalia</th>
+                            <th>ZeroBounce</th>
+                            <th>Melissa Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Disposable Email Detection</td>
+                            <td class="feature-available"><i class="fas fa-check-circle"></i> Yes</td>
+                            <td class="feature-available"><i class="fas fa-check-circle"></i> Yes</td>
+                            <td class="feature-available"><i class="fas fa-check-circle"></i> Yes</td>
+                            <td class="feature-available"><i class="fas fa-check-circle"></i> Yes</td>
+                            <td class="feature-partial"><i class="fas fa-minus-circle"></i> Limited</td>
+                        </tr>
+                        <tr>
+                            <td>Role-Based Detection</td>
+                            <td class="feature-partial"><i class="fas fa-minus-circle"></i> Limited</td>
+                            <td class="feature-partial"><i class="fas fa-minus-circle"></i> Limited</td>
+                            <td class="feature-available"><i class="fas fa-check-circle"></i> Yes</td>
+                            <td class="feature-available"><i class="fas fa-check-circle"></i> Yes</td>
+                            <td class="feature-available"><i class="fas fa-check-circle"></i> Yes</td>
+                        </tr>
+                        <tr>
+                            <td>Catch-All Detection</td>
+                            <td class="feature-unavailable"><i class="fas fa-times-circle"></i> No</td>
+                            <td class="feature-available"><i class="fas fa-check-circle"></i> Yes</td>
+                            <td class="feature-available"><i class="fas fa-check-circle"></i> Yes</td>
+                            <td class="feature-available"><i class="fas fa-check-circle"></i> Yes</td>
+                            <td class="feature-partial"><i class="fas fa-minus-circle"></i> Limited</td>
+                        </tr>
+                        <tr>
+                            <td>Spam Trap Detection</td>
+                            <td class="feature-unavailable"><i class="fas fa-times-circle"></i> No</td>
+                            <td class="feature-partial"><i class="fas fa-minus-circle"></i> Limited</td>
+                            <td class="feature-partial"><i class="fas fa-minus-circle"></i> Limited</td>
+                            <td class="feature-available"><i class="fas fa-check-circle"></i> Yes</td>
+                            <td class="feature-partial"><i class="fas fa-minus-circle"></i> Limited</td>
+                        </tr>
+                        <tr>
+                            <td>Typo Detection</td>
+                            <td class="feature-unavailable"><i class="fas fa-times-circle"></i> No</td>
+                            <td class="feature-partial"><i class="fas fa-minus-circle"></i> Limited</td>
+                            <td class="feature-partial"><i class="fas fa-minus-circle"></i> Limited</td>
+                            <td class="feature-partial"><i class="fas fa-minus-circle"></i> Limited</td>
+                            <td class="feature-available"><i class="fas fa-check-circle"></i> Yes</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="feature-group">
+                <h4 class="feature-group-title">Additional Information</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Abstract API</th>
+                            <th>Kickbox</th>
+                            <th>Verifalia</th>
+                            <th>ZeroBounce</th>
+                            <th>Melissa Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Domain Age</td>
+                            <td class="feature-available"><i class="fas fa-check-circle"></i> Yes</td>
+                            <td class="feature-unavailable"><i class="fas fa-times-circle"></i> No</td>
+                            <td class="feature-unavailable"><i class="fas fa-times-circle"></i> No</td>
+                            <td class="feature-partial"><i class="fas fa-minus-circle"></i> Limited</td>
+                            <td class="feature-unavailable"><i class="fas fa-times-circle"></i> No</td>
+                        </tr>
+                        <tr>
+                            <td>Free Email Provider</td>
+                            <td class="feature-available"><i class="fas fa-check-circle"></i> Yes</td>
+                            <td class="feature-available"><i class="fas fa-check-circle"></i> Yes</td>
+                            <td class="feature-available"><i class="fas fa-check-circle"></i> Yes</td>
+                            <td class="feature-available"><i class="fas fa-check-circle"></i> Yes</td>
+                            <td class="feature-available"><i class="fas fa-check-circle"></i> Yes</td>
+                        </tr>
+                        <tr>
+                            <td>International Support</td>
+                            <td class="feature-partial"><i class="fas fa-minus-circle"></i> Limited</td>
+                            <td class="feature-partial"><i class="fas fa-minus-circle"></i> Limited</td>
+                            <td class="feature-available"><i class="fas fa-check-circle"></i> Yes</td>
+                            <td class="feature-partial"><i class="fas fa-minus-circle"></i> Limited</td>
+                            <td class="feature-available"><i class="fas fa-check-circle"></i> Yes</td>
+                        </tr>
+                        <tr>
+                            <td>Risk Score</td>
+                            <td class="feature-partial"><i class="fas fa-minus-circle"></i> Limited</td>
+                            <td class="feature-available"><i class="fas fa-check-circle"></i> Yes</td>
+                            <td class="feature-available"><i class="fas fa-check-circle"></i> Yes</td>
+                            <td class="feature-available"><i class="fas fa-check-circle"></i> Yes</td>
+                            <td class="feature-partial"><i class="fas fa-minus-circle"></i> Limited</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <div class="mockup-controls">
+        <div class="controls-title">Mockup Controls</div>
+        <div class="controls-buttons">
+            <button class="control-btn" onclick="window.location.href='email-dashboard-tabbed.html'">View Dashboard</button>
+            <button class="control-btn" onclick="window.location.href='email-rules.html'">View Email Rules</button>
+            <button class="control-btn" onclick="window.location.href='email-settings.html'">View Settings</button>
+            <button class="control-btn" onclick="window.location.href='simple-email-lookup-mockup.html'">View Email Lookup Tool</button>
+        </div>
+        <div class="controls-description">
+            This is a mockup of the email validation data comparison page. It provides a detailed comparison of different email validation providers,
+            their features, accuracy, and performance metrics.
+        </div>
+    </div>
+</body>
+</html>
