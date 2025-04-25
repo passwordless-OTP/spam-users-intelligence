@@ -1,0 +1,171 @@
+/* Merchant Theme: Blue/Green Accent */
+:root {
+  --primary-bg: #f6fbff;
+  --primary-accent: #1e90ff;
+  --secondary-accent: #16a085;
+  --card-bg: #e3f6f5;
+  --text-color: #1a2a33;
+  --button-bg: #1e90ff;
+  --button-text: #fff;
+  --success-color: #10b981;
+  --info-color: #6366f1;
+  --warning-color: #f59e0b;
+  --error-color: #ef4444;
+  --neutral-light: #f9fafb;
+  --border-color: #e5e7eb;
+  --shadow: 0 1px 3px 0 rgba(0,0,0,0.10), 0 1px 2px 0 rgba(0,0,0,0.06);
+}
+body {
+  background: var(--primary-bg);
+  color: var(--text-color);
+}
+.button, button, input[type="submit"] {
+  background: var(--button-bg);
+  color: var(--button-text);
+}
+.card, .dashboard-card {
+  background: var(--card-bg);
+}
+
+/* Navigation */
+.main-nav {
+  display: flex;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 8px;
+  gap: 8px;
+  box-shadow: var(--shadow);
+  margin-bottom: 24px;
+}
+.nav-item {
+  flex: 1;
+  justify-content: center;
+  background-color: var(--neutral-light);
+  color: var(--text-color);
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  font-size: 1em;
+}
+.nav-item.active, .nav-item:focus {
+  background-color: var(--primary-accent);
+  color: #fff;
+}
+.nav-item:hover {
+  background-color: var(--secondary-accent);
+  color: #fff;
+}
+.nav-icon {
+  margin-right: 8px;
+}
+.nav-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  background-color: var(--error-color);
+  color: #fff;
+  border-radius: 50%;
+  font-size: 10px;
+  margin-left: 6px;
+}
+
+/* Business Impact Card */
+.business-impact-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  padding: 24px 24px 16px 24px;
+  margin-bottom: 20px;
+}
+.business-impact-card.highlight {
+  border: 2px solid var(--success-color);
+}
+.business-impact-value {
+  font-size: 2.2em;
+  font-weight: 700;
+  color: var(--success-color);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.icon-green {
+  color: var(--success-color);
+}
+.trend-up {
+  font-size: 0.6em;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  color: var(--success-color);
+}
+.business-impact-description {
+  margin-bottom: 4px;
+}
+.impact-details {
+  font-size: 13px;
+  color: #4b5563;
+}
+.roi-callout {
+  margin-bottom: 8px;
+}
+.badge {
+  padding: 3px 8px;
+  border-radius: 8px;
+  font-size: 12px;
+  color: #fff;
+  margin-right: 6px;
+  display: inline-block;
+}
+.badge-success {
+  background-color: var(--success-color);
+}
+.badge-info {
+  background-color: var(--info-color);
+}
+.stat-breakdown {
+  margin-top: 8px;
+}
+.actionable-tip {
+  margin-top: 10px;
+  font-size: 13px;
+  color: var(--warning-color);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Tooltip */
+.tooltip {
+  position: relative;
+  display: inline-block;
+  margin-left: 4px;
+  color: #6b7280;
+}
+.tooltip .tooltip-text {
+  visibility: hidden;
+  width: 200px;
+  background-color: #1a2a33;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  font-size: 12px;
+  font-weight: normal;
+}
+.tooltip:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}

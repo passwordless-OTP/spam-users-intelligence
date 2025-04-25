@@ -1,0 +1,21 @@
+/* Tech Theme: Purple/Orange Accent */
+:root {
+  --primary-bg: #f9f7fd;
+  --primary-accent: #7c3aed;
+  --secondary-accent: #ff9800;
+  --card-bg: #ece6fa;
+  --text-color: #232136;
+  --button-bg: #7c3aed;
+  --button-text: #fff;
+}
+body {
+  background: var(--primary-bg);
+  color: var(--text-color);
+}
+.button, button, input[type="submit"] {
+  background: var(--button-bg);
+  color: var(--button-text);
+}
+.card, .dashboard-card {
+  background: var(--card-bg);
+}

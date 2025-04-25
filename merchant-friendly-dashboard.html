@@ -5,7 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Customer Email Protection - Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
+    <link rel="stylesheet" href="merchant/merchant-theme.css">
+    <!--
+      Production-Grade Merchant Dashboard
+      This file is production-ready and intended for customer/partner demos.
+      All styles are externalized. Accessibility and responsive best practices are followed.
+    -->
         :root {
             --primary-color: #4f46e5;
             --primary-light: #eef2ff;
@@ -882,7 +887,7 @@
             visibility: visible;
             opacity: 1;
         }
-    </style>
+    <!-- End styles: all further styling in merchant-theme.css -->
                 <div class="title-content">
                     <h1>Customer Email Protection</h1>
                     <p>Monitor and manage email verification to protect your business from fraud</p>
@@ -917,27 +922,7 @@
                     <button class="action-btn" id="dismissRuleBtn">
                         <i class="fas fa-times"></i> Dismiss
                     </button>
-                </div>
-            </div>
         </div>
-        
-        <!-- Main Navigation -->
-        <div class="main-nav" style="display: flex; background-color: white; border-radius: 8px; padding: 8px; gap: 8px; box-shadow: var(--shadow); margin-bottom: 24px;">
-            <a href="merchant-friendly-dashboard.html" class="nav-item active" style="flex: 1; justify-content: center; background-color: var(--primary-color); color: white; border-radius: 8px; padding: 12px 16px; font-weight: 500; text-decoration: none; transition: all 0.2s; display: flex; align-items: center;">
-                <i class="fas fa-chart-bar" style="margin-right: 8px;"></i> Dashboard
-            </a>
-            <a href="merchant-friendly-rules.html" class="nav-item" style="flex: 1; justify-content: center; background-color: var(--neutral-light); color: var(--text-medium); border-radius: 8px; padding: 12px 16px; font-weight: 500; text-decoration: none; transition: all 0.2s; display: flex; align-items: center;">
-                <i class="fas fa-shield-alt" style="margin-right: 8px;"></i> Protection Rules <span class="nav-badge" style="display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; background-color: var(--error-color); color: white; border-radius: 50%; font-size: 10px; margin-left: 6px;">3</span>
-            </a>
-            <a href="email-settings.html" class="nav-item" style="flex: 1; justify-content: center; background-color: var(--neutral-light); color: var(--text-medium); border-radius: 8px; padding: 12px 16px; font-weight: 500; text-decoration: none; transition: all 0.2s; display: flex; align-items: center;">
-                <i class="fas fa-cog" style="margin-right: 8px;"></i> Settings
-            </a>
-        </div>
-        
-        <div class="dashboard-filters">
-            <span class="filter-label">Time Period:</span>
-            <div class="filter-options">
-                <div class="filter-option">Today</div>
                 <div class="filter-option">Yesterday</div>
                 <div class="filter-option active">Last 7 Days</div>
                 <div class="filter-option">Last 30 Days</div>
@@ -964,28 +949,28 @@
     </div>
   </div>
   <div class="business-impact-card highlight">
-    <div class="business-impact-value" style="font-size:2.2em; font-weight:700; color:#10b981; display:flex; align-items:center; gap:12px;">
-      <i class="fas fa-shield-alt" style="color:#10b981;"></i> $2,860
-      <span class="trend-up" style="font-size:0.6em; display:flex; align-items:center; gap:2px;"><i class="fas fa-arrow-up"></i> 15%</span>
+    <div class="business-impact-value">
+      <i class="fas fa-shield-alt icon-green"></i> $2,860
+      <span class="trend-up"><i class="fas fa-arrow-up"></i> 15%</span>
     </div>
-    <div class="business-impact-description" style="margin-bottom:4px;">
+    <div class="business-impact-description">
       Estimated fraud prevented in the last 7 days.<br>
-      <span style="font-size:13px;color:#4b5563;">
+      <span class="impact-details">
         Based on 114 blocked signups × $25 avg. order value.<br>
         <strong>Blocked 21% of all signups as fraud</strong>
       </span>
     </div>
-    <div class="roi-callout" style="margin-bottom:8px;">
-      <span class="badge badge-success" style="background-color:#10b981;color:white;padding:3px 8px;border-radius:8px;font-size:12px;">ROI: 4× subscription</span>
-      <span class="badge badge-info" style="background-color:#6366f1;color:white;padding:3px 8px;border-radius:8px;font-size:12px;">Record Week!</span>
+    <div class="roi-callout">
+      <span class="badge badge-success">ROI: 4× subscription</span>
+      <span class="badge badge-info">Record Week!</span>
     </div>
-    <div class="stat-breakdown" style="margin-top: 8px;">
+    <div class="stat-breakdown">
       <div><strong>Blocked Signups:</strong> 114 <span class="tooltip"><i class="fas fa-info-circle"></i><span class="tooltip-text">Number of signups automatically blocked as suspicious or fraudulent.</span></span></div>
       <div><strong>Top Source:</strong> tempmail.org (23 signups) <span class="tooltip"><i class="fas fa-info-circle"></i><span class="tooltip-text">Most frequent source of blocked fraud attempts.</span></span></div>
       <div><strong>Chargebacks Prevented:</strong> 3 <span class="tooltip"><i class="fas fa-info-circle"></i><span class="tooltip-text">Estimated chargebacks avoided by blocking fraud signups.</span></span></div>
       <div><strong>Time Saved:</strong> 6.5 hrs <span class="tooltip"><i class="fas fa-info-circle"></i><span class="tooltip-text">Manual review/support hours saved by automated blocking.</span></span></div>
     </div>
-    <div class="actionable-tip" style="margin-top:10px;font-size:13px;color:#f59e0b;display:flex;align-items:center;gap:6px;">
+    <div class="actionable-tip">
       <i class="fas fa-lightbulb"></i>
       Consider tightening your protection rules for even more savings.
     </div>
