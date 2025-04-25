@@ -665,37 +665,95 @@
                     <i class="fas fa-shield-alt"></i>
                 </div>
                 <div class="title-content">
-                    <h1>Email Protection Rules</h1>
-                    <p>Configure and manage email verification rules to protect your business</p>
+                    <h1>Email Protection</h1>
+                    <p>Choose your preferred protection level. No technical setup required.</p>
                 </div>
             </div>
-            
-            <div class="dashboard-actions">
-                <button class="action-btn" onclick="window.location.href='merchant-friendly-dashboard.html'">
-                    <i class="fas fa-arrow-left"></i> Back to Dashboard
-                </button>
-                <button class="action-btn primary" id="addRuleBtn">
-                    <i class="fas fa-plus"></i> Add Protection Rule
-                </button>
+        </div>
+
+        <!-- Protection Level Selector -->
+        <div class="card" style="margin-bottom:32px;">
+            <div class="card-header">
+                <h3 class="card-title">Choose Your Protection Level</h3>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:20px;justify-content:space-between;">
+                <!-- Basic -->
+                <div class="protection-level-card" style="flex:1 1 220px;background:#ecfdf5;border-radius:12px;padding:24px;box-shadow:var(--shadow);margin-right:12px;min-width:220px;max-width:325px;border:3px solid #10b981;">
+                    <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+                        <i class="fas fa-check-circle" style="color:#10b981;font-size:1.3em;"></i>
+                        <strong>Basic</strong>
+                    </div>
+                    <div style="color:#047857;font-size:15px;margin-bottom:8px;">Block only obvious fraud (bots, spam emails)</div>
+                    <div style="font-size:13px;color:#4b5563;margin-bottom:10px;">Minimal risk, no lost sales.</div>
+                    <button class="action-btn success" style="width:100%;margin-bottom:4px;">Enable Basic</button>
+                </div>
+                <!-- Standard -->
+                <div class="protection-level-card" style="flex:1 1 220px;background:#eef2ff;border-radius:12px;padding:24px;box-shadow:var(--shadow);margin-right:12px;min-width:220px;max-width:325px;border:3px solid #6366f1;position:relative;">
+                    <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+                        <i class="fas fa-shield-alt" style="color:#6366f1;font-size:1.3em;"></i>
+                        <strong>Standard</strong>
+                        <span class="badge badge-info" style="background:#6366f1;color:white;padding:3px 10px;border-radius:8px;font-size:12px;margin-left:8px;">Recommended</span>
+                    </div>
+                    <div style="color:#3730a3;font-size:15px;margin-bottom:8px;">Block most suspicious signups, keep real customers</div>
+                    <div style="font-size:13px;color:#4b5563;margin-bottom:10px;">Reduces fraud, low false positives.</div>
+                    <button class="action-btn primary" style="width:100%;margin-bottom:4px;">Enable Standard</button>
+                    <div style="position:absolute;top:12px;right:12px;"><i class="fas fa-star" style="color:#f59e0b;"></i></div>
+                </div>
+                <!-- Strict -->
+                <div class="protection-level-card" style="flex:1 1 220px;background:#fef2f2;border-radius:12px;padding:24px;box-shadow:var(--shadow);min-width:220px;max-width:325px;border:3px solid #ef4444;">
+                    <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+                        <i class="fas fa-exclamation-triangle" style="color:#ef4444;font-size:1.3em;"></i>
+                        <strong>Strict</strong>
+                    </div>
+                    <div style="color:#b91c1c;font-size:15px;margin-bottom:8px;">Block all risky signups, even rare domains</div>
+                    <div style="font-size:13px;color:#4b5563;margin-bottom:10px;">Max protection, may block rare good users.</div>
+                    <button class="action-btn danger" style="width:100%;margin-bottom:4px;">Enable Strict</button>
+                </div>
+            </div>
+            <div style="margin-top:20px;display:flex;gap:12px;flex-wrap:wrap;">
+                <button class="action-btn" style="flex:1 1 180px;">Undo</button>
+                <button class="action-btn" style="flex:1 1 180px;">Restore Defaults</button>
+                <button class="action-btn" style="flex:1 1 180px;">Preview Impact</button>
             </div>
         </div>
-        
-        <!-- Recommended Action Alert -->
-        <div class="alert-banner">
-            <div class="alert-icon">
-                <i class="fas fa-lightbulb"></i>
+
+        <!-- Live Feedback & Summary Table -->
+        <div class="card" style="margin-bottom:32px;">
+            <div class="card-header">
+                <h3 class="card-title">How Each Level Protects Your Business</h3>
             </div>
-            <div class="alert-content">
-                <h4 class="alert-title">Recommended Protection Rule</h4>
-                <p class="alert-message">We detected 5 suspicious signups from <strong>tempmail.org</strong>. Would you like to block this temporary email service?</p>
-            </div>
-            <div class="alert-action" style="display: flex; gap: 8px;">
-                <button class="action-btn success" id="applyRuleBtn">
-                    <i class="fas fa-check"></i> Apply Rule
-                </button>
-                <button class="action-btn" id="dismissRuleBtn">
-                    <i class="fas fa-times"></i> Dismiss
-                </button>
+            <table style="width:100%;border-collapse:collapse;font-size:14px;">
+                <thead>
+                    <tr style="background:#f3f4f6;">
+                        <th style="padding:10px 8px;text-align:left;">Level</th>
+                        <th style="padding:10px 8px;text-align:left;">Who it blocks</th>
+                        <th style="padding:10px 8px;text-align:left;">Business Impact</th>
+                        <th style="padding:10px 8px;text-align:left;">Recommended?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="padding:8px 8px;">Basic</td>
+                        <td style="padding:8px 8px;">Obvious bots</td>
+                        <td style="padding:8px 8px;">Minimal risk, no lost sales</td>
+                        <td style="padding:8px 8px;"></td>
+                    </tr>
+                    <tr style="background:#f9fafb;">
+                        <td style="padding:8px 8px;">Standard</td>
+                        <td style="padding:8px 8px;">Most suspicious signups</td>
+                        <td style="padding:8px 8px;">Reduces fraud, low false positives</td>
+                        <td style="padding:8px 8px;">✓</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:8px 8px;">Strict</td>
+                        <td style="padding:8px 8px;">All risky signups</td>
+                        <td style="padding:8px 8px;">Max protection, may block rare good users</td>
+                        <td style="padding:8px 8px;"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div style="margin-top:16px;font-size:13px;color:#4b5563;">
+                <i class="fas fa-info-circle" style="color:#6366f1;"></i> You blocked <strong>12 suspicious signups</strong> this week. <span style="color:#10b981;">No real customers lost.</span>
             </div>
         </div>
         
