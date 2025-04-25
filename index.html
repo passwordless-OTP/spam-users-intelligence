@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spam Users Intelligence - Multi-Provider Email Validation Service</title>
+    <title>Customer Email Protection - Multi-Provider Email Validation Service</title>
     <style>
         :root {
             --primary-color: #5c6ac4;
@@ -252,6 +252,18 @@
             text-decoration: underline;
         }
         
+        .highlight-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            background-color: #10b981;
+            color: white;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+        
         @media (max-width: 768px) {
             .card-grid {
                 grid-template-columns: 1fr;
@@ -268,14 +280,14 @@
     <div class="container">
         <div class="header">
             <div class="logo">
-                <span class="logo-icon">✉️</span> Spam Users Intelligence
+                <span class="logo-icon">✉️</span> Customer Email Protection
             </div>
-            <p class="subtitle">A multi-provider email validation service to detect fraudulent accounts and improve security for Shopify merchants</p>
+            <p class="subtitle">A multi-provider email validation service to detect fraudulent accounts and improve security for merchants</p>
         </div>
         
         <div class="section">
             <h2 class="section-title"><i class="fas fa-shield-alt"></i> Demo Applications</h2>
-            <p class="section-description">Explore our interactive demos to see how Spam Users Intelligence can help protect your Shopify store from fraudulent accounts.</p>
+            <p class="section-description">Explore our interactive demos to see how Customer Email Protection can help protect your store from fraudulent accounts.</p>
             
             <div class="card-grid">
                 <div class="card">
@@ -294,9 +306,9 @@
                         <i class="fas fa-chart-bar"></i>
                     </div>
                     <div class="card-content">
-                        <h3 class="card-title">Merchant Dashboard</h3>
-                        <p class="card-description">View a mockup of the merchant dashboard with email validation statistics and security rules.</p>
-                        <a href="email-dashboard-tabbed.html" class="card-link">View Dashboard</a>
+                        <h3 class="card-title">Merchant Dashboard <span class="highlight-badge">New</span></h3>
+                        <p class="card-description">View our merchant-friendly dashboard with business impact metrics and actionable recommendations.</p>
+                        <a href="merchant-friendly-dashboard.html" class="card-link">View Dashboard</a>
                     </div>
                 </div>
                 
@@ -305,9 +317,9 @@
                         <i class="fas fa-cog"></i>
                     </div>
                     <div class="card-content">
-                        <h3 class="card-title">Email Security Rules</h3>
-                        <p class="card-description">Explore how merchants can configure email security rules to automatically block high-risk emails.</p>
-                        <a href="email-rules.html" class="card-link">View Rules</a>
+                        <h3 class="card-title">Protection Rules <span class="highlight-badge">New</span></h3>
+                        <p class="card-description">Explore our simplified protection rules interface with business impact explanations.</p>
+                        <a href="merchant-friendly-rules.html" class="card-link">View Rules</a>
                     </div>
                 </div>
             </div>
@@ -315,7 +327,7 @@
         
         <div class="section">
             <h2 class="section-title"><i class="fas fa-check-circle"></i> Key Features</h2>
-            <p class="section-description">Spam Users Intelligence provides comprehensive email validation through multiple providers to ensure the highest accuracy.</p>
+            <p class="section-description">Customer Email Protection provides comprehensive email validation through multiple providers to ensure the highest accuracy.</p>
             
             <div class="feature-list">
                 <div class="feature-item">
@@ -333,8 +345,8 @@
                         <i class="fas fa-chart-line"></i>
                     </div>
                     <div class="feature-content">
-                        <h3 class="feature-title">Risk Scoring</h3>
-                        <p class="feature-description">Get a simple X, XX, or XXX risk score with detailed explanation of why an email might be fraudulent.</p>
+                        <h3 class="feature-title">Business Impact Metrics</h3>
+                        <p class="feature-description">See the real business value with metrics like "Fraud Prevention Value" and "Time Saved" that show the ROI of email validation.</p>
                     </div>
                 </div>
                 
@@ -343,8 +355,8 @@
                         <i class="fas fa-shopping-cart"></i>
                     </div>
                     <div class="feature-content">
-                        <h3 class="feature-title">Shopify Integration</h3>
-                        <p class="feature-description">Seamlessly integrates with Shopify stores through the Shopify API and Billing system.</p>
+                        <h3 class="feature-title">Merchant-Friendly Interface</h3>
+                        <p class="feature-description">Designed with non-technical merchants in mind, with clear business language and actionable recommendations.</p>
                     </div>
                 </div>
                 
@@ -354,7 +366,7 @@
                     </div>
                     <div class="feature-content">
                         <h3 class="feature-title">Pay-Per-Lookup Pricing</h3>
-                        <p class="feature-description">Only pay for what you use with our flexible pay-per-lookup pricing model through Shopify Billing.</p>
+                        <p class="feature-description">Only pay for what you use with our flexible pay-per-lookup pricing model.</p>
                     </div>
                 </div>
             </div>
@@ -362,7 +374,7 @@
         
         <div class="section">
             <h2 class="section-title"><i class="fas fa-plug"></i> Supported Providers</h2>
-            <p class="section-description">Spam Users Intelligence integrates with the following email validation providers:</p>
+            <p class="section-description">Customer Email Protection integrates with the following email validation providers:</p>
             
             <div class="provider-grid">
                 <div class="provider-card">
@@ -409,14 +421,55 @@
             <a href="provider-api-endpoints.html" class="card-link" style="margin-top: 16px; display: inline-block;">View API Documentation</a>
         </div>
         
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-lightbulb"></i> Merchant-First Approach</h2>
+            <p class="section-description">Our new merchant-friendly interfaces are designed with non-technical merchants in mind:</p>
+            
+            <div class="feature-list">
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3 class="feature-title">Business Impact Metrics</h3>
+                        <p class="feature-description">See the real value with metrics like "Fraud Prevention Value" that show the dollar value of prevented fraud.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-language"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3 class="feature-title">Business-Friendly Language</h3>
+                        <p class="feature-description">Technical terms replaced with business language that merchants understand.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-tasks"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3 class="feature-title">Simplified Configuration</h3>
+                        <p class="feature-description">Easy-to-understand protection levels (Basic/Standard/Premium) instead of technical settings.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3 class="feature-title">One-Click Actions</h3>
+                        <p class="feature-description">Actionable recommendations with one-click implementation for common tasks.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
         <div class="footer">
             <div class="footer-links">
                 <a href="https://github.com/securification/email-lookup-demo" class="footer-link">GitHub Repository</a>
                 <a href="provider-api-endpoints.html" class="footer-link">API Documentation</a>
-                <a href="email-provider-comparison.html" class="footer-link">Provider Comparison</a>
-            </div>
-            <p>&copy; 2025 Spam Users Intelligence | A demo of the multi-provider email validation service</p>
-        </div>
-    </div>
-</body>
-</html>
+                <a href="email-provider-comparison.html" class="footer-link">

@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Email Check - Merchant View</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4f46e5;
+            --primary-light: #eef2ff;
+            --success-color: #10b981;
+            --success-light: #ecfdf5;
+            --warning-color: #f59e0b;
+            --warning-light: #fffbeb;
+            --error-color: #ef4444;
+            --error-light: #fef2f2;
+            --neutral-color: #6b7280;
+            --neutral-light: #f9fafb;
+            --border-color: #e5e7eb;
+            --text-dark: #1f2937;
+            --text-medium: #4b5563;
+            --text-light: #6b7280;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.5;
+            color: var(--text-dark);
+            margin: 0;
+            padding: 0;
+            background-color: #f3f4f6;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+        
+        .header-title {
+            display: flex;
+            align-items: center;
+        }
+        
+        .header-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 16px;
+            font-size: 24px;
+        }
+        
+        .title-content h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin: 0 0 4px 0;
+            color: var(--text-dark);
+        }
+        
+        .title-content p {
+            font-size: 14px;
+            color: var(--text-light);
+            margin: 0;
+        }
+        
+        .header-actions {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .action-btn {
+            padding: 8px 16px;
+            background-color: white;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-medium);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+        
+        .action-btn i {
+            margin-right: 8px;
+        }
+        
+        .action-btn:hover {
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .action-btn.primary {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        .action-btn.primary:hover {
+            background-color: #4338ca;
+        }
+        
+        .action-btn.success {
+            background-color: var(--success-light);
+            color: var(--success-color);
+            border-color: var(--success-color);
+        }
+        
+        .action-btn.success:hover {
+            background-color: var(--success-color);
+            color: white;
+        }
+        
+        .action-btn.warning {
+            background-color: var(--warning-light);
+            color: var(--warning-color);
+            border-color: var(--warning-color);
+        }
+        
+        .action-btn.warning:hover {
+            background-color: var(--warning-color);
+            color: white;
+        }
+        
+        .action-btn.danger {
+            background-color: var(--error-light);
+            color: var(--error-color);
+            border-color: var(--error-color);
+        }
+        
+        .action-btn.danger:hover {
+            background-color: var(--error-color);
+            color: white;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+        
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-medium);
+            margin: 0;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--text-medium);
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px var(--primary-light);
+        }
+        
+        .result-section {
+            margin-top: 30px;
+        }
+        
+        .result-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+        
+        .result-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-medium);
+            margin: 0;
+        }
+        
+        .result-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .badge-valid {
+            background-color: var(--success-light);
+            color: var(--success-color);
+        }
+        
+        .badge-suspicious {
+            background-color: var(--warning-light);
+            color: var(--warning-color);
+        }
+        
+        .badge-invalid {
+            background-color: var(--error-light);
+            color: var(--error-color);
+        }
+        
+        .badge-disposable {
+            background-color: var(--error-light);
+            color: var(--error-color);
+        }
+        
+        .result-details {
+            margin-top: 20px;
+        }
+        
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+        
+        .detail-label {
+            font-weight: 500;
+            color: var(--text-medium);
+        }
+        
+        .detail-value {
+            color: var(--text-dark);
+        }
+        
+        .detail-value.success {
+            color: var(--success-color);
+        }
+        
+        .detail-value.warning {
+            color: var(--warning-color);
+        }
+        
+        .detail-value.error {
+            color: var(--error-color);
+        }
+        
+        .trust-indicator {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .trust-label {
+            font-weight: 600;
+            margin-right: 10px;
+            color: var(--text-medium);
+        }
+        
+        .trust-badge {
+            display: flex;
+            align-items: center;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .trust-high {
+            background-color: var(--success-light);
+            color: var(--success-color);
+        }
+        
+        .trust-medium {
+            background-color: var(--warning-light);
+            color: var(--warning-color);
+        }
+        
+        .trust-low {
+            background-color: var(--error-light);
+            color: var(--error-color);
+        }
+        
+        .trust-badge i {
+            margin-right: 6px;
+        }
+        
+        .business-impact {
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            background-color: var(--neutral-light);
+            border-left: 4px solid var(--neutral-color);
+        }
+        
+        .business-impact.safe {
+            background-color: var(--success-light);
+            border-left-color: var(--success-color);
+        }
+        
+        .business-impact.caution {
+            background-color: var(--warning-light);
+            border-left-color: var(--warning-color);
+        }
+        
+        .business-impact.risky {
+            background-color: var(--error-light);
+            border-left-color: var(--error-color);
+        }
+        
+        .business-impact-title {
+            font-weight: 600;
+            margin-top: 0;
+            margin-bottom: 8px;
+        }
+        
+        .business-impact-text {
+            margin: 0;
+        }
+        
+        .protection-level {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        
+        .protection-label {
+            font-weight: 500;
+            margin-right: 10px;
+            color: var(--text-medium);
+        }
+        
+        .protection-options {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .protection-option {
+            padding: 6px 12px;
+            background-color: var(--neutral-light);
+            border-radius: 20px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .protection-option:hover {
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+        }
+        
+        .protection-option.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .action-row {
+            display: flex;
+            gap: 8px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            margin-left: 4px;
+            color: var(--text-light);
+        }
+        
+        .tooltip .tooltip-text {
+            visibility: hidden;
+            width: 200px;
+            background-color: var(--text-dark);
+            color: white;
+            text-align: center;
+            border-radius: 6px;
+            padding: 8px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 12px;
+            font-weight: normal;
+        }
+        
+        .tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        .mockup-controls {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+        }
+        
+        .controls-title {
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--text-dark);
+        }
+        
+        .controls-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        
+        .control-btn {
+            padding: 8px 12px;
+            background-color: white;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .control-btn:hover {
+            background-color: var(--neutral-light);
+            border-color: var(--text-light);
+        }
+        
+        .controls-description {
+            font-size: 13px;
+            color: var(--text-light);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-title">
+                <div class="header-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <div class="title-content">
+                    <h1>Customer Email Check</h1>
+                    <p>Verify customer emails to protect your business from fraud</p>
+                </div>
+            </div>
+            
+            <div class="header-actions">
+                <a href="email-dashboard-tabbed.html" class="action-btn">
+                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+                </a>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Check Customer Email</h3>
+            </div>
+            
+            <div class="form-group">
+                <label for="email" class="form-label">Email Address</label>
+                <input type="email" id="email" class="form-input" placeholder="Enter customer email address to check" value="">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Protection Level <span class="tooltip"><i class="fas fa-info-circle"></i><span class="tooltip-text">Higher protection levels use more verification services but may take slightly longer</span></span></label>
+                <div class="protection-options">
+                    <div class="protection-option">Basic</div>
+                    <div class="protection-option active">Standard</div>
+                    <div class="protection-option">Premium</div>
+                </div>
+            </div>
+            
+            <button id="validateBtn" class="action-btn primary">
+                <i class="fas fa-shield-alt"></i> Check Email
+            </button>
+        </div>
+        
+        <div id="resultCard" class="card" style="display: none;">
+            <div class="card-header">
+                <h3 class="card-title">Email Check Results</h3>
+            </div>
+            
+            <div class="trust-indicator">
+                <span class="trust-label">Trust Score:</span>
+                <span id="trustBadge" class="trust-badge trust-high"><i class="fas fa-shield-check"></i> High Trust</span>
+            </div>
+            
+            <div id="businessImpact" class="business-impact safe">
+                <h4 class="business-impact-title">What This Means For Your Business</h4>
+                <p class="business-impact-text" id="businessImpactText">This appears to be a legitimate customer email with no risk factors. Safe to proceed with orders from this address.</p>
+            </div>
+            
+            <div class="action-row" id="actionRow">
+                <button class="action-btn success" id="approveBtn">
+                    <i class="fas fa-check"></i> Approve Customer
+                </button>
+                <button class="action-btn" id="watchlistBtn">
+                    <i class="fas fa-eye"></i> Add to Watchlist
+                </button>
+                <button class="action-btn" id="blockBtn" style="display: none;">
+                    <i class="fas fa-ban"></i> Block Email
+                </button>
+                <button class="action-btn" id="blockDomainBtn" style="display: none;">
+                    <i class="fas fa-ban"></i> Block Domain
+                </button>
+            </div>
+            
+            <div class="result-details">
+                <div class="detail-item">
+                    <span class="detail-label">Email</span>
+                    <span id="resultEmail" class="detail-value">john.doe@example.com</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Email Type</span>
+                    <span id="emailType" class="detail-value success">Personal Email</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Can Receive Email</span>
+                    <span id="resultDeliverable" class="detail-value success">Yes</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Temporary Email</span>
+                    <span id="resultDisposable" class="detail-value success">No</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Company Age</span>
+                    <span id="resultDomainAge" class="detail-value">8 years</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="mockup-controls">
+        <div class="controls-title">Mockup Controls</div>
+        <div class="controls-buttons">
+            <button class="control-btn" onclick="window.location.href='email-dashboard-tabbed.html'">View Dashboard</button>
+            <button class="control-btn" onclick="window.location.href='email-rules.html'">View Email Rules</button>
+            <button class="control-btn" onclick="window.location.href='email-settings.html'">View Settings</button>
+            <button class="control-btn" onclick="showValidResult()">Show High Trust Result</button>
+            <button class="control-btn" onclick="showSuspiciousResult()">Show Medium Trust Result</button>
+            <button class="control-btn" onclick="showDisposableResult()">Show Low Trust Result</button>
+        </div>
+        <div class="controls-description">
+            This is a merchant-friendly mockup of the email verification tool. The interface focuses on business impact rather than technical details.
+        </div>
+    </div>
+    
+    <script>
+        // DOM elements
+        const emailInput = document.getElementById('email');
+        const validateBtn = document.getElementById('validateBtn');
+        const resultCard = document.getElementById('resultCard');
+        const trustBadge = document.getElementById('trustBadge');
+        const businessImpact = document.getElementById('businessImpact');
+        const businessImpactText = document.getElementById('businessImpactText');
+        const resultEmail = document.getElementById('resultEmail');
+        const emailType = document.getElementById('emailType');
+        const resultDeliverable = document.getElementById('resultDeliverable');
+        const resultDisposable = document.getElementById('resultDisposable');
+        const resultDomainAge = document.getElementById('resultDomainAge');
+        const actionRow = document.getElementById('actionRow');
+        const approveBtn = document.getElementById('approveBtn');
+        const watchlistBtn = document.getElementById('watchlistBtn');
+        const blockBtn = document.getElementById('blockBtn');
+        const blockDomainBtn = document.getElementById('blockDomainBtn');
+        
+        // Check URL parameters for demo purposes
+        const urlParams = new URLSearchParams(window.location.search);
+        const emailParam = urlParams.get('email');
+        const typeParam = urlParams.get('type');
+        
+        if (emailParam) {
+            emailInput.value = emailParam;
+            
+            if (typeParam === 'valid') {
+                showValidResult();
+            } else if (typeParam === 'suspicious') {
+                showSuspiciousResult();
+            } else if (typeParam === 'disposable') {
+                showDisposableResult();
+            }
+        }
+        
+        // Event listeners
+        validateBtn.addEventListener('click', function() {
+            const email = emailInput.value.trim();
+            
+            if (!email) {
+                alert('Please enter an email address');
+                return;
+            }
+            
+            // Determine result type based on email content
+            if (email.includes('tempmail') || email.includes('mailinator') || email.includes('guerrillamail') || email.includes('yopmail')) {
+                showDisposableResult();
+            } else if (email.includes('admin') || email.includes('info') || email.includes('support') || email.includes('newdomain')) {
+                showSuspiciousResult();
+            } else {
+                showValidResult();
+            }
+        });
+        
+        // Show valid result
+        function showValidResult() {
+            resultEmail.textContent = emailInput.value || 'john.doe@example.com';
+            
+            trustBadge.innerHTML = '<i class="fas fa-shield-check"></i> High Trust';
+            trustBadge.className = 'trust-badge trust-high';
+            
+            businessImpact.className = 'business-impact safe';
+            businessImpactText.textContent = 'This appears to be a legitimate customer email with no risk factors. Safe to proceed with orders from this address.';
+            
+            emailType.textContent = 'Personal Email';
+            emailType.className = 'detail-value success';
+            
+            resultDeliverable.textContent = 'Yes';
+            resultDeliverable.className = 'detail-value success';
+            
+            resultDisposable.textContent = 'No';
+            resultDisposable.className = 'detail-value success';
+            
+            resultDomainAge.textContent = '8 years';
+            
+            // Update action buttons
+            approveBtn.style.display = 'flex';
+            approveBtn.className = 'action-btn success';
+            approveBtn.innerHTML = '<i class="fas fa-check"></i> Approve Customer';
+            
+            watchlistBtn.style.display = 'flex';
+            blockBtn.style.display = 'none';
+            blockDomainBtn.style.display = 'none';
+            
+            resultCard.style.display = 'block';
+        }
+        
+        // Show suspicious result
+        function showSuspiciousResult() {
+            resultEmail.textContent = emailInput.value || 'admin@newdomain123.com';
+            
+            trustBadge.innerHTML = '<i class="fas fa-shield-exclamation"></i> Medium Trust';
+            trustBadge.className = 'trust-badge trust-medium';
+            
+            businessImpact.className = 'business-impact caution';
+            businessImpactText.textContent = 'This email has some risk factors. It\'s a business email from a relatively new company. Consider additional verification before processing large orders.';
+            
+            emailType.textContent = 'Business Email';
+            emailType.className = 'detail-value warning';
+            
+            resultDeliverable.textContent = 'Yes';
+            resultDeliverable.className = 'detail-value success';
+            
+            resultDisposable.textContent = 'No';
+            resultDisposable.className = 'detail-value success';
+            
+            resultDomainAge.textContent = '45 days';
+            
+            // Update action buttons
+            approveBtn.style.display = 'flex';
+            approveBtn.className = 'action-btn warning';
+            approveBtn.innerHTML = '<i class="fas fa-check"></i> Approve with Caution';
+            
+            watchlistBtn.style.display = 'flex';
+            blockBtn.style.display = 'flex';
+            blockDomainBtn.style.display = 'none';
+            
+            resultCard.style.display = 'block';
+        }
+        
+        // Show disposable result
+        function showDisposableResult() {
+            resultEmail.textContent = emailInput.value || 'user123@tempmail.org';
+            
+            trustBadge.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Low Trust';
+            trustBadge.className = 'trust-badge trust-low';
+            
+            businessImpact.className = 'business-impact risky';
+            businessImpactText.textContent = 'This is a temporary email address often used for fraud. We recommend blocking this customer or requiring additional verification.';
+            
+            emailType.textContent = 'Temporary Email';
+            emailType.className = 'detail-value error';
+            
+            resultDeliverable.textContent = 'Yes';
+            resultDeliverable.className = 'detail-value success';
+            
+            resultDisposable.textContent = 'Yes';
+            resultDisposable.className = 'detail-value error';
+            
+            resultDomainAge.textContent = '3 years';
+            
+            // Update action buttons
+            approveBtn.style.display = 'flex';
+            approveBtn.className = 'action-btn danger';
+            approveBtn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Approve (High Risk)';
+            
+            watchlistBtn.style.display = 'flex';
+            blockBtn.style.display = 'flex';
+            blockDomainBtn.style.display = 'flex';
+            
+            resultCard.style.display = 'block';
+        }
+        
+        // Protection level click handler
+        const protectionOptions = document.querySelectorAll('.protection-option');
+        protectionOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                protectionOptions.forEach(opt => opt.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+        
+        // Action button handlers
+        approveBtn.addEventListener('click', function() {
+            alert('Customer approved! In a real implementation, this would mark the email as trusted.');
+        });
+        
+        watchlistBtn.addEventListener('click', function() {
+            alert('Added to watchlist! In a real implementation, this would add the email to your monitoring list.');
+        });
+        
+        blockBtn.addEventListener('click', function() {
+            alert('Email blocked! In a real implementation, this would block future orders from this email address.');
+        });
+        
+        blockDomainBtn.addEventListener('click', function() {
+            const domain = resultEmail.textContent.split('@')[1];
+            alert(`Domain ${domain} blocked! In a real implementation, this would block all emails from this domain.`);
+        });
+    </script>
+</body>
+</html>

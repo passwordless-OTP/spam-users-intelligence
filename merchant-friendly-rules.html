@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Email Protection - Rules</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4f46e5;
+            --primary-light: #eef2ff;
+            --success-color: #10b981;
+            --success-light: #ecfdf5;
+            --warning-color: #f59e0b;
+            --warning-light: #fffbeb;
+            --error-color: #ef4444;
+            --error-light: #fef2f2;
+            --neutral-color: #6b7280;
+            --neutral-light: #f9fafb;
+            --border-color: #e5e7eb;
+            --text-dark: #1f2937;
+            --text-medium: #4b5563;
+            --text-light: #6b7280;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.5;
+            color: var(--text-dark);
+            margin: 0;
+            padding: 0;
+            background-color: #f3f4f6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .dashboard-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+        
+        .dashboard-title {
+            display: flex;
+            align-items: center;
+        }
+        
+        .dashboard-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 16px;
+            font-size: 24px;
+        }
+        
+        .title-content h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin: 0 0 4px 0;
+            color: var(--text-dark);
+        }
+        
+        .title-content p {
+            font-size: 14px;
+            color: var(--text-light);
+            margin: 0;
+        }
+        
+        .dashboard-actions {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .action-btn {
+            padding: 8px 16px;
+            background-color: white;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-medium);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+        
+        .action-btn i {
+            margin-right: 8px;
+        }
+        
+        .action-btn:hover {
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .action-btn.primary {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        .action-btn.primary:hover {
+            background-color: #4338ca;
+        }
+        
+        .action-btn.danger {
+            background-color: var(--error-light);
+            color: var(--error-color);
+            border-color: var(--error-color);
+        }
+        
+        .action-btn.danger:hover {
+            background-color: var(--error-color);
+            color: white;
+        }
+        
+        .action-btn.success {
+            background-color: var(--success-light);
+            color: var(--success-color);
+            border-color: var(--success-color);
+        }
+        
+        .action-btn.success:hover {
+            background-color: var(--success-color);
+            color: white;
+        }
+        
+        .action-btn.warning {
+            background-color: var(--warning-light);
+            color: var(--warning-color);
+            border-color: var(--warning-color);
+        }
+        
+        .action-btn.warning:hover {
+            background-color: var(--warning-color);
+            color: white;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+        
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-medium);
+            margin: 0;
+        }
+        
+        .card-actions {
+            display: flex;
+            align-items: center;
+        }
+        
+        .card-action {
+            color: var(--text-light);
+            margin-left: 12px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .card-action:hover {
+            color: var(--primary-color);
+        }
+        
+        .alert-banner {
+            background-color: var(--warning-light);
+            border: 1px solid #fcd34d;
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .alert-icon {
+            color: var(--warning-color);
+            font-size: 20px;
+            margin-right: 12px;
+        }
+        
+        .alert-content {
+            flex: 1;
+        }
+        
+        .alert-title {
+            font-weight: 600;
+            margin: 0 0 4px 0;
+            color: var(--warning-color);
+        }
+        
+        .alert-message {
+            font-size: 14px;
+            margin: 0;
+            color: var(--text-medium);
+        }
+        
+        .alert-action {
+            margin-left: 16px;
+        }
+        
+        /* Navigation */
+        .main-nav {
+            display: flex;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            margin-bottom: 24px;
+            overflow: hidden;
+        }
+        
+        .nav-item {
+            padding: 16px 20px;
+            font-weight: 500;
+            color: var(--text-medium);
+            text-decoration: none;
+            position: relative;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-item i {
+            margin-right: 8px;
+        }
+        
+        .nav-item:hover {
+            color: var(--primary-color);
+            background-color: var(--primary-light);
+        }
+        
+        .nav-item.active {
+            color: var(--primary-color);
+            background-color: var(--primary-light);
+        }
+        
+        .nav-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--primary-color);
+        }
+        
+        .nav-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 18px;
+            height: 18px;
+            background-color: var(--error-color);
+            color: white;
+            border-radius: 50%;
+            font-size: 10px;
+            margin-left: 6px;
+        }
+        
+        /* Rule-specific styles */
+        .rule-card {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+            transition: all 0.2s;
+        }
+        
+        .rule-card:hover {
+            box-shadow: var(--shadow);
+        }
+        
+        .rule-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+        
+        .rule-title {
+            font-weight: 600;
+            font-size: 15px;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+        }
+        
+        .rule-title i {
+            margin-right: 8px;
+            color: var(--primary-color);
+        }
+        
+        .rule-description {
+            font-size: 13px;
+            color: var(--text-medium);
+            margin-bottom: 12px;
+        }
+        
+        .rule-stats {
+            font-size: 12px;
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+        }
+        
+        .rule-stats i {
+            margin-right: 4px;
+        }
+        
+        .rule-toggle {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+        }
+        
+        .rule-toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .rule-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--border-color);
+            transition: .4s;
+            border-radius: 24px;
+        }
+        
+        .rule-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .rule-slider {
+            background-color: var(--primary-color);
+        }
+        
+        input:checked + .rule-slider:before {
+            transform: translateX(20px);
+        }
+        
+        .rule-impact {
+            display: flex;
+            align-items: center;
+            margin-top: 8px;
+            font-size: 13px;
+            color: var(--text-medium);
+        }
+        
+        .rule-impact-bar {
+            width: 100px;
+            height: 6px;
+            background-color: var(--neutral-light);
+            border-radius: 3px;
+            margin: 0 8px;
+            overflow: hidden;
+        }
+        
+        .rule-impact-fill {
+            height: 100%;
+            background-color: var(--primary-color);
+            border-radius: 3px;
+        }
+        
+        .security-level {
+            margin-top: 24px;
+        }
+        
+        .security-level-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+        
+        .security-level-title {
+            font-weight: 600;
+            font-size: 15px;
+            color: var(--text-dark);
+        }
+        
+        .security-level-value {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--primary-color);
+        }
+        
+        .security-slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: linear-gradient(to right, var(--success-color), var(--warning-color), var(--error-color));
+            outline: none;
+        }
+        
+        .security-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            cursor: pointer;
+            border: 2px solid white;
+            box-shadow: var(--shadow);
+        }
+        
+        .security-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+            font-size: 12px;
+            color: var(--text-medium);
+        }
+        
+        /* Modal styles */
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        
+        .modal {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow-md);
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin: 0;
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 20px;
+            cursor: pointer;
+        }
+        
+        .modal-body {
+            padding: 20px;
+        }
+        
+        .modal-footer {
+            padding: 16px 20px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+        
+        /* Mockup Controls */
+        .mockup-controls {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+        }
+        
+        .controls-title {
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--text-dark);
+        }
+        
+        .controls-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        
+        .control-btn {
+            padding: 8px 12px;
+            background-color: white;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .control-btn:hover {
+            background-color: var(--neutral-light);
+            border-color: var(--text-light);
+        }
+        
+        .controls-description {
+            font-size: 13px;
+            color: var(--text-light);
+        }
+        
+        .business-impact {
+            background-color: var(--neutral-light);
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 12px;
+        }
+        
+        .business-impact-title {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+        }
+        
+        .business-impact-description {
+            font-size: 13px;
+            color: var(--text-medium);
+            margin-bottom: 0;
+        }
+        
+        .rule-template-card {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        
+        .rule-template-card:hover {
+            border-color: var(--primary-color);
+            box-shadow: var(--shadow);
+        }
+        
+        .rule-template-card.selected {
+            border-color: var(--primary-color);
+            background-color: var(--primary-light);
+        }
+        
+        .rule-template-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .rule-template-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            font-size: 20px;
+        }
+        
+        .rule-template-title {
+            font-weight: 600;
+            font-size: 15px;
+            color: var(--text-dark);
+        }
+        
+        .rule-template-description {
+            font-size: 13px;
+            color: var(--text-medium);
+            margin-bottom: 12px;
+        }
+        
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            margin-left: 4px;
+            color: var(--text-light);
+        }
+        
+        .tooltip .tooltip-text {
+            visibility: hidden;
+            width: 200px;
+            background-color: var(--text-dark);
+            color: white;
+            text-align: center;
+            border-radius: 6px;
+            padding: 8px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 12px;
+            font-weight: normal;
+        }
+        
+        .tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="dashboard-header">
+            <div class="dashboard-title">
+                <div class="dashboard-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <div class="title-content">
+                    <h1>Email Protection Rules</h1>
+                    <p>Configure and manage email verification rules to protect your business</p>
+                </div>
+            </div>
+            
+            <div class="dashboard-actions">
+                <button class="action-btn" onclick="window.location.href='merchant-friendly-dashboard.html'">
+                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+                </button>
+                <button class="action-btn primary" id="addRuleBtn">
+                    <i class="fas fa-plus"></i> Add Protection Rule
+                </button>
+            </div>
+        </div>
+        
+        <!-- Recommended Action Alert -->
+        <div class="alert-banner">
+            <div class="alert-icon">
+                <i class="fas fa-lightbulb"></i>
+            </div>
+            <div class="alert-content">
+                <h4 class="alert-title">Recommended Protection Rule</h4>
+                <p class="alert-message">We detected 5 suspicious signups from <strong>tempmail.org</strong>. Would you like to block this temporary email service?</p>
+            </div>
+            <div class="alert-action" style="display: flex; gap: 8px;">
+                <button class="action-btn success" id="applyRuleBtn">
+                    <i class="fas fa-check"></i> Apply Rule
+                </button>
+                <button class="action-btn" id="dismissRuleBtn">
+                    <i class="fas fa-times"></i> Dismiss
+                </button>
+            </div>
+        </div>
+        
+        <!-- Navigation -->
+        <div class="main-nav" style="display: flex; background-color: white; border-radius: 8px; padding: 8px; gap: 8px; box-shadow: var(--shadow); margin-bottom: 24px;">
+            <a href="merchant-friendly-dashboard.html" class="nav-item" style="flex: 1; justify-content: center; background-color: var(--neutral-light); color: var(--text-medium); border-radius: 8px; padding: 12px 16px; font-weight: 500; text-decoration: none; transition: all 0.2s; display: flex; align-items: center;">
+                <i class="fas fa-chart-bar" style="margin-right: 8px;"></i> Dashboard
+            </a>
+            <a href="merchant-friendly-rules.html" class="nav-item active" style="flex: 1; justify-content: center; background-color: var(--primary-color); color: white; border-radius: 8px; padding: 12px 16px; font-weight: 500; text-decoration: none; transition: all 0.2s; display: flex; align-items: center;">
+                <i class="fas fa-shield-alt" style="margin-right: 8px;"></i> Protection Rules <span class="nav-badge" style="display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; background-color: var(--error-color); color: white; border-radius: 50%; font-size: 10px; margin-left: 6px;">3</span>
+            </a>
+            <a href="email-settings.html" class="nav-item" style="flex: 1; justify-content: center; background-color: var(--neutral-light); color: var(--text-medium); border-radius: 8px; padding: 12px 16px; font-weight: 500; text-decoration: none; transition: all 0.2s; display: flex; align-items: center;">
+                <i class="fas fa-cog" style="margin-right: 8px;"></i> Settings
+            </a>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Protection Level</h3>
+                <div class="tooltip">
+                    <i class="fas fa-info-circle"></i>
+                    <span class="tooltip-text">Adjust the protection level to automatically configure all rules. Higher protection may block more legitimate emails.</span>
+                </div>
+            </div>
+            
+            <!-- Protection Level Slider -->
+            <div class="security-level">
+                <div class="security-level-header">
+                    <div class="security-level-title">Current Protection Level</div>
+                    <div class="security-level-value">Standard</div>
+                </div>
+                <input type="range" min="1" max="3" value="2" class="security-slider" id="securityLevel" aria-label="Protection Level">
+                <div class="security-labels">
+                    <span>Basic</span>
+                    <span>Standard</span>
+                    <span>Premium</span>
+                </div>
+                <div style="font-size: 13px; color: var(--text-medium); margin-top: 8px;">
+                    <ul style="padding-left: 20px; margin-top: 8px;">
+                        <li><strong>Basic:</strong> Blocks only the most obvious fraud attempts</li>
+                        <li><strong>Standard:</strong> Balanced protection that minimizes false positives</li>
+                        <li><strong>Premium:</strong> Maximum protection with more thorough checks</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Active Protection Rules</h3>
+                <div class="card-actions">
+                    <button class="action-btn primary" id="addRuleBtn2">
+                        <i class="fas fa-plus"></i> Add Rule
+                    </button>
+                </div>
+            </div>
+            
+            <div style="margin-top: 16px;">
+                <div class="rule-card">
+                    <div class="rule-header">
+                        <div class="rule-title">
+                            <i class="fas fa-ban"></i> Block Temporary Email Services
+                        </div>
+                        <label class="rule-toggle">
+                            <input type="checkbox" checked aria-label="Toggle Block Temporary Email Services" id="disposableDomains">
+                            <span class="rule-slider"></span>
+                        </label>
+                    </div>
+                    <div class="rule-description">
+                        Automatically blocks signups from known temporary email providers that are commonly used for fraud.
+                    </div>
+                    <div class="business-impact">
+                        <div class="business-impact-title">Why This Matters</div>
+                        <div class="business-impact-description">
+                            Temporary email services are often used to create fraudulent accounts. Blocking these services can reduce chargebacks and fake orders.
+                        </div>
+                    </div>
+                    <div class="rule-impact">
+                        <span>Business Impact:</span>
+                        <div class="rule-impact-bar">
+                            <div class="rule-impact-fill" style="width: 40%;"></div>
+                        </div>
+                        <span>Blocked 32 potential fraud attempts in the last 7 days</span>
+                    </div>
+                </div>
+                
+                <div class="rule-card">
+                    <div class="rule-header">
+                        <div class="rule-title">
+                            <i class="fas fa-user-shield"></i> Block Generic Business Emails
+                        </div>
+                        <label class="rule-toggle">
+                            <input type="checkbox" checked aria-label="Toggle Block Generic Business Emails" id="roleBased">
+                            <span class="rule-slider"></span>
+                        </label>
+                    </div>
+                    <div class="rule-description">
+                        Blocks common generic email addresses like admin@, info@, support@, etc. that are rarely used by legitimate customers.
+                    </div>
+                    <div class="business-impact">
+                        <div class="business-impact-title">Why This Matters</div>
+                        <div class="business-impact-description">
+                            Generic business emails are often shared by multiple people and can be used to hide a person's identity. Personal emails are more traceable.
+                        </div>
+                    </div>
+                    <div class="rule-impact">
+                        <span>Business Impact:</span>
+                        <div class="rule-impact-bar">
+                            <div class="rule-impact-fill" style="width: 25%;"></div>
+                        </div>
+                        <span>Blocked 18 potential fraud attempts in the last 7 days</span>
+                    </div>
+                </div>
+                
+                <div class="rule-card">
+                    <div class="rule-header">
+                        <div class="rule-title">
+                            <i class="fas fa-exclamation-triangle"></i> Flag Recently Created Websites
+                        </div>
+                        <label class="rule-toggle">
+                            <input type="checkbox" checked aria-label="Toggle Flag Recently Created Websites" id="newDomains">
+                            <span class="rule-slider"></span>
+                        </label>
+                    </div>
+                    <div class="rule-description">
+                        Flags emails from domains registered in the last 30 days for your review before processing orders.
+                    </div>
+                    <div class="business-impact">
+                        <div class="business-impact-title">Why This Matters</div>
+                        <div class="business-impact-description">
+                            Fraudsters often create new domains for temporary use. Legitimate customers typically use established email services.
+                        </div>
+                    </div>
+                    <div class="rule-impact">
+                        <span>Business Impact:</span>
+                        <div class="rule-impact-bar">
+                            <div class="rule-impact-fill" style="width: 15%;"></div>
+                        </div>
+                        <span>Flagged 12 suspicious orders for review in the last 7 days</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 24px;">
+                <div style="font-weight: 600; margin-bottom: 12px; font-size: 15px;">Recommended Rules</div>
+                
+                <div class="rule-card" id="sequentialNumbersAvailable">
+                    <div class="rule-header">
+                        <div class="rule-title">
+                            <i class="fas fa-hashtag"></i> Block Sequential Number Patterns
+                        </div>
+                        <button class="action-btn" id="createSequentialRule">Add This Rule</button>
+                    </div>
+                    <div class="rule-description">
+                        Blocks email addresses with sequential number patterns that are often used in automated fraud attempts.
+                    </div>
+                    <div class="business-impact">
+                        <div class="business-impact-title">Why This Matters</div>
+                        <div class="business-impact-description">
+                            Emails with sequential numbers (like user123, user124, user125) are often created in bulk by bots for fraudulent purposes.
+                        </div>
+                    </div>
+                    <div class="rule-impact">
+                        <span>Estimated Impact:</span>
+                        <div class="rule-impact-bar">
+                            <div class="rule-impact-fill" style="width: 12%;"></div>
+                        </div>
+                        <span>Would block approximately 10 fraud attempts per week</span>
+                    </div>
+                </div>
+                
+                <div class="rule-card" id="missingAuthenticationAvailable">
+                    <div class="rule-header">
+                        <div class="rule-title">
+                            <i class="fas fa-lock"></i> Flag Emails Missing Authentication
+                        </div>
+                        <button class="action-btn" id="createAuth
