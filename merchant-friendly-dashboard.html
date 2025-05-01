@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Customer Email Protection - Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="merchant/merchant-theme.css">
+    <link rel="stylesheet" href="./merchant/merchant-theme.css">
     <!--
       Production-Grade Merchant Dashboard
       This file is production-ready and intended for customer/partner demos.
@@ -1024,4 +1024,29 @@
                     <div class="card-header">
                         <h3 class="card-title">Time Saved</h3>
                         <div class="tooltip">
-                            <i class="fas
+                            <i class="fas fa-info-circle"></i>
+                            <span class="tooltip-text">
+                                Estimated hours saved by automating fraud detection and prevention.
+                            </span>
+                        </div>
+                    </div>
+                    <div class="business-impact-value">
+                        <i class="fas fa-clock icon-blue"></i> 6.5 hrs
+                        <span class="trend-up"><i class="fas fa-arrow-up"></i> 8%</span>
+                    </div>
+                    <div class="business-impact-description">
+                        Manual review time saved in the last 7 days
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chart.js for data visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+    <!-- Local chart initialization script -->
+    <script src="./chart.js"></script>
+    <!-- Mock actions for demo interactivity -->
+    <script src="./mock-actions.js"></script>
+</body>
+</html>
