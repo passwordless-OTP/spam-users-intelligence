@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <!-- External CSS -->
     <link rel="stylesheet" href="merchant/merchant-theme.css">
+    <link rel="stylesheet" href="merchant/merchant-dashboard.css">
     <!-- Critical inline CSS -->
     <style>
         :root {
@@ -529,19 +530,19 @@
         </div>
         
         <!-- Recommended Action Alert -->
-        <div class="card" style="margin-bottom: 24px; border-left: 4px solid var(--warning-color);">
-            <div style="display: flex; align-items: flex-start;">
-                <div style="background-color: var(--warning-light); color: var(--warning-color); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 16px;">
+        <div class="card card-mb card-warning">
+            <div class="alert-container">
+                <div class="alert-icon">
                     <i class="fas fa-lightbulb"></i>
                 </div>
                 <div>
-                    <h4 style="margin: 0 0 8px 0; font-size: 16px;">Recommended Action: Block Temporary Email Service</h4>
-                    <p style="margin: 0 0 16px 0; font-size: 14px;">We've detected 5 suspicious signups from <strong>tempmail.org</strong> in the last 24 hours. These are likely fraudulent accounts.</p>
+                    <h4 class="alert-heading">Recommended Action: Block Temporary Email Service</h4>
+                    <p class="alert-text">We've detected 5 suspicious signups from <strong>tempmail.org</strong> in the last 24 hours. These are likely fraudulent accounts.</p>
                     <div>
-                        <button class="action-btn" style="background-color: var(--success-color); color: white; border-color: var(--success-color);">
+                        <button class="action-btn btn-success">
                             <i class="fas fa-check"></i> Block This Service
                         </button>
-                        <button class="action-btn" style="margin-left: 8px;">
+                        <button class="action-btn btn-space-left">
                             <i class="fas fa-times"></i> Dismiss
                         </button>
                     </div>
@@ -550,103 +551,103 @@
         </div>
         
         <!-- Business Impact Cards -->
-        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; margin-bottom: 24px;">
+        <div class="card-grid">
             <div class="card">
-                <h3 style="margin: 0 0 16px 0; font-size: 16px; display: flex; align-items: center; justify-content: space-between;">
+                <h3 class="card-header-flex">
                     Fraud Prevention Value
-                    <i class="fas fa-info-circle" style="color: var(--text-light); font-size: 14px;"></i>
+                    <i class="fas fa-info-circle info-icon"></i>
                 </h3>
-                <div style="display: flex; align-items: center; margin-bottom: 8px;">
-                    <i class="fas fa-shield-alt" style="color: var(--success-color); font-size: 24px; margin-right: 12px;"></i>
-                    <span style="font-size: 24px; font-weight: 600;">$2,860</span>
-                    <span style="color: var(--success-color); margin-left: 12px; font-size: 14px;">
+                <div class="metric-container">
+                    <i class="fas fa-shield-alt metric-icon metric-icon-success"></i>
+                    <span class="metric-value">$2,860</span>
+                    <span class="metric-trend trend-success">
                         <i class="fas fa-arrow-up"></i> 15%
                     </span>
                 </div>
-                <p style="margin: 0; font-size: 14px;">Estimated fraud prevented in the last 7 days</p>
+                <p class="metric-label">Estimated fraud prevented in the last 7 days</p>
             </div>
             
             <div class="card">
-                <h3 style="margin: 0 0 16px 0; font-size: 16px; display: flex; align-items: center; justify-content: space-between;">
+                <h3 class="card-header-flex">
                     Blocked Signups
-                    <i class="fas fa-info-circle" style="color: var(--text-light); font-size: 14px;"></i>
+                    <i class="fas fa-info-circle info-icon"></i>
                 </h3>
-                <div style="display: flex; align-items: center; margin-bottom: 8px;">
-                    <i class="fas fa-user-shield" style="color: var(--primary-color); font-size: 24px; margin-right: 12px;"></i>
-                    <span style="font-size: 24px; font-weight: 600;">114</span>
-                    <span style="color: var(--primary-color); margin-left: 12px; font-size: 14px;">
+                <div class="metric-container">
+                    <i class="fas fa-user-shield metric-icon metric-icon-primary"></i>
+                    <span class="metric-value">114</span>
+                    <span class="metric-trend trend-primary">
                         <i class="fas fa-arrow-up"></i> 21%
                     </span>
                 </div>
-                <p style="margin: 0; font-size: 14px;">Suspicious signups blocked automatically</p>
+                <p class="metric-label">Suspicious signups blocked automatically</p>
             </div>
             
             <div class="card">
-                <h3 style="margin: 0 0 16px 0; font-size: 16px; display: flex; align-items: center; justify-content: space-between;">
+                <h3 class="card-header-flex">
                     Time Saved
-                    <i class="fas fa-info-circle" style="color: var(--text-light); font-size: 14px;"></i>
+                    <i class="fas fa-info-circle info-icon"></i>
                 </h3>
-                <div style="display: flex; align-items: center; margin-bottom: 8px;">
-                    <i class="fas fa-clock" style="color: var(--primary-color); font-size: 24px; margin-right: 12px;"></i>
-                    <span style="font-size: 24px; font-weight: 600;">6.5 hrs</span>
-                    <span style="color: var(--success-color); margin-left: 12px; font-size: 14px;">
+                <div class="metric-container">
+                    <i class="fas fa-clock metric-icon metric-icon-primary"></i>
+                    <span class="metric-value">6.5 hrs</span>
+                    <span class="metric-trend trend-success">
                         <i class="fas fa-arrow-up"></i> 8%
                     </span>
                 </div>
-                <p style="margin: 0; font-size: 14px;">Manual review time saved in the last 7 days</p>
+                <p class="metric-label">Manual review time saved in the last 7 days</p>
             </div>
         </div>
         
         <!-- Blocked Signups Trend Chart -->
-        <div class="card" style="margin-bottom: 24px;">
-            <h3 style="margin: 0 0 16px 0; font-size: 16px; display: flex; align-items: center; justify-content: space-between;">
+        <div class="card card-mb">
+            <h3 class="card-header-flex">
                 Blocked Signups Trend
-                <i class="fas fa-info-circle" style="color: var(--text-light); font-size: 14px;"></i>
+                <i class="fas fa-info-circle info-icon"></i>
             </h3>
-            <div style="height: 300px; border-radius: 8px;">
-                <canvas id="blockedSignupsChart" style="width: 100%; height: 100%;"></canvas>
+            <div class="chart-container">
+                <canvas id="blockedSignupsChart" class="chart-canvas"></canvas>
             </div>
         </div>
         
         <!-- Top Blocked Domains Table -->
         <div class="card">
-            <h3 style="margin: 0 0 16px 0; font-size: 16px; display: flex; align-items: center; justify-content: space-between;">
+            <h3 class="card-header-flex">
                 Top 5 Blocked Domains/Providers
-                <i class="fas fa-info-circle" style="color: var(--text-light); font-size: 14px;"></i>
+                <i class="fas fa-info-circle info-icon"></i>
             </h3>
-            <table style="width: 100%; border-collapse: collapse;">
+            <table class="data-table">
                 <thead>
-                    <tr style="border-bottom: 1px solid var(--border-color);">
-                        <th style="text-align: left; padding: 8px 16px 8px 0; font-weight: 500;">Domain/Provider</th>
-                        <th style="text-align: left; padding: 8px 16px; font-weight: 500;">Blocked Signups</th>
-                        <th style="text-align: left; padding: 8px 0 8px 16px; font-weight: 500;">Type</th>
+                    <tr class="table-row-border">
+                        <th class="table-header th-left">Domain/Provider</th>
+                        <th class="table-header th-middle">Blocked Signups</th>
+                        <th class="table-header th-right">Type</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr style="border-bottom: 1px solid var(--border-color);">
-                        <td style="padding: 8px 16px 8px 0;">tempmail.org</td>
-                        <td style="padding: 8px 16px;">23</td>
-                        <td style="padding: 8px 0 8px 16px;">Disposable Email</td>
+                    <tr class="table-row-border">
+                        <td class="td-left">tempmail.org</td>
+                        <td class="td-middle">23</td>
+                        <td class="td-right">Disposable Email</td>
                     </tr>
-                    <tr style="border-bottom: 1px solid var(--border-color);">
-                        <td style="padding: 8px 16px 8px 0;">mailinator.com</td>
-                        <td style="padding: 8px 16px;">15</td>
-                        <td style="padding: 8px 0 8px 16px;">Disposable Email</td>
+                    <tr class="table-row-border">
+                        <td class="td-left">mailinator.com</td>
+                        <td class="td-middle">15</td>
+                        <td class="td-right">Disposable Email</td>
                     </tr>
-                    <tr style="border-bottom: 1px solid var(--border-color);">
-                        <td style="padding: 8px 16px 8px 0;">10minutemail.com</td>
-                        <td style="padding: 8px 16px;">12</td>
-                        <td style="padding: 8px 0 8px 16px;">Disposable Email</td>
+                    <tr class="table-row-border">
+                        <td class="td-left">10minutemail.com</td>
+                        <td class="td-middle">12</td>
+                        <td class="td-right">Disposable Email</td>
                     </tr>
-                    <tr style="border-bottom: 1px solid var(--border-color);">
-                        <td style="padding: 8px 16px 8px 0;">yopmail.com</td>
-                        <td style="padding: 8px 16px;">9</td>
-                        <td style="padding: 8px 0 8px 16px;">Disposable Email</td>
+                    <tr class="table-row-border">
+                        <td class="td-left">yopmail.com</td>
+                        <td class="td-middle">9</td>
+                        <td class="td-right">Disposable Email</td>
                     </tr>
                     <tr>
-                        <td style="padding: 8px 16px 8px 0;">catchall.xyz</td>
-                        <td style="padding: 8px 16px;">7</td>
-                        <td style="padding: 8px 0 8px 16px;">Catch-all Domain</td>
+                        <td class="td-left">catchall.xyz</td>
+                        <td class="td-middle">7</td>
+                        <td class="td-right">Catch-all Domain</td>
                     </tr>
                 </tbody>
             </table>

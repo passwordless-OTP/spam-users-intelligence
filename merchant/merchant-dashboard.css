@@ -1,0 +1,165 @@
+/* 
+ * Merchant Dashboard Specific Styles
+ * This file contains styles specific to the merchant dashboard page
+ */
+
+/* Card Layouts */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+.card-mb {
+    margin-bottom: 24px;
+}
+
+.card-warning {
+    border-left: 4px solid var(--warning-color);
+}
+
+/* Alert Section */
+.alert-container {
+    display: flex;
+    align-items: flex-start;
+}
+
+.alert-icon {
+    background-color: var(--warning-light);
+    color: var(--warning-color);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 16px;
+}
+
+.alert-heading {
+    margin: 0 0 8px 0;
+    font-size: 16px;
+}
+
+.alert-text {
+    margin: 0 0 16px 0;
+    font-size: 14px;
+}
+
+.btn-success {
+    background-color: var(--success-color);
+    color: white;
+    border-color: var(--success-color);
+}
+
+.btn-space-left {
+    margin-left: 8px;
+}
+
+/* Card Headers */
+.card-header-flex {
+    margin: 0 0 16px 0;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.info-icon {
+    color: var(--text-light);
+    font-size: 14px;
+}
+
+/* Metric Displays */
+.metric-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.metric-icon {
+    font-size: 24px;
+    margin-right: 12px;
+}
+
+.metric-icon-success {
+    color: var(--success-color);
+}
+
+.metric-icon-primary {
+    color: var(--primary-color);
+}
+
+.metric-value {
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.metric-trend {
+    margin-left: 12px;
+    font-size: 14px;
+}
+
+.trend-success {
+    color: var(--success-color);
+}
+
+.trend-primary {
+    color: var(--primary-color);
+}
+
+.metric-label {
+    margin: 0;
+    font-size: 14px;
+}
+
+/* Chart Container */
+.chart-container {
+    height: 300px;
+    border-radius: 8px;
+}
+
+.chart-canvas {
+    width: 100%;
+    height: 100%;
+}
+
+/* Table Styles */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table-row-border {
+    border-bottom: 1px solid var(--border-color);
+}
+
+.table-header {
+    text-align: left;
+    font-weight: 500;
+}
+
+.th-left {
+    padding: 8px 16px 8px 0;
+}
+
+.th-middle {
+    padding: 8px 16px;
+}
+
+.th-right {
+    padding: 8px 0 8px 16px;
+}
+
+.td-left {
+    padding: 8px 16px 8px 0;
+}
+
+.td-middle {
+    padding: 8px 16px;
+}
+
+.td-right {
+    padding: 8px 0 8px 16px;
+}
