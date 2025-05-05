@@ -1,0 +1,242 @@
+/* Email Lookup Styles */
+
+/* Recent Lookups Section */
+.recent-lookups {
+    margin-bottom: 24px;
+}
+
+.section-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: var(--text-dark);
+}
+
+.lookup-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.lookup-chip {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    border-radius: 16px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: var(--shadow-sm);
+}
+
+.lookup-chip:hover {
+    box-shadow: var(--shadow);
+    transform: translateY(-1px);
+}
+
+.lookup-chip.high-trust {
+    background-color: var(--success-light);
+    border: 1px solid var(--success-color);
+}
+
+.lookup-chip.medium-trust {
+    background-color: var(--warning-light);
+    border: 1px solid var(--warning-color);
+}
+
+.lookup-chip.low-trust {
+    background-color: var(--error-light);
+    border: 1px solid var(--error-color);
+}
+
+.chip-email {
+    margin-right: 8px;
+}
+
+.chip-badge {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 12px;
+}
+
+.high-trust .chip-badge {
+    background-color: var(--success-color);
+    color: white;
+}
+
+.medium-trust .chip-badge {
+    background-color: var(--warning-color);
+    color: white;
+}
+
+.low-trust .chip-badge {
+    background-color: var(--error-color);
+    color: white;
+}
+
+/* Loading Indicator */
+.loading-indicator {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    background-color: var(--neutral-light);
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+.loading-spinner {
+    width: 36px;
+    height: 36px;
+    border: 3px solid rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    border-top-color: var(--primary-color);
+    animation: spin 1s ease-in-out infinite;
+    margin-right: 16px;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.loading-text {
+    flex: 1;
+}
+
+.loading-title {
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--text-dark);
+}
+
+.loading-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.loading-step {
+    font-size: 14px;
+    color: var(--text-light);
+}
+
+.loading-step.active {
+    color: var(--primary-color);
+    font-weight: 500;
+}
+
+/* Technical Details Panel */
+.technical-details {
+    margin-top: 24px;
+    border-top: 1px solid var(--border-color);
+    padding-top: 16px;
+}
+
+.details-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 8px;
+    background: none;
+    border: none;
+    font-size: 14px;
+    color: var(--text-medium);
+    cursor: pointer;
+}
+
+.details-toggle:hover {
+    color: var(--primary-color);
+}
+
+.api-response-panel {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}
+
+.api-response-panel.expanded {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.api-response-container {
+    background-color: #1e1e1e;
+    border-radius: 8px;
+    margin-top: 12px;
+    overflow: hidden;
+}
+
+.api-response-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    background-color: #333;
+    color: white;
+    font-size: 12px;
+}
+
+.api-response-content {
+    padding: 12px;
+    overflow-x: auto;
+}
+
+pre.api-json {
+    margin: 0;
+    color: #f8f8f2;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+/* Toast Notification */
+.toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    pointer-events: none;
+}
+
+.toast.show {
+    opacity: 1;
+}
+
+/* Initial state for elements that should be hidden */
+#loadingIndicator {
+    display: none;
+}
+
+#resultCard {
+    display: none;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .lookup-chips {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .loading-indicator {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .loading-spinner {
+        margin-right: 0;
+        margin-bottom: 16px;
+    }
+}

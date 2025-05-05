@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Customer Email Check - Merchant View</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="merchant/merchant-email-lookup.css">
     <style>
         :root {
             --primary-color: #4f46e5;
@@ -486,20 +487,70 @@
             </div>
             
             <div class="header-actions">
-                <a href="email-dashboard-tabbed.html" class="action-btn">
-                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+                <a href="index.html" class="action-btn">
+                    <i class="fas fa-arrow-left"></i> Back to Home
+                </a>
+                <a href="merchant-friendly-dashboard.html" class="action-btn">
+                    <i class="fas fa-chart-line"></i> View Dashboard
+                </a>
+                <a href="merchant-friendly-rules.html" class="action-btn">
+                    <i class="fas fa-shield-alt"></i> Manage Rules
                 </a>
             </div>
         </div>
         
+        <!-- Recent Lookups Section -->
+        <div class="recent-lookups">
+            <h2 class="section-title">Recent Lookups</h2>
+            <div class="lookup-chips">
+                <div class="lookup-chip high-trust" onclick="lookupEmail('john.doe@gmail.com')">
+                    <span class="chip-email">john.doe@gmail.com</span>
+                    <span class="chip-badge">High</span>
+                </div>
+                <div class="lookup-chip medium-trust" onclick="lookupEmail('admin@newdomain.com')">
+                    <span class="chip-email">admin@newdomain.com</span>
+                    <span class="chip-badge">Medium</span>
+                </div>
+                <div class="lookup-chip low-trust" onclick="lookupEmail('test@mailinator.com')">
+                    <span class="chip-email">test@mailinator.com</span>
+                    <span class="chip-badge">Low</span>
+                </div>
+                <div class="lookup-chip high-trust" onclick="lookupEmail('sarah.johnson@company.com')">
+                    <span class="chip-email">sarah.johnson@company.com</span>
+                    <span class="chip-badge">High</span>
+                </div>
+            </div>
+        </div>
+        </div>
+        
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Check Customer Email</h3>
+                <h2>Verify Email Address</h2>
+                <p>Check if an email is valid, deliverable, and safe to accept</p>
             </div>
-            
-            <div class="form-group">
-                <label for="email" class="form-label">Email Address</label>
-                <input type="email" id="email" class="form-input" placeholder="Enter customer email address to check" value="">
+            <div class="card-body">
+                <div class="form-group">
+                    <label for="email" class="form-label">Email Address</label>
+                    <div class="input-group">
+                        <input type="email" id="email" class="form-input" placeholder="Enter customer email address">
+                        <button id="validateBtn" class="btn-primary">Verify Email</button>
+                    </div>
+                </div>
+                
+                <!-- Loading Indicator -->
+                <div id="loadingIndicator" class="loading-indicator">
+                    <div class="loading-spinner"></div>
+                    <div class="loading-text">
+                        <div class="loading-title">Analyzing Email...</div>
+                        <div class="loading-steps">
+                            <div class="loading-step">✓ Checking email format</div>
+                            <div class="loading-step">✓ Verifying domain</div>
+                            <div class="loading-step active">Checking MX records</div>
+                            <div class="loading-step">Analyzing risk factors</div>
+                            <div class="loading-step">Generating recommendation</div>
+                        </div>
+                    </div>
+                </div>
             </div>
             
             <div class="form-group">
@@ -511,12 +562,12 @@
                 </div>
             </div>
             
-            <button id="validateBtn" class="action-btn primary">
+            <button id="validateBtnSecondary" class="action-btn primary">
                 <i class="fas fa-shield-alt"></i> Check Email
             </button>
         </div>
         
-        <div id="resultCard" class="card" style="display: none;">
+        <div id="resultCard" class="card">
             <div class="card-header">
                 <h3 class="card-title">Email Check Results</h3>
             </div>
@@ -544,6 +595,48 @@
                 <button class="action-btn" id="blockDomainBtn" style="display: none;">
                     <i class="fas fa-ban"></i> Block Domain
                 </button>
+            </div>
+            
+            <!-- Technical Details Panel -->
+            <div class="technical-details">
+                <button id="apiResponseToggle" class="details-toggle">
+                    <i class="fas fa-chevron-down"></i> Show Technical Details
+                </button>
+                <div id="apiResponsePanel" class="api-response-panel">
+                    <div class="api-response-container">
+                        <div class="api-response-header">
+                            <span>API Response</span>
+                            <span>Email Verification API v2.0</span>
+                        </div>
+                        <div class="api-response-content">
+                            <pre id="apiResponseJson" class="api-json">{
+  "email": "john.doe@gmail.com",
+  "is_valid_format": true,
+  "is_deliverable": true,
+  "is_disposable": false,
+  "is_role_account": false,
+  "risk_score": 10,
+  "domain": {
+    "name": "gmail.com",
+    "age_days": 6570,
+    "has_mx_records": true,
+    "is_free_provider": true
+  },
+  "breach_data": {
+    "found_in_breach": false,
+    "breach_count": 0,
+    "last_breach_date": null
+  },
+  "analysis": {
+    "suspicious_patterns_detected": false,
+    "recommendation": "APPROVE",
+    "category": "VALID",
+    "processed_at": "2025-05-05T05:51:39-07:00"
+  }
+}</pre>
+                        </div>
+                    </div>
+                </div>
             </div>
             
             <div class="result-details">
@@ -586,186 +679,102 @@
         </div>
     </div>
     
+    <!-- Enhanced Email Lookup Script -->
+    <script src="email-lookup-enhanced.js"></script>
+    
+    <!-- Global function for recent lookups -->
     <script>
-        // DOM elements
-        const emailInput = document.getElementById('email');
-        const validateBtn = document.getElementById('validateBtn');
-        const resultCard = document.getElementById('resultCard');
-        const trustBadge = document.getElementById('trustBadge');
-        const businessImpact = document.getElementById('businessImpact');
-        const businessImpactText = document.getElementById('businessImpactText');
-        const resultEmail = document.getElementById('resultEmail');
-        const emailType = document.getElementById('emailType');
-        const resultDeliverable = document.getElementById('resultDeliverable');
-        const resultDisposable = document.getElementById('resultDisposable');
-        const resultDomainAge = document.getElementById('resultDomainAge');
-        const actionRow = document.getElementById('actionRow');
-        const approveBtn = document.getElementById('approveBtn');
-        const watchlistBtn = document.getElementById('watchlistBtn');
-        const blockBtn = document.getElementById('blockBtn');
-        const blockDomainBtn = document.getElementById('blockDomainBtn');
-        
-        // Check URL parameters for demo purposes
-        const urlParams = new URLSearchParams(window.location.search);
-        const emailParam = urlParams.get('email');
-        const typeParam = urlParams.get('type');
-        
-        if (emailParam) {
-            emailInput.value = emailParam;
+        // Expose the lookup function globally
+        function lookupEmail(emailAddress) {
+            // Set the email value
+            const emailInput = document.getElementById('email');
+            emailInput.value = emailAddress;
             
-            if (typeParam === 'valid') {
-                showValidResult();
-            } else if (typeParam === 'suspicious') {
-                showSuspiciousResult();
-            } else if (typeParam === 'disposable') {
-                showDisposableResult();
-            }
-        }
-        
-        // Event listeners
-        validateBtn.addEventListener('click', function() {
-            const email = emailInput.value.trim();
-            
-            if (!email) {
-                alert('Please enter an email address');
-                return;
-            }
-            
-            // Determine result type based on email content
-            if (email.includes('tempmail') || email.includes('mailinator') || email.includes('guerrillamail') || email.includes('yopmail')) {
-                showDisposableResult();
-            } else if (email.includes('admin') || email.includes('info') || email.includes('support') || email.includes('newdomain')) {
-                showSuspiciousResult();
+            // Get the validateBtn and trigger it
+            const validateBtn = document.getElementById('validateBtn');
+            if (validateBtn) {
+                validateBtn.click();
             } else {
-                showValidResult();
+                // Fallback if validateBtn is not found
+                const loadingIndicator = document.getElementById('loadingIndicator');
+                const resultCard = document.getElementById('resultCard');
+                
+                if (loadingIndicator) {
+                    loadingIndicator.style.display = 'flex';
+                }
+                if (resultCard) {
+                    resultCard.style.display = 'none';
+                }
+                
+                setTimeout(() => {
+                    processEmailValidation(emailAddress);
+                }, 1500);
             }
-        });
-        
-        // Show valid result
-        function showValidResult() {
-            resultEmail.textContent = emailInput.value || 'john.doe@example.com';
-            
-            trustBadge.innerHTML = '<i class="fas fa-shield-check"></i> High Trust';
-            trustBadge.className = 'trust-badge trust-high';
-            
-            businessImpact.className = 'business-impact safe';
-            businessImpactText.textContent = 'This appears to be a legitimate customer email with no risk factors. Safe to proceed with orders from this address.';
-            
-            emailType.textContent = 'Personal Email';
-            emailType.className = 'detail-value success';
-            
-            resultDeliverable.textContent = 'Yes';
-            resultDeliverable.className = 'detail-value success';
-            
-            resultDisposable.textContent = 'No';
-            resultDisposable.className = 'detail-value success';
-            
-            resultDomainAge.textContent = '8 years';
-            
-            // Update action buttons
-            approveBtn.style.display = 'flex';
-            approveBtn.className = 'action-btn success';
-            approveBtn.innerHTML = '<i class="fas fa-check"></i> Approve Customer';
-            
-            watchlistBtn.style.display = 'flex';
-            blockBtn.style.display = 'none';
-            blockDomainBtn.style.display = 'none';
-            
-            resultCard.style.display = 'block';
         }
-        
-        // Show suspicious result
-        function showSuspiciousResult() {
-            resultEmail.textContent = emailInput.value || 'admin@newdomain123.com';
+    </script>
+    
+    <script>
+        // Initialize secondary button
+        document.addEventListener('DOMContentLoaded', function() {
+            const validateBtnSecondary = document.getElementById('validateBtnSecondary');
+            if (validateBtnSecondary) {
+                validateBtnSecondary.addEventListener('click', validateEmail);
+            }
             
-            trustBadge.innerHTML = '<i class="fas fa-shield-exclamation"></i> Medium Trust';
-            trustBadge.className = 'trust-badge trust-medium';
+            // Hide loading indicator and result card initially
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            const resultCard = document.getElementById('resultCard');
             
-            businessImpact.className = 'business-impact caution';
-            businessImpactText.textContent = 'This email has some risk factors. It\'s a business email from a relatively new company. Consider additional verification before processing large orders.';
+            if (loadingIndicator) {
+                loadingIndicator.style.display = 'none';
+            }
             
-            emailType.textContent = 'Business Email';
-            emailType.className = 'detail-value warning';
+            if (resultCard) {
+                resultCard.style.display = 'none';
+            }
             
-            resultDeliverable.textContent = 'Yes';
-            resultDeliverable.className = 'detail-value success';
+            // Protection level click handler
+            const protectionOptions = document.querySelectorAll('.protection-option');
+            protectionOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    protectionOptions.forEach(opt => opt.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
             
-            resultDisposable.textContent = 'No';
-            resultDisposable.className = 'detail-value success';
-            
-            resultDomainAge.textContent = '45 days';
-            
-            // Update action buttons
-            approveBtn.style.display = 'flex';
-            approveBtn.className = 'action-btn warning';
-            approveBtn.innerHTML = '<i class="fas fa-check"></i> Approve with Caution';
-            
-            watchlistBtn.style.display = 'flex';
-            blockBtn.style.display = 'flex';
-            blockDomainBtn.style.display = 'none';
-            
-            resultCard.style.display = 'block';
-        }
-        
-        // Show disposable result
-        function showDisposableResult() {
-            resultEmail.textContent = emailInput.value || 'user123@tempmail.org';
-            
-            trustBadge.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Low Trust';
-            trustBadge.className = 'trust-badge trust-low';
-            
-            businessImpact.className = 'business-impact risky';
-            businessImpactText.textContent = 'This is a temporary email address often used for fraud. We recommend blocking this customer or requiring additional verification.';
-            
-            emailType.textContent = 'Temporary Email';
-            emailType.className = 'detail-value error';
-            
-            resultDeliverable.textContent = 'Yes';
-            resultDeliverable.className = 'detail-value success';
-            
-            resultDisposable.textContent = 'Yes';
-            resultDisposable.className = 'detail-value error';
-            
-            resultDomainAge.textContent = '3 years';
-            
-            // Update action buttons
-            approveBtn.style.display = 'flex';
-            approveBtn.className = 'action-btn danger';
-            approveBtn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Approve (High Risk)';
-            
-            watchlistBtn.style.display = 'flex';
-            blockBtn.style.display = 'flex';
-            blockDomainBtn.style.display = 'flex';
-            
-            resultCard.style.display = 'block';
-        }
-        
-        // Protection level click handler
-        const protectionOptions = document.querySelectorAll('.protection-option');
-        protectionOptions.forEach(option => {
-            option.addEventListener('click', function() {
-                protectionOptions.forEach(opt => opt.classList.remove('active'));
-                this.classList.add('active');
+            // Action button handlers
+            const actionButtons = document.querySelectorAll('.action-row button');
+            actionButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const action = this.textContent.trim();
+                    const email = document.getElementById('resultEmail').textContent;
+                    
+                    // Show feedback toast
+                    showToast(`${action} action applied to ${email}`);
+                });
             });
         });
         
-        // Action button handlers
-        approveBtn.addEventListener('click', function() {
-            alert('Customer approved! In a real implementation, this would mark the email as trusted.');
-        });
-        
-        watchlistBtn.addEventListener('click', function() {
-            alert('Added to watchlist! In a real implementation, this would add the email to your monitoring list.');
-        });
-        
-        blockBtn.addEventListener('click', function() {
-            alert('Email blocked! In a real implementation, this would block future orders from this email address.');
-        });
-        
-        blockDomainBtn.addEventListener('click', function() {
-            const domain = resultEmail.textContent.split('@')[1];
-            alert(`Domain ${domain} blocked! In a real implementation, this would block all emails from this domain.`);
-        });
+        // Toast notification function
+        function showToast(message) {
+            // Create toast element if it doesn't exist
+            let toast = document.getElementById('toast');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = 'toast';
+                toast.className = 'toast';
+                document.body.appendChild(toast);
+            }
+            
+            // Set message and show toast
+            toast.textContent = message;
+            toast.classList.add('show');
+            
+            // Hide toast after 3 seconds
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
     </script>
 </body>
 </html>
