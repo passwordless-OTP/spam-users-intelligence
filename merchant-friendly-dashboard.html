@@ -619,55 +619,91 @@
             </div>
         </div>
         
-        <!-- Top Blocked Domains Table -->
-        <div class="card">
+        <!-- Two-column layout for additional visualizations -->
+        <div class="chart-grid">
+            <!-- Top Blocked Domains Table -->
+            <div class="card">
+                <h3 class="card-header-flex">
+                    Top 5 Blocked Domains/Providers
+                    <i class="fas fa-info-circle info-icon"></i>
+                </h3>
+                <table class="data-table">
+                    <thead>
+                        <tr class="table-row-border">
+                            <th class="table-header th-left">Domain/Provider</th>
+                            <th class="table-header th-middle">Blocked Signups</th>
+                            <th class="table-header th-right">Type</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="table-row-border">
+                            <td class="td-left">tempmail.org</td>
+                            <td class="td-middle">23</td>
+                            <td class="td-right">Disposable Email</td>
+                        </tr>
+                        <tr class="table-row-border">
+                            <td class="td-left">mailinator.com</td>
+                            <td class="td-middle">15</td>
+                            <td class="td-right">Disposable Email</td>
+                        </tr>
+                        <tr class="table-row-border">
+                            <td class="td-left">10minutemail.com</td>
+                            <td class="td-middle">12</td>
+                            <td class="td-right">Disposable Email</td>
+                        </tr>
+                        <tr class="table-row-border">
+                            <td class="td-left">yopmail.com</td>
+                            <td class="td-middle">9</td>
+                            <td class="td-right">Disposable Email</td>
+                        </tr>
+                        <tr>
+                            <td class="td-left">catchall.xyz</td>
+                            <td class="td-middle">7</td>
+                            <td class="td-right">Catch-all Domain</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Signup Sources Doughnut Chart -->
+            <div class="card">
+                <h3 class="card-header-flex">
+                    Signup Sources
+                    <i class="fas fa-info-circle info-icon"></i>
+                </h3>
+                <div class="chart-container">
+                    <canvas id="signupSourcesChart" class="chart-canvas"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Additional Charts in Full Width -->
+        <div class="card card-mb">
             <h3 class="card-header-flex">
-                Top 5 Blocked Domains/Providers
+                Fraud Types Distribution
                 <i class="fas fa-info-circle info-icon"></i>
             </h3>
-            <table class="data-table">
-                <thead>
-                    <tr class="table-row-border">
-                        <th class="table-header th-left">Domain/Provider</th>
-                        <th class="table-header th-middle">Blocked Signups</th>
-                        <th class="table-header th-right">Type</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="table-row-border">
-                        <td class="td-left">tempmail.org</td>
-                        <td class="td-middle">23</td>
-                        <td class="td-right">Disposable Email</td>
-                    </tr>
-                    <tr class="table-row-border">
-                        <td class="td-left">mailinator.com</td>
-                        <td class="td-middle">15</td>
-                        <td class="td-right">Disposable Email</td>
-                    </tr>
-                    <tr class="table-row-border">
-                        <td class="td-left">10minutemail.com</td>
-                        <td class="td-middle">12</td>
-                        <td class="td-right">Disposable Email</td>
-                    </tr>
-                    <tr class="table-row-border">
-                        <td class="td-left">yopmail.com</td>
-                        <td class="td-middle">9</td>
-                        <td class="td-right">Disposable Email</td>
-                    </tr>
-                    <tr>
-                        <td class="td-left">catchall.xyz</td>
-                        <td class="td-middle">7</td>
-                        <td class="td-right">Catch-all Domain</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="chart-container">
+                <canvas id="fraudTypesChart" class="chart-canvas"></canvas>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h3 class="card-header-flex">
+                Geographical Distribution of Suspicious Signups
+                <i class="fas fa-info-circle info-icon"></i>
+            </h3>
+            <div class="chart-container">
+                <canvas id="geoDistributionChart" class="chart-canvas"></canvas>
+            </div>
         </div>
     </div>
 
     <!-- Chart.js for data visualization -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
-    <!-- Local chart initialization script -->
+    <!-- Local chart initialization scripts -->
     <script src="chart.js"></script>
+    <script src="additional-charts.js"></script>
     <!-- Mock actions for demo interactivity -->
     <script src="mock-actions.js"></script>
 </body>

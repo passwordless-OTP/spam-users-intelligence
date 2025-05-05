@@ -11,6 +11,19 @@
     margin-bottom: 24px;
 }
 
+.chart-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+@media (max-width: 768px) {
+    .chart-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
 .card-mb {
     margin-bottom: 24px;
 }
