@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Customer Email Protection - Rules</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- External CSS -->
+    <link rel="stylesheet" href="merchant/merchant-theme.css">
+    <link rel="stylesheet" href="merchant/merchant-rules.css">
     <style>
         :root {
             --primary-color: #4f46e5;
@@ -427,6 +430,8 @@
         
         .security-slider {
             -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
             width: 100%;
             height: 8px;
             border-radius: 4px;
@@ -772,31 +777,163 @@
         
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Protection Level</h3>
+                <h3 class="card-title">Choose Your Protection Level</h3>
                 <div class="tooltip">
                     <i class="fas fa-info-circle"></i>
-                    <span class="tooltip-text">Adjust the protection level to automatically configure all rules. Higher protection may block more legitimate emails.</span>
+                    <span class="tooltip-text">Select a protection level that fits your business needs. Higher protection provides more security but may increase false positives.</span>
                 </div>
             </div>
             
-            <!-- Protection Level Slider -->
-            <div class="security-level">
+            <!-- Protection Level Cards -->
+            <div class="protection-level-grid">
+                <!-- Basic Protection -->
+                <div class="protection-card basic" data-level="basic">
+                    <div class="protection-level-name">
+                        <i class="fas fa-shield-alt"></i> Basic Protection
+                    </div>
+                    <div class="protection-price">$29<span>/month</span></div>
+                    <div class="protection-description">Essential protection for small businesses with minimal fraud risk.</div>
+                    
+                    <div class="protection-features">
+                        <div class="protection-feature">
+                            <i class="fas fa-check"></i>
+                            <span>Block disposable email services</span>
+                        </div>
+                        <div class="protection-feature">
+                            <i class="fas fa-check"></i>
+                            <span>Detect suspicious domains</span>
+                        </div>
+                        <div class="protection-feature disabled">
+                            <i class="fas fa-times"></i>
+                            <span>Advanced fraud pattern detection</span>
+                        </div>
+                        <div class="protection-feature disabled">
+                            <i class="fas fa-times"></i>
+                            <span>IP reputation analysis</span>
+                        </div>
+                        <div class="protection-feature disabled">
+                            <i class="fas fa-times"></i>
+                            <span>Machine learning risk scoring</span>
+                        </div>
+                    </div>
+                    
+                    <button class="protection-select-btn">Select Basic</button>
+                </div>
+                
+                <!-- Standard Protection -->
+                <div class="protection-card standard active" data-level="standard">
+                    <div class="protection-badge">Most Popular</div>
+                    <div class="protection-level-name">
+                        <i class="fas fa-shield-alt"></i> Standard Protection
+                    </div>
+                    <div class="protection-price">$79<span>/month</span></div>
+                    <div class="protection-description">Balanced protection for growing businesses with moderate fraud exposure.</div>
+                    
+                    <div class="protection-features">
+                        <div class="protection-feature">
+                            <i class="fas fa-check"></i>
+                            <span>Block disposable email services</span>
+                        </div>
+                        <div class="protection-feature">
+                            <i class="fas fa-check"></i>
+                            <span>Detect suspicious domains</span>
+                        </div>
+                        <div class="protection-feature">
+                            <i class="fas fa-check"></i>
+                            <span>Advanced fraud pattern detection</span>
+                        </div>
+                        <div class="protection-feature">
+                            <i class="fas fa-check"></i>
+                            <span>IP reputation analysis</span>
+                        </div>
+                        <div class="protection-feature disabled">
+                            <i class="fas fa-times"></i>
+                            <span>Machine learning risk scoring</span>
+                        </div>
+                    </div>
+                    
+                    <button class="protection-select-btn">Currently Selected</button>
+                </div>
+                
+                <!-- Premium Protection -->
+                <div class="protection-card premium" data-level="premium">
+                    <div class="protection-level-name">
+                        <i class="fas fa-shield-alt"></i> Premium Protection
+                    </div>
+                    <div class="protection-price">$149<span>/month</span></div>
+                    <div class="protection-description">Maximum protection for businesses with high fraud risk or regulatory requirements.</div>
+                    
+                    <div class="protection-features">
+                        <div class="protection-feature">
+                            <i class="fas fa-check"></i>
+                            <span>Block disposable email services</span>
+                        </div>
+                        <div class="protection-feature">
+                            <i class="fas fa-check"></i>
+                            <span>Detect suspicious domains</span>
+                        </div>
+                        <div class="protection-feature">
+                            <i class="fas fa-check"></i>
+                            <span>Advanced fraud pattern detection</span>
+                        </div>
+                        <div class="protection-feature">
+                            <i class="fas fa-check"></i>
+                            <span>IP reputation analysis</span>
+                        </div>
+                        <div class="protection-feature">
+                            <i class="fas fa-check"></i>
+                            <span>Machine learning risk scoring</span>
+                        </div>
+                    </div>
+                    
+                    <button class="protection-select-btn">Select Premium</button>
+                </div>
+            </div>
+            
+            <!-- Protection Level Slider (Hidden but functional for compatibility) -->
+            <div class="security-level" style="display: none;">
                 <div class="security-level-header">
                     <div class="security-level-title">Current Protection Level</div>
                     <div class="security-level-value">Standard</div>
                 </div>
                 <input type="range" min="1" max="3" value="2" class="security-slider" id="securityLevel" aria-label="Protection Level">
-                <div class="security-labels">
-                    <span>Basic</span>
-                    <span>Standard</span>
-                    <span>Premium</span>
+            </div>
+            
+            <!-- Protection Stats -->
+            <div class="card-header">
+                <h3 class="card-title">Estimated Protection Impact</h3>
+            </div>
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-value" id="stat-blocked-signups">114</div>
+                    <div class="stat-label">Blocked Signups/week</div>
+                    <div class="stat-trend positive">
+                        <i class="fas fa-arrow-up"></i> 21% from Basic
+                    </div>
                 </div>
-                <div style="font-size: 13px; color: var(--text-medium); margin-top: 8px;">
-                    <ul style="padding-left: 20px; margin-top: 8px;">
-                        <li><strong>Basic:</strong> Blocks only the most obvious fraud attempts</li>
-                        <li><strong>Standard:</strong> Balanced protection that minimizes false positives</li>
-                        <li><strong>Premium:</strong> Maximum protection with more thorough checks</li>
-                    </ul>
+                
+                <div class="stat-card">
+                    <div class="stat-value" id="stat-false-positives">2%</div>
+                    <div class="stat-label">False Positive Rate</div>
+                    <div class="stat-trend negative">
+                        <i class="fas fa-arrow-up"></i> 1% from Basic
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-value" id="stat-fraud-prevented">$2,860</div>
+                    <div class="stat-label">Fraud Prevented/month</div>
+                    <div class="stat-trend positive">
+                        <i class="fas fa-arrow-up"></i> 192% from Basic
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-value" id="stat-time-saved">6.5 hrs</div>
+                    <div class="stat-label">Manual Review Time Saved</div>
+                    <div class="stat-trend positive">
+                        <i class="fas fa-arrow-up"></i> 103% from Basic
+                    </div>
                 </div>
             </div>
         </div>
@@ -806,97 +943,106 @@
                 <h3 class="card-title">Active Protection Rules</h3>
                 <div class="card-actions">
                     <button class="action-btn primary" id="addRuleBtn2">
-                        <i class="fas fa-plus"></i> Add Rule
+                        <i class="fas fa-plus"></i> Add Custom Rule
                     </button>
                 </div>
             </div>
             
+            <!-- Rule Categories -->
+            <div class="rule-categories">
+                <div class="rule-category active" data-category="all">All Rules</div>
+                <div class="rule-category" data-category="email">Email Validation</div>
+                <div class="rule-category" data-category="ip">IP Protection</div>
+                <div class="rule-category" data-category="behavior">Behavior Analysis</div>
+                <div class="rule-category" data-category="custom">Custom Rules</div>
+            </div>
+            
             <div style="margin-top: 16px;">
-                <div class="rule-card">
+                <!-- Email Validation Rules -->
+                <div class="rule-card enabled" data-category="email" data-rule-id="rule1">
                     <div class="rule-header">
                         <div class="rule-title">
                             <i class="fas fa-ban"></i> Block Temporary Email Services
                         </div>
                         <label class="rule-toggle">
-                            <input type="checkbox" checked aria-label="Toggle Block Temporary Email Services" id="disposableDomains">
+                            <input type="checkbox" checked aria-label="Toggle rule" title="Enable or disable this rule">
                             <span class="rule-slider"></span>
                         </label>
                     </div>
-                    <div class="rule-description">
-                        Automatically blocks signups from known temporary email providers that are commonly used for fraud.
-                    </div>
-                    <div class="business-impact">
-                        <div class="business-impact-title">Why This Matters</div>
-                        <div class="business-impact-description">
-                            Temporary email services are often used to create fraudulent accounts. Blocking these services can reduce chargebacks and fake orders.
+                    <div class="rule-content">
+                        <div>Automatically blocks signups from known temporary email services like Mailinator, 10MinuteMail, etc.</div>
+                        <div class="rule-stats">
+                            <div class="rule-stat">
+                                <div class="rule-stat-value">42</div>
+                                <div class="rule-stat-label">Blocked Last Week</div>
+                            </div>
+                            <div class="rule-stat">
+                                <div class="rule-stat-value">2.1%</div>
+                                <div class="rule-stat-label">False Positive Rate</div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="rule-impact">
-                        <span>Business Impact:</span>
-                        <div class="rule-impact-bar">
-                            <div class="rule-impact-fill" style="width: 40%;"></div>
+                        <div class="rule-impact">
+                            <i class="fas fa-info-circle"></i> This rule prevented an estimated $980 in fraud last month
                         </div>
-                        <span>Blocked 32 potential fraud attempts in the last 7 days</span>
                     </div>
                 </div>
                 
-                <div class="rule-card">
+                <div class="rule-card enabled" data-category="email" data-rule-id="rule2">
                     <div class="rule-header">
                         <div class="rule-title">
-                            <i class="fas fa-user-shield"></i> Block Generic Business Emails
+                            <i class="fas fa-ban"></i> Block Free Email Providers for Business Accounts
                         </div>
                         <label class="rule-toggle">
-                            <input type="checkbox" checked aria-label="Toggle Block Generic Business Emails" id="roleBased">
+                            <input type="checkbox" checked aria-label="Toggle rule" title="Enable or disable this rule">
                             <span class="rule-slider"></span>
                         </label>
                     </div>
-                    <div class="rule-description">
-                        Blocks common generic email addresses like admin@, info@, support@, etc. that are rarely used by legitimate customers.
-                    </div>
-                    <div class="business-impact">
-                        <div class="business-impact-title">Why This Matters</div>
-                        <div class="business-impact-description">
-                            Generic business emails are often shared by multiple people and can be used to hide a person's identity. Personal emails are more traceable.
+                    <div class="rule-content">
+                        <div>Blocks business account signups using free email providers (Gmail, Yahoo, etc.) instead of company domains.</div>
+                        <div class="rule-stats">
+                            <div class="rule-stat">
+                                <div class="rule-stat-value">15</div>
+                                <div class="rule-stat-label">Blocked Last Week</div>
+                            </div>
+                            <div class="rule-stat">
+                                <div class="rule-stat-value">4.2%</div>
+                                <div class="rule-stat-label">False Positive Rate</div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="rule-impact">
-                        <span>Business Impact:</span>
-                        <div class="rule-impact-bar">
-                            <div class="rule-impact-fill" style="width: 25%;"></div>
+                        <div class="rule-impact">
+                            <i class="fas fa-info-circle"></i> This rule prevented an estimated $350 in fraud last month
                         </div>
-                        <span>Blocked 18 potential fraud attempts in the last 7 days</span>
                     </div>
                 </div>
                 
-                <div class="rule-card">
+                <!-- IP Protection Rules -->
+                <div class="rule-card enabled" data-category="ip" data-rule-id="rule3">
                     <div class="rule-header">
                         <div class="rule-title">
-                            <i class="fas fa-exclamation-triangle"></i> Flag Recently Created Websites
+                            <i class="fas fa-ban"></i> Block Suspicious IP Addresses
                         </div>
                         <label class="rule-toggle">
-                            <input type="checkbox" checked aria-label="Toggle Flag Recently Created Websites" id="newDomains">
+                            <input type="checkbox" checked aria-label="Toggle rule" title="Enable or disable this rule">
                             <span class="rule-slider"></span>
                         </label>
                     </div>
-                    <div class="rule-description">
-                        Flags emails from domains registered in the last 30 days for your review before processing orders.
-                    </div>
-                    <div class="business-impact">
-                        <div class="business-impact-title">Why This Matters</div>
-                        <div class="business-impact-description">
-                            Fraudsters often create new domains for temporary use. Legitimate customers typically use established email services.
+                    <div class="rule-content">
+                        <div>Blocks signups from IP addresses with known fraud history or suspicious activity patterns.</div>
+                        <div class="rule-stats">
+                            <div class="rule-stat">
+                                <div class="rule-stat-value">18</div>
+                                <div class="rule-stat-label">Blocked Last Week</div>
+                            </div>
+                            <div class="rule-stat">
+                                <div class="rule-stat-value">3.5%</div>
+                                <div class="rule-stat-label">False Positive Rate</div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="rule-impact">
-                        <span>Business Impact:</span>
-                        <div class="rule-impact-bar">
-                            <div class="rule-impact-fill" style="width: 15%;"></div>
+                        <div class="rule-impact">
+                            <i class="fas fa-info-circle"></i> This rule prevented an estimated $420 in fraud last month
                         </div>
-                        <span>Flagged 12 suspicious orders for review in the last 7 days</span>
                     </div>
                 </div>
-            </div>
-            
             <div style="margin-top: 24px;">
                 <div style="font-weight: 600; margin-bottom: 12px; font-size: 15px;">Recommended Rules</div>
                 
@@ -930,4 +1076,56 @@
                         <div class="rule-title">
                             <i class="fas fa-lock"></i> Flag Emails Missing Authentication
                         </div>
-                        <button class="action-btn" id="createAuth
+                        <label class="rule-toggle">
+                            <input type="checkbox" aria-label="Toggle rule" title="Enable or disable this rule">
+                            <span class="rule-slider"></span>
+                        </label>
+                    </div>
+                    <div class="rule-content">
+                        <div>Flags emails that don't have proper authentication (SPF, DKIM, DMARC) for additional review.</div>
+                        <div class="rule-stats">
+                            <div class="rule-stat">
+                                <div class="rule-stat-value">~12</div>
+                                <div class="rule-stat-label">Est. Weekly Flags</div>
+                            </div>
+                            <div class="rule-stat">
+                                <div class="rule-stat-value">4.5%</div>
+                                <div class="rule-stat-label">Est. False Positive Rate</div>
+                            </div>
+                        </div>
+                        <div class="rule-impact">
+                            <i class="fas fa-info-circle"></i> Enabling this rule could prevent an estimated $280 in fraud per month
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Toast notification styles -->
+    <style>
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    </style>
+    
+    <!-- Rules interaction script -->
+    <script src="rules-interaction.js"></script>
+</body>
+</html>

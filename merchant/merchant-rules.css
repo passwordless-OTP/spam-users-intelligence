@@ -1,0 +1,384 @@
+/* 
+ * Merchant Rules Specific Styles
+ * This file contains styles specific to the merchant rules page
+ */
+
+/* Protection Level Cards */
+.protection-level-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin: 24px 0;
+}
+
+@media (max-width: 768px) {
+    .protection-level-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.protection-card {
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    padding: 24px;
+    background-color: white;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.protection-card.active {
+    border-color: var(--primary-color);
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.15);
+}
+
+.protection-card.basic {
+    border-top: 4px solid var(--neutral-color);
+}
+
+.protection-card.standard {
+    border-top: 4px solid var(--primary-color);
+}
+
+.protection-card.premium {
+    border-top: 4px solid var(--success-color);
+}
+
+.protection-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: var(--primary-color);
+    color: white;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-bottom-left-radius: 8px;
+}
+
+.protection-level-name {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+}
+
+.protection-level-name i {
+    margin-right: 8px;
+}
+
+.protection-price {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: var(--text-dark);
+}
+
+.protection-price span {
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--text-light);
+}
+
+.protection-description {
+    color: var(--text-medium);
+    font-size: 14px;
+    margin-bottom: 24px;
+    line-height: 1.6;
+}
+
+.protection-features {
+    margin-bottom: 24px;
+}
+
+.protection-feature {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 12px;
+    font-size: 14px;
+}
+
+.protection-feature i {
+    color: var(--success-color);
+    margin-right: 12px;
+    margin-top: 2px;
+}
+
+.protection-feature.disabled {
+    color: var(--text-light);
+}
+
+.protection-feature.disabled i {
+    color: var(--text-light);
+}
+
+.protection-select-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: white;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.protection-select-btn:hover {
+    background-color: var(--primary-light);
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.protection-card.active .protection-select-btn {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+/* Rule Categories */
+.rule-categories {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+}
+
+.rule-category {
+    padding: 8px 16px;
+    background-color: white;
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    font-size: 14px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+}
+
+.rule-category:hover {
+    background-color: var(--primary-light);
+}
+
+.rule-category.active {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+/* Rule Cards */
+.rule-card {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background-color: white;
+    margin-bottom: 16px;
+    transition: all 0.2s;
+}
+
+.rule-card:hover {
+    box-shadow: var(--shadow);
+}
+
+.rule-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.rule-title {
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+}
+
+.rule-title i {
+    margin-right: 8px;
+    color: var(--primary-color);
+}
+
+.rule-toggle {
+    position: relative;
+    display: inline-block;
+    width: 46px;
+    height: 24px;
+}
+
+.rule-toggle input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+    /* Fix for compatibility */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.rule-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 24px;
+}
+
+.rule-slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .rule-slider {
+    background-color: var(--primary-color);
+}
+
+input:focus + .rule-slider {
+    box-shadow: 0 0 1px var(--primary-color);
+}
+
+input:checked + .rule-slider:before {
+    transform: translateX(22px);
+}
+
+.rule-content {
+    padding: 16px;
+    font-size: 14px;
+    color: var(--text-medium);
+}
+
+.rule-stats {
+    display: flex;
+    gap: 24px;
+    margin-top: 16px;
+}
+
+.rule-stat {
+    display: flex;
+    flex-direction: column;
+}
+
+.rule-stat-value {
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.rule-stat-label {
+    font-size: 12px;
+    color: var(--text-light);
+}
+
+.rule-impact {
+    margin-top: 16px;
+    padding: 12px;
+    background-color: var(--primary-light);
+    border-radius: 6px;
+    font-size: 13px;
+    color: var(--primary-color);
+}
+
+.rule-impact i {
+    margin-right: 6px;
+}
+
+/* Comparison Table */
+.comparison-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 24px;
+}
+
+.comparison-table th, 
+.comparison-table td {
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.comparison-table th {
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.comparison-table td {
+    color: var(--text-medium);
+}
+
+.comparison-table tr:last-child td {
+    border-bottom: none;
+}
+
+.comparison-table .check-icon {
+    color: var(--success-color);
+}
+
+.comparison-table .times-icon {
+    color: var(--text-light);
+}
+
+.comparison-table .basic-col {
+    background-color: rgba(107, 114, 128, 0.05);
+}
+
+.comparison-table .standard-col {
+    background-color: rgba(79, 70, 229, 0.05);
+}
+
+.comparison-table .premium-col {
+    background-color: rgba(16, 185, 129, 0.05);
+}
+
+/* Summary Stats */
+.stats-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.stat-card {
+    background-color: white;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: var(--shadow-sm);
+}
+
+.stat-value {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.stat-label {
+    font-size: 14px;
+    color: var(--text-medium);
+}
+
+.stat-trend {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    margin-top: 8px;
+}
+
+.stat-trend.positive {
+    color: var(--success-color);
+}
+
+.stat-trend.negative {
+    color: var(--error-color);
+}
+
+.stat-trend i {
+    margin-right: 4px;
+}
